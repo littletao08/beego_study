@@ -18,7 +18,7 @@ func GetUser(id int) (entities.User, error) {
 	err = utils.Get(userKey, &user)
 	fmt.Println("************err:", err, "user:", user)
 	if err == nil {
-		return user,nil;
+		return user, nil;
 	}
 	orm := orm.NewOrm()
 	err = orm.QueryTable("user").Filter("id", id).One(&user, "id", "name", "age", "cell", "CreatedAt")

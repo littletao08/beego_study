@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/astaxie/beego"
 	_"beego_study/routers"
-	_"beego_study/initials"
 )
 
 

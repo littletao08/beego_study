@@ -1,13 +1,14 @@
 package initials
 import (
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/astaxie/beego/orm"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/gogather/com/log"
+	_ "github.com/go-sql-driver/mysql"
+	"fmt"
 )
 
 func InitMysql() {
+
 	userName := beego.AppConfig.String("mysql_user_name")
 	userPass := beego.AppConfig.String("mysql_user_pass")
 	ip := beego.AppConfig.String("mysql_ip")
@@ -22,6 +23,5 @@ func InitMysql() {
 	driver_url := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", userName, userPass, ip, port, dbName)
 	log.Greenf("driver_url:%v \n", driver_url)
 	orm.RegisterDataBase("default", "mysql", driver_url)
-	//orm.RegisterDataBase("default", "mysql", "root:root@/orm_test?charset=utf8")
 
 }
