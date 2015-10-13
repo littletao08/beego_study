@@ -1,11 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>首页</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
+{{template "public/header.html" .}}
+<h2><a href="./">Go by Example</a>: Hello World</h2>
 
-<body>
-{{.name}}:{{.email}}
-</body>
-</html>
+<div class="highlight">
+    <pre>
+        <span class="kn">import</span>
+        <span class="s">&quot;fmt&quot;</span>
+    </pre>
+</div>
+<div class="highlight"><pre><span class="kd">func</span> <span class="nx">main</span><span
+        class="p">()</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span
+            class="s">&quot;hello world&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+<p class="next">
+    Next example: <a href="values">Values</a>.
+</p>
+
+{{template "public/footer.html" .}}
