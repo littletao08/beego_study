@@ -1,17 +1,15 @@
 {{template "public/header.html" .}}
-<div id="myEditor"># Test</div>
+<div id="editor"></div>
 <script type="text/javascript">
-    $('#myEditor').markdownEditor();
-    jQuery(document).ready(function ($) {
-
-        $('#myEditor').markdownEditor({
-            preview: true,
-            onPreview: function (content, callback) {
-                alert(marked(content));
-                callback(marked(content));
+    $(function ($) {
+        $('#editor').markdownEditor(
+            {
+                preview: true,
+                onPreview: function (content, callback) {
+                    callback(marked(content));
+                }
             }
-        });
-
+        );
     });
 
 </script>

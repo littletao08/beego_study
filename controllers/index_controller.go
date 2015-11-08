@@ -1,11 +1,12 @@
 package controllers
+import "beego_study/models"
 
 type IndexController struct {
 	BaseController
 }
 
 func (c *IndexController) Index() {
-	c.Data["name"] = "张利达"
-	c.Data["email"] = "lida.zhang.cj@gmail.com"
+	categories,_ := models.Categories()
+	c.Data["categories"] = categories
 	c.TplNames = "index.html"
 }

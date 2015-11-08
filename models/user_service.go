@@ -11,7 +11,7 @@ func init() {
 	orm.RegisterModel(new(entities.User))
 }
 
-func GetUser(id int) (entities.User, error) {
+func User(id int) (entities.User, error) {
 	var err error
 	var user entities.User
 	var userKey = constants.USER_KEY + string(id);
@@ -21,7 +21,7 @@ func GetUser(id int) (entities.User, error) {
 		return user, nil;
 	}
 	orm := orm.NewOrm()
-	err = orm.QueryTable("user").Filter("id", id).One(&user, "id", "name", "age", "cell", "CreatedAt")
+	err = orm.QueryTable("user").Filter("id", id).One(&user, "id", "nick", "age", "cell","mail","sex", "CreatedAt","UpdatedAt")
 	if err == nil {
 		utils.Set(userKey, user, 1000)
 	}

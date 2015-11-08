@@ -9,7 +9,7 @@ import (
 func TestGetUsers(t *testing.T) {
 
 	fmt.Println("*************************")
-	var users = models.GetUser(1);
+	var users = models.User(1);
 	fmt.Println("users", users[1])
 	for _, user := range users {
 

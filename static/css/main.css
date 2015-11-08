@@ -1,0 +1,17 @@
+.logo{
+    margin-right: 10%;
+}
+.logo img{
+    width: 40px;
+    margin-top: -10px;
+}
+div.col-md-9{
+    width: 90%;
+}
+div.col-md-3{
+    width: 10%;
+}
+
+div.container{
+    width: 1024px;
+}

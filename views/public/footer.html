@@ -1,6 +1,22 @@
 <p class="footer">
-    <a href="https://github.com/zld406504302/beego_study">source</a> | <a href="http://zld406504302.iteye.com/">java 小生</a>
+    <a href="https://github.com/zld406504302/beego_study">source</a> | <a href="http://zld406504302.iteye.com/">java
+    小生</a>
 </p>
 </div>
+<div class="col-md-3" role="complementary">
+    <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
+        <ul class="nav bs-docs-sidenav">
+            {{range .categories}}
+            <li><a>{{.Name}}</a></li>
+            {{end}}
+        </ul>
+        <a class="back-to-top" href="#top">
+            返回顶部
+        </a>
+
+    </nav>
+</div>
+</div>
+
 </body>
 </html>

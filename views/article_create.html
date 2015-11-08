@@ -1,0 +1,20 @@
+{{template "public/header.html" .}}
+<div id="editor"></div>
+<script type="text/javascript">
+    $(function ($) {
+        $('#editor').markdownEditor(
+            {
+                preview: true,
+                onPreview: function (content, callback) {
+                    $("#editorContent").html(marked(content));
+                    callback(marked(content));
+                }
+            }
+        );
+    });
+
+</script>
+<div style="border: 1px solid red;" id="editorContent">
+
+</div>
+{{template "public/footer.html" .}}
