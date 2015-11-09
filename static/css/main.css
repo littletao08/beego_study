@@ -13,5 +13,5 @@ div.col-md-3{
 }
 
 div.container{
-    width: 1024px;
+    max-width: 956px;
 }

@@ -1,16 +1,17 @@
 {{template "public/header.html" .}}
-<div id="editor"></div>
-<script type="text/javascript">
-    $(function ($) {
-        $('#editor').markdownEditor(
-            {
-                preview: true,
-                onPreview: function (content, callback) {
-                    callback(marked(content));
-                }
-            }
-        );
-    });
-
-</script>
+<div class="col-md-9" role="main">
+    <div id="editor"></div>
+    <script type="text/javascript">
+        $(function ($) {
+            $('#editor').markdownEditor(
+                    {
+                        preview: true,
+                        onPreview: function (content, callback) {
+                            callback(marked(content));
+                        }
+                    }
+            );
+        });
+    </script>
+</div>
 {{template "public/footer.html" .}}

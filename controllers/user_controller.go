@@ -18,3 +18,8 @@ func (c *UserController) Users() {
 	}
 	c.ServeJson()
 }
+
+func (c *UserController) Login()  {
+	c.Data["showRightBar"] = false
+	c.TplNames = "login.html"
+}
