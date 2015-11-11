@@ -1,17 +1,37 @@
 {{template "public/header.html" .}}
-<div id="editor"></div>
-<script type="text/javascript">
-    $(function ($) {
-        $('#editor').markdownEditor(
-                {
-                    preview: true,
-                    fullscreen:false,
-                    onPreview: function (content, callback) {
-                        callback(marked(content));
+<div class="col-md-9" role="main">
+    <div id="editor"></div>
+    <button class="md-btn btn btn-sm btn-default btn-preview" id="save">save</button>
+    <script type="text/javascript">
+        $(function ($) {
+            $('#editor').markdownEditor(
+                    {
+                        preview: true,
+                        onPreview: function (content, callback) {
+                            callback(marked(content));
+                        }
                     }
-                }
-        );
-    });
+            );
 
-</script>
+            $("#save").click(function () {
+                var content = $('#editor').markdownEditor('content');
+                content = marked(content);
+                if(!$.trim(content)){
+                    alert("文章内容不能为空");
+                    return;
+                }
+                $.post('/articles', {title:"go study",content: content},
+                        function (data) {
+                            if (data) {
+                                alert("保存成功!");
+                                window.location.href="/"
+                            }else{
+                                alert("保存失败!")
+                            }
+                        }
+                )
+            });
+        });
+    </script>
+</div>
 {{template "public/footer.html" .}}

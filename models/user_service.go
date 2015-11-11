@@ -27,3 +27,12 @@ func User(id int) (entities.User, error) {
 	}
 	return user, err
 }
+
+func FundUser(name string,password string) (entities.User,error)  {
+	var err error
+    var user entities.User
+	orm := orm.NewOrm()
+	err = orm.QueryTable("user").Filter("name", name).Filter("password", password).One(&user, "id","name","nick","password", "age", "cell","mail","sex", "CreatedAt","UpdatedAt")
+
+	return user,err
+}

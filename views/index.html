@@ -1,17 +1,20 @@
 {{template "public/header.html" .}}
+<script type="text/javascript">
+    $(function(){
+        var content = "{{.lastArticle.Content}}"
+        $("#article-content").html(content)
+    });
+</script>
 <div class="col-md-9" role="main">
-    <div id="editor"></div>
-    <script type="text/javascript">
-        $(function ($) {
-            $('#editor').markdownEditor(
-                    {
-                        preview: true,
-                        onPreview: function (content, callback) {
-                            callback(marked(content));
-                        }
-                    }
-            );
-        });
-    </script>
+    <div class="control-label">
+        标题:
+    </div>
+    <div class="article-title">
+        {{.lastArticle.Title}}
+    </div>
+    <div class="control-label">
+        内容:
+    </div>
+    <div id="article-content" class="md-container"></div>
 </div>
 {{template "public/footer.html" .}}

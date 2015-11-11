@@ -31,6 +31,12 @@
             ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(ga, s);
+
+            var response="{{.response}}";
+            alert(response);
+            if (response && !response["success"]) {
+                alert(response["message"]);
+            }
         })();
     }
 </script>
@@ -47,8 +53,11 @@
                     <li><a>{{.Name}}</a></li>
                     {{end}}
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right" id="signin">
                     <li><a href="/login" onclick="_hmt.push(['_trackEvent', 'docv3-navbar', 'click', 'V3导航-Bootstrap中文网'])" target="_blank">sign in</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" >
+                    <li><a href="/articles/new" id="createArticle">create article</a></li>
                 </ul>
             </nav>
         </div>

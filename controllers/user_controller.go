@@ -19,7 +19,23 @@ func (c *UserController) Users() {
 	c.ServeJson()
 }
 
-func (c *UserController) Login()  {
+func (c *UserController) Login() {
 	c.Data["showRightBar"] = false
 	c.TplNames = "login.html"
+}
+
+func (c *UserController) Session() {
+	name := c.GetString("name")
+	password := c.GetString("password")
+	user, _ := models.FundUser(name, password)
+	if (user.Name == name && user.Password == password) {
+		c.TplNames = "index.html"
+	}else {
+		response :=make(map[string]interface{})
+		response["success"]=false
+		response["message"]="用户名或密码错误"
+		c.Data["showRightBar"] = false
+		c.Data["response"] = response
+		c.TplNames = "login.html"
+	}
 }
