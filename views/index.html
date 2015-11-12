@@ -1,7 +1,10 @@
 {{template "public/header.html" .}}
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         var content = "{{.lastArticle.Content}}"
+        if (null == content || 0 == content.length) {
+            window.location.href = "/";
+        }
         $("#article-content").html(content)
     });
 </script>

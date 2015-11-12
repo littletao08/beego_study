@@ -23,7 +23,7 @@
                     Password <a href="/password_reset">(forgot password)</a>
                 </label>
                 <input class="input-block" id="password" name="password" tabindex="2" type="password">
-
+                <div class="error">{{.response.Message}}</div>
                 <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
                        value="Sign in">
             </div>

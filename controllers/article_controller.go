@@ -17,10 +17,20 @@ func (c *ArticleController) Articles() {
 }
 
 func (c *ArticleController) New() {
-	c.TplNames = "article_create.html"
+	user := c.GetSession("user")
+	if (nil == user) {
+		c.Redirect("/login", 302)
+	}else {
+		c.TplNames = "article_create.html"
+	}
 }
 
 func (c *ArticleController) CreateArticle() {
+
+	user := c.GetSession("user")
+	if (nil == user) {
+		c.Redirect("/login", 200)
+	}
 	content := c.GetString("content")
 	title := c.GetString("title")
 	article := entities.Article{UserId:1, Title:title, Content:content}

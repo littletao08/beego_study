@@ -29,11 +29,10 @@ func (c *UserController) Session() {
 	password := c.GetString("password")
 	user, _ := models.FundUser(name, password)
 	if (user.Name == name && user.Password == password) {
+		c.SetSession("user", user)
 		c.TplNames = "index.html"
 	}else {
-		response :=make(map[string]interface{})
-		response["success"]=false
-		response["message"]="用户名或密码错误"
+		response :=ResponseBody{Success:false,Message:"用户名或密码错误"}
 		c.Data["showRightBar"] = false
 		c.Data["response"] = response
 		c.TplNames = "login.html"
