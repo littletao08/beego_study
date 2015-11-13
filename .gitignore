@@ -2,5 +2,5 @@ beego_study
 beego.pid
 lastupdate.tmp
 /beego_study
-
+*.log
 
