@@ -5,7 +5,6 @@ import (
 	_"beego_study/routers"
 )
 
-
 func main() {
 	host := "localhost"
 	port := "8080"
