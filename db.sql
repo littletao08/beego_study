@@ -112,7 +112,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `name`, `nick`, `password`, `age`, `sex`, `cell`, `mail`, `qq`, `created_at`, `updated_at`)
 VALUES
-	(1,'406504302@qq.com','java小生','Zld123',26,1,'13661043204',NULL,NULL,'2015-08-28 12:03:50',NULL);
+	(1,'406504302@qq.com','java小生','xxxxx',26,1,'xxxxxx',NULL,NULL,'2015-08-28 12:03:50',NULL);
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
