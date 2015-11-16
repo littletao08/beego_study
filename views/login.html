@@ -1,9 +1,10 @@
 {{template "public/header.html" .}}
+
 <div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
 
-
     <div class="auth-form " id="login">
-        <form accept-charset="UTF-8" action="/users/session" data-form-nonce="640c48ed516caf6dfe2d21cbc267a6b3148d9d62"
+        <form accept-charset="UTF-8" id="loginForm" action="/users/session"
+              data-form-nonce="640c48ed516caf6dfe2d21cbc267a6b3148d9d62"
               method="post">
             <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input
                     name="authenticity_token" type="hidden"
@@ -16,14 +17,23 @@
                 <label for="login_field">
                     Username or email address
                 </label>
-                <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block" id="login_field"
-                       name="name" tabindex="1" type="text">
 
+                <div class="controls has-error">
+                    <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
+                           id="login_field"
+                           name="name" tabindex="1" type="text" data-validation="required"
+                           data-validation-error-msg="用户名不能为空">
+                </div>
                 <label for="password">
-                    Password <a href="/password_reset">(forgot password)</a>
+                    Password <a href="/password_reset" class="hidden">(forgot password)</a>
                 </label>
-                <input class="input-block" id="password" name="password" tabindex="2" type="password">
-                <div class="error">{{.response.Message}}</div>
+
+                <div class="controls has-error">
+                    <input class="input-block" id="password" name="password" tabindex="2" type="password"
+                           data-validation="required"
+                           data-validation-error-msg="密码不能为空">
+                </div>
+                    <span class="form-error">{{.response.Message}}</span>
                 <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
                        value="Sign in">
             </div>
@@ -31,4 +41,18 @@
     </div>
 
 </div>
+
+<script>
+
+    $.validate({
+        modules: 'location, date, security, file',
+        onModulesLoaded: function () {
+            $('#country').suggestCountry();
+        }
+    });
+
+    // Restrict presentation length
+    $('#presentation').restrictLength($('#pres-max-length'));
+
+</script>
 {{template "public/footer.html" .}}
