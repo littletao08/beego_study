@@ -28,7 +28,8 @@ func (c *UserController) Session() {
 	name := c.GetString("name")
 	password := c.GetString("password")
 	user, _ := models.FundUser(name, password)
-	if (user.Name == name && user.Password == password) {
+
+	if (user.Valid(name,password)) {
 		c.SetSession("user", user)
 		c.TplNames = "index.html"
 	}else {

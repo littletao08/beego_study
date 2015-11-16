@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego_study/models"
 	"beego_study/entities"
+	"github.com/gogather/com/log"
 )
 
 type ArticleController struct {
@@ -18,6 +19,7 @@ func (c *ArticleController) Articles() {
 
 func (c *ArticleController) New() {
 	user := c.GetSession("user")
+	log.Redln("*******************",user)
 	if (nil == user) {
 		c.Redirect("/login", 302)
 	}else {
