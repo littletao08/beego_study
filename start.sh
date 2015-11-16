@@ -1,2 +1,4 @@
 #!/bin/bash
-nohup bee run > log.log 2>&1 &
+go run main.go> log.log &
+
+echo $! >beego.pid
