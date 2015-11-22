@@ -1,21 +1,6 @@
-.logo{
-    margin-right: 10%;
+p.lead{
+    color: #FFFFFF;
 }
-.logo img{
-    width: 40px;
-    margin-top: -10px;
-}
-div.col-md-9{
-    width: 90%;
-}
-div.col-md-3{
-    width: 10%;
-}
-
-div.container{
-    max-width: 956px;
-}
-
-#signin{
-    margin-right: 5%;
+header.subhead{
+    margin-top: 0px;
 }

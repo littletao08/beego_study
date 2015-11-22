@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Bootstrap - 简洁、直观、强悍、移动设备优先的前端开发框架，让web开发更迅速、简单。">
+    <meta name="description" content="beegostudy - 基于beego framework博客网站。">
     <meta name="keywords"
-          content="HTML, CSS, JS, JavaScript, framework, bootstrap, front-end, frontend, web development">
+          content="golang,go,java,nosql,mysql,js,css,redis">
     <title></title>
-    <link rel=stylesheet href="../static/css/main.css">
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <!--csss-->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
     <link href="../static/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="../static/css/bootstrap-markdown-editor.css" rel="stylesheet">
     <link href="../static/css/theme-default.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/prettify/r224/prettify.css" rel="stylesheet">
 
     <link crossorigin="anonymous"
           href="https://assets-cdn.github.com/assets/github-e1c13e7309dc7f723b21b2afc0a6ee6a9e8e5978fe25dccb3251d923cab472df.css"
@@ -21,12 +22,19 @@
           href="https://assets-cdn.github.com/assets/github2-8660e134f8078fe75046e2c8cf09a2fd65d94446a9c3d11ecf672cb4c5842b6a.css"
           integrity="sha256-hmDhNPgHj+dQRuLIzwmi/WXZREapw9Eez2cstMWEK2o=" media="all" rel="stylesheet">
 
-    <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+    <link href="../static/css/docs.css" rel="stylesheet">
+    <link href="../static/css/main.css" rel="stylesheet">
+
+    <!--script-->
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../static/js/bootstrap.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
     <script src="../static/js/bootstrap-markdown-editor.js"></script>
+    <script src="http://cdn.bootcss.com/prettify/r224/prettify.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.43/jquery.form-validator.min.js"></script>
+    <script src=" http://hm.baidu.com/h.js?3d8e7fc0de8a2a75f2ca3bfe128e6391" type="text/javascript"></script>
+    <script src=" http://hm.baidu.com/h.js?079fac161efc4b2a6f31e80064f14e82" type="text/javascript"></script>
 </head>
 
 <script type="text/javascript">
@@ -44,28 +52,69 @@
 
         })();
     }
+
 </script>
-<body class="front-page" ng-app="packagecloud" ng-controller="HomeCtrl">
-<div class="container bs-docs-container">
-    <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
-        <div class="container">
-            <div class="navbar-header logo">
-                <a href="../" class="navbar-brand logo"><img src="/static/img/logo.jpg"/></a>
-            </div>
-            <nav id="bs-navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    {{range .categories}}
-                    <li><a>{{.Name}}</a></li>
-                    {{end}}
-                </ul>
-                <ul class="nav navbar-nav navbar-right" id="signin">
-                    <li><a href="/login"
-                           onclick="_hmt.push(['_trackEvent', 'docv3-navbar', 'click', 'V3导航-Bootstrap中文网'])"
-                           target="_blank">sign in</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/articles/new" id="createArticle">create article</a></li>
-                </ul>
-            </nav>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+<!--顶部导航条-->
+<div class="navbar navbar-inverse navbar-fixed-top" id="topbar">
+    <div id="abc" style="color: white;"></div>
+
+    <div class="container">
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="brand">
+            <a href="../" class="navbar-brand logo">BeegoStudy</a>
         </div>
-    </header>
+        <div class="nav-collapse collapse">
+            <ul class="nav navbar-nav">
+                {{range .categories}}
+                <li><a>{{.Name}}</a></li>
+                {{end}}
+            </ul>
+        </div>
+
+        <div class="nav-collapse collapse pull-right">
+            <ul class="nav navbar-nav navbar-right" id="signin">
+                <li><a href="/login">sign in</a></li>
+            </ul>
+        </div>
+        <div class="nav-collapse collapse pull-right">
+            <ul class="nav navbar-nav navbar-right" id="publish">
+                <li><a href="/articles/new">publish</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+<!--header-->
+<header class="bs-docs-jumbotron subhead">
+    <div class="container">
+        <h1>Beego Study</h1>
+
+        <p class="lead">Beego Study 是基于Beego Framework搭建的个人技术博客网站</p>
+    </div>
+</header>
+<div class="container" id="container">
+    <div class="row">
+        <!--左侧边栏-->
+        {{if .showRightBar }}
+        <div class="span3 bs-docs-sidebar">
+            <ul class="nav nav-list bs-docs-sidenav affix-top" id="sidebar">
+                <li class="active"><a href="#global"><i class="glyphicon-chevron-right"></i> all</a></li>
+                {{range .categories}}
+                <li><a href="#typography"><i class="glyphicon-chevron-right"></i> {{.Name}}</a></li>
+                {{end}}
+            </ul>
+        </div>
+        <div class="span9">
+        {{else}}
+        <div class="span12">
+        {{end}}
+        <!--主内容区-->
+
+
