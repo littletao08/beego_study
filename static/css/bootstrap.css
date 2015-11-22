@@ -51,9 +51,6 @@ html {
   -ms-text-size-adjust: 100%;
 }
 
-body {
-  margin: 0;
-}
 
 a:focus {
   outline: thin dotted;

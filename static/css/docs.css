@@ -11,6 +11,7 @@
 body {
   position: relative; /* For scrollyspy */
   padding-top: 62px; /* Default height of navbar */
+  font-size: 14px;
 }
 
 /*  */
@@ -511,15 +512,16 @@ input.focused {
     position: fixed;
     top: 54px;
   }
-  .bs-docs-sidenav {
+  /*.bs-docs-sidenav {
     width: 170px;
-  }
+  }*/
   .bs-docs-sidenav.affix-bottom {
     position: absolute;
     top: auto;
     bottom: 270px;
   }
 }
+
 
 /* Tablets/desktops and up */
 @media screen and (min-width: 992px) {
@@ -528,9 +530,3 @@ input.focused {
   }
 }
 
-/* Large desktops and up */
-@media screen and (min-width: 1200px) {
-  .bs-docs-sidenav {
-    width: 260px;
-  }
-}
