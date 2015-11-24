@@ -42,6 +42,14 @@ func (rc *MyRedisCache) Get(key string) interface{} {
 	return nil
 }
 
+// HGet cache from redis.
+func (rc *MyRedisCache) Hget(key string,field string) interface{} {
+	if v, err := rc.do("HGET", key,field); err == nil {
+		return v
+	}
+	return nil
+}
+
 
 // GetMulti get cache from redis.
 func (rc *MyRedisCache) GetMulti(keys []string) []interface{} {
@@ -94,6 +102,15 @@ func (rc *MyRedisCache) Set(key string, val interface{}, timeout int64) error {
 	_, err = rc.do("SETEX", key, timeout, val)
 	return err;
 }
+
+func (rc *MyRedisCache) Hset(key string,field string, val interface{}, timeout int64) error {
+	var err error
+	_, err = rc.do("HSET", key,field ,val)
+	rc.do("EXPIRE",key,timeout)
+	return err;
+}
+
+
 
 // delete cache in redis.
 func (rc *MyRedisCache) Delete(key string) error {

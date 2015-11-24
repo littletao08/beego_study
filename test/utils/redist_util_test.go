@@ -5,10 +5,12 @@ import (
 	"github.com/astaxie/beego"
 	_ "beego_study/routers"
 	"testing"
+	"beego_study/initials"
 )
 
 func init() {
 	beego.AppConfig.DefaultString("cache", "redis")
+	initials.InitRedis()
 }
 
 func TestSet(t *testing.T) {

@@ -56,10 +56,49 @@ func Set(key string, val interface{}, expire int64) error {
 	return err;
 }
 
+func HSet(key string,field string, val interface{}, expire int64) error {
+	var err error
+	data, err := Encode(val)
+
+	if err != nil {
+		return err
+	}
+
+	if data == nil {
+		return errors.New("cc is nil")
+	}
+
+	defer Regain("redis set falure")
+
+	err = redis.Hset(key, field,data, expire)
+	if err != nil {
+		log.Redf("%v", err)
+	}
+
+	return err;
+}
+
+
 func Get(key string, to interface{}) error {
 	var err error
 	defer Regain("redis get falure")
 	data := redis.Get(key)
+
+	if data == nil {
+		to = nil
+		return errors.New("key point value is nil ")
+	}
+	err = Decode(data.([]byte), to)
+	if err != nil {
+		log.Redf("decode failure", err)
+	}
+	return err
+}
+
+func Hget(key string,field string, to interface{}) error {
+	var err error
+	defer Regain("redis get falure")
+	data := redis.Hget(key,field)
 
 	if data == nil {
 		to = nil

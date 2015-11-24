@@ -3,7 +3,6 @@ import (
 	"net/http"
 	"bytes"
 	_"net/url"
-	"fmt"
 	"encoding/json"
 	"io/ioutil"
 	"strconv"
