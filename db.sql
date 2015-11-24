@@ -134,10 +134,3 @@ CREATE TABLE `parameter` (
 LOCK TABLES `parameter` WRITE;
 /*!40000 ALTER TABLE `parameter` DISABLE KEYS */;
 
-INSERT INTO `parameter` (`id`, `key`, `value`, `desc`, `created_at`, `updated_at`)
-VALUES
-  (1,'x-bmob-application-id','13f1ffb08fa8702cfac4eb4cdf83dbff','bmob应用id','2015-11-24 11:16:49',NULL),
-  (2,'x-bmob-rest-api-key','5d96c1d8e6bf2242c54f1faa973f97b8','bmob restapi key','2015-11-24 11:16:49',NULL);
-
-/*!40000 ALTER TABLE `parameter` ENABLE KEYS */;
-UNLOCK TABLES;
