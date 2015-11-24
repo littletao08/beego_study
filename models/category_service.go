@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego/orm"
 	"beego_study/constants"
 	"beego_study/utils"
-	"fmt"
 )
 func init() {
 	orm.RegisterModel(new(entities.Category))
