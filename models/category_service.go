@@ -20,6 +20,5 @@ func Categories() ([]entities.Category, error) {
 	}
 	orm := orm.NewOrm()
 	_,err = orm.QueryTable("category").OrderBy("order").All(&categories, "id", "name", "order","created_at","updated_at")
-	fmt.Print("**************err",err,"******categories",len(categories))
 	return categories, err
 }

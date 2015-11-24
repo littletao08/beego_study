@@ -119,9 +119,25 @@ UNLOCK TABLES;
 
 
 
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+DROP TABLE IF EXISTS `parameter`;
+
+CREATE TABLE `parameter` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `key` varchar(50) DEFAULT NULL COMMENT '参数键',
+  `value` varchar(50) DEFAULT NULL COMMENT '参数值',
+  `desc` varchar(100) DEFAULT NULL COMMENT '参数描述',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `parameter` WRITE;
+/*!40000 ALTER TABLE `parameter` DISABLE KEYS */;
+
+INSERT INTO `parameter` (`id`, `key`, `value`, `desc`, `created_at`, `updated_at`)
+VALUES
+  (1,'x-bmob-application-id','13f1ffb08fa8702cfac4eb4cdf83dbff','bmob应用id','2015-11-24 11:16:49',NULL),
+  (2,'x-bmob-rest-api-key','5d96c1d8e6bf2242c54f1faa973f97b8','bmob restapi key','2015-11-24 11:16:49',NULL);
+
+/*!40000 ALTER TABLE `parameter` ENABLE KEYS */;
+UNLOCK TABLES;
