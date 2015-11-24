@@ -11,7 +11,8 @@
                    data-show-count="true" target="_blank">@java小生</a>
             </li>
             <li class="follow-btn">
-                <a href="http://blog.ntfwu.com" class="twitter-follow-button" data-link-color="#0069D6" data-show-count="true" target="_blank">@大jj</a>
+                <a href="http://blog.ntfwu.com" class="twitter-follow-button" data-link-color="#0069D6"
+                   data-show-count="true" target="_blank">@大jj</a>
             </li>
         </ul>
         <div class="bs-docs-social">
@@ -19,6 +20,14 @@
                 <li class="follow-btn">
                     <a href="https://github.com/zld406504302/beego_study" class="twitter-follow-button"
                        data-link-color="#0069D6" data-show-count="true">Github @zld406504302</a>
+                </li>
+            </ul>
+        </div>
+        <div class="bs-docs-social">
+            <ul class="bs-docs-social-buttons">
+                <li class="follow-btn">
+                    <a href="javascript:void(0)" class="twitter-follow-button" data-link-color="#0069D6"
+                       data-show-count="true" target="_blank" id="sponsor">赞助</a>
                 </li>
             </ul>
         </div>
@@ -32,55 +41,19 @@
             <p>后台管理系统开发者 <a href="https://github.com/osgochina" target="_blank">@ClownFish</a></p>
 
             <p>维护英文文档和资源 <a href="https://github.com/osgochina" target="_blank">@Lei Cao</a></p>
-            <p><script type="text/javascript" src="http://js.tongji.linezing.com/3607034/tongji.js"></script><noscript><a href="http://www.linezing.com"><img src="http://img.tongji.linezing.com/3607034/tongji.gif"/></a></noscript></p>
+
+            <p>
+                <script type="text/javascript" src="http://js.tongji.linezing.com/3607034/tongji.js"></script>
+            <noscript><a href="http://www.linezing.com"><img
+                    src="http://img.tongji.linezing.com/3607034/tongji.gif"/></a></noscript>
+            </p>
         </div>
 
 
     </div>
 </footer>
-<!--
-<div id="site-navbar" style="position: absolute; top: -4px; left: -3px; border: 0; z-index: 2000;padding:0;margin:0;"><a
-        href="/" title="返回首页" style="background:none;"><img src="/p/return-back.png"
-                                                           style="padding:0;margin:0;border:0; -webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;"></a>
-                                                           -->
+
 </div>
-<script>
-    $(function () {
-        var sidebarOuterHeight = $("#sidebar").outerHeight();
-        $("div.span9").css("min-height", sidebarOuterHeight);
-        var footerOffsetTop = $("footer").position().top;
-        var containerOuterHeight = $("header").outerHeight();
-        $(window).scroll(function () {
-
-            var $sidebar = $("#sidebar");
-            var scrollTop = $(window).scrollTop();
-            var headerHeight = $("header").outerHeight() - 10;
-            var hasAffix = $sidebar.hasClass("affix");
-            var hasAffixTop = $sidebar.hasClass("affix-top");
-            var hasAffixBottom = $sidebar.hasClass("affix-bottom");
-            //**************设置左边栏固定*****************//
-            if (scrollTop >= headerHeight) {
-                //**************设置底边栏固定*****************//
-                var footerRealTop = footerOffsetTop - scrollTop;
-                var compareNumber = (footerOffsetTop - containerOuterHeight);
-                if (footerRealTop <= compareNumber && hasAffix) {
-                    $sidebar.removeClass("affix").addClass("affix-top")
-                }
-                else if (hasAffixTop && footerRealTop > compareNumber) {
-                    $sidebar.removeClass("affix-top").addClass("affix")
-                }
-                /*if(hasAffixTop) {
-                 $sidebar.removeClass("affix-top").addClass("affix")
-                 }*/
-            }
-            else if (scrollTop < headerHeight && (hasAffix || hasAffixBottom)) {
-                $sidebar.removeClass("affix").addClass("affix-top")
-            }
-
-
-        });
-    })
-
-</script>
+<script src="../static/js/beego-study.js"></script>
 </body>
 </html>

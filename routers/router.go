@@ -12,5 +12,5 @@ func init() {
 	beego.Router("/articles", &controllers.ArticleController{},"get:Articles")
 	beego.Router("/articles", &controllers.ArticleController{},"post:CreateArticle")
 	beego.Router("/articles/new", &controllers.ArticleController{},"get:New")
-
+	beego.Router("/sponsors/new", &controllers.SponsorController{},"post:New")
 }
