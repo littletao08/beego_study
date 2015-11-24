@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"strconv"
+	"github.com/gogather/com/log"
 )
 
 
@@ -23,7 +24,7 @@ func Pay(money float32) interface{} {
 	b, err := json.Marshal(data)
 
 	if err != nil {
-		fmt.Println("json err:", err)
+		log.Dangerf("json.Marshal err ")
 	}
 	body := bytes.NewBuffer([]byte(b))
 	client := &http.Client{}
