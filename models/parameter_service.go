@@ -24,7 +24,7 @@ func ParameterValue(key string) (interface{}, error) {
 	orm := orm.NewOrm()
 	err = orm.QueryTable("parameter").Filter("key", key).One(&parameter)
 	if nil == err {
-		utils.HSet(parametersKey,key,parameter,int64(time.Hour*24/time.Second))
+		utils.Hset(parametersKey,key,parameter,int64(time.Hour*24/time.Second))
 		v = parameter.Value
 	}
 	return v, err

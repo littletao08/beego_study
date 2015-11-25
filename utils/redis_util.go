@@ -56,7 +56,7 @@ func Set(key string, val interface{}, expire int64) error {
 	return err;
 }
 
-func HSet(key string,field string, val interface{}, expire int64) error {
+func Hset(key string,field string, val interface{}, expire int64) error {
 	var err error
 	data, err := Encode(val)
 
