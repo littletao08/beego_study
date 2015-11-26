@@ -1,6 +1,8 @@
 package initials
-import "beego_study/utils"
+import (
+	"beego_study/utils/redis"
+)
 
 func InitRedis()  {
-	utils.InitRedis()
+	redis_util.InitRedis()
 }

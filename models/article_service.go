@@ -5,10 +5,6 @@ import (
 	"fmt"
 )
 
-func init() {
-	orm.RegisterModel(new(entities.Article))
-}
-
 func Articles(page int) ([]entities.Article, error) {
 	var err error
 	var articles []entities.Article
@@ -33,3 +29,5 @@ func Save(article *entities.Article) error{
 	_,err=orm.Insert(article)
 	return err
 }
+
+

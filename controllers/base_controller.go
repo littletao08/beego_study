@@ -3,10 +3,12 @@ import (
 	"github.com/astaxie/beego"
 	"beego_study/models"
 	"github.com/gogather/com/log"
+	"github.com/astaxie/beego/utils/pagination"
 )
 // Controller基类继承封装
 type BaseController struct {
 	beego.Controller
+	pagination.Paginator
 }
 
 type ResponseBody struct {

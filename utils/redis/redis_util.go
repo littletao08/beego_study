@@ -1,10 +1,11 @@
-package utils
+package redis_util
 import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/cache"
 	"beego_study/caches"
 	"errors"
 	"github.com/gogather/com/log"
+	"beego_study/utils"
 )
 
 var redis *caches.MyRedisCache
@@ -18,7 +19,7 @@ func InitRedis() {
 	if "redis" == cacheConfig {
 		var err error
 
-		defer Regain("redis init falure")
+		defer utils.Regain("redis init falure")
 
 		cc, err = cache.NewCache("redis", `{"conn":"` + beego.AppConfig.String("redis_host") + `"}`)
 
@@ -36,7 +37,7 @@ func InitRedis() {
 
 func Set(key string, val interface{}, expire int64) error {
 	var err error
-	data, err := Encode(val)
+	data, err := utils.Encode(val)
 
 	if err != nil {
 		return err
@@ -46,7 +47,7 @@ func Set(key string, val interface{}, expire int64) error {
 		return errors.New("cc is nil")
 	}
 
-	defer Regain("redis set falure")
+	defer utils.Regain("redis set falure")
 
 	err = redis.Set(key, data, expire)
 	if err != nil {
@@ -58,7 +59,7 @@ func Set(key string, val interface{}, expire int64) error {
 
 func Hset(key string,field string, val interface{}, expire int64) error {
 	var err error
-	data, err := Encode(val)
+	data, err := utils.Encode(val)
 
 	if err != nil {
 		return err
@@ -68,7 +69,7 @@ func Hset(key string,field string, val interface{}, expire int64) error {
 		return errors.New("cc is nil")
 	}
 
-	defer Regain("redis set falure")
+	defer utils.Regain("redis set falure")
 
 	err = redis.Hset(key, field,data, expire)
 	if err != nil {
@@ -81,14 +82,14 @@ func Hset(key string,field string, val interface{}, expire int64) error {
 
 func Get(key string, to interface{}) error {
 	var err error
-	defer Regain("redis get falure")
+	defer utils.Regain("redis get falure")
 	data := redis.Get(key)
 
 	if data == nil {
 		to = nil
 		return errors.New("key point value is nil ")
 	}
-	err = Decode(data.([]byte), to)
+	err = utils.Decode(data.([]byte), to)
 	if err != nil {
 		log.Redf("decode failure", err)
 	}
@@ -97,14 +98,14 @@ func Get(key string, to interface{}) error {
 
 func Hget(key string,field string, to interface{}) error {
 	var err error
-	defer Regain("redis get falure")
+	defer utils.Regain("redis get falure")
 	data := redis.Hget(key,field)
 
 	if data == nil {
 		to = nil
 		return errors.New("key point value is nil ")
 	}
-	err = Decode(data.([]byte), to)
+	err = utils.Decode(data.([]byte), to)
 	if err != nil {
 		log.Redf("decode failure", err)
 	}

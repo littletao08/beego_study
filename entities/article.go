@@ -2,6 +2,7 @@ package entities
 /**
  *文章
  */
+
 type Article struct {
 	Id int64
 	UserId int64
