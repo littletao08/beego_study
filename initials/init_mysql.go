@@ -21,7 +21,7 @@ func InitMysql() {
 	}
 	orm.Debug = true
 	driver_url := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", userName, userPass, ip, port, dbName)
-	log.Greenf("driver_url:%v \n", driver_url)
+	log.Greenf("driver_url:%v\n ", driver_url)
 	orm.RegisterDataBase("default", "mysql", driver_url)
 
 }

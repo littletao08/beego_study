@@ -1,9 +1,8 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
 	_"beego_study/routers"
-
+   "github.com/astaxie/beego"
 )
 
 func main() {
@@ -12,5 +11,6 @@ func main() {
 	//port := "8080"
 	//beego.Run(host, port)
 	beego.Run()
+
 }
 

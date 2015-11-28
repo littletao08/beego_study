@@ -1,9 +1,10 @@
 package models
 import (
 	"beego_study/entities"
-	"github.com/astaxie/beego/orm"
+	_"github.com/astaxie/beego/orm"
 	"beego_study/constants"
 	"beego_study/utils/redis"
+	"beego_study/db"
 )
 
 func Categories() ([]entities.Category, error) {
@@ -14,7 +15,7 @@ func Categories() ([]entities.Category, error) {
 	if err == nil {
 		return categories, nil;
 	}
-	orm := orm.NewOrm()
-	_, err = orm.QueryTable("category").OrderBy("order").All(&categories, "id", "name", "order", "created_at", "updated_at")
+	db := db.NewDB()
+	_, err = db.QueryTable("category").OrderBy("order").All(&categories, "id", "name", "order", "created_at", "updated_at")
 	return categories, err
 }

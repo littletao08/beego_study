@@ -18,8 +18,8 @@ func ParameterValue(key string) (interface{}, error) {
 		return parameter.Value, err
 	}
 
-	orm := orm.NewOrm()
-	err = orm.QueryTable("parameter").Filter("key", key).One(&parameter)
+	db := orm.NewOrm()
+	err = db.QueryTable("parameter").Filter("key", key).One(&parameter)
 	if nil == err {
 		redis_util.Hset(parametersKey, key, parameter, int64(time.Hour * 24 / time.Second))
 		v = parameter.Value
