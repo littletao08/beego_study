@@ -3,12 +3,13 @@ import (
 	"github.com/astaxie/beego"
 	"beego_study/models"
 	"github.com/gogather/com/log"
-	"github.com/astaxie/beego/utils/pagination"
+	"beego_study/db"
+	"beego_study/entities"
+	"net/url"
 )
 // Controller基类继承封装
 type BaseController struct {
 	beego.Controller
-	pagination.Paginator
 }
 
 type ResponseBody struct {
@@ -32,4 +33,39 @@ func (c *BaseController) Prepare() {
 		args = c.Ctx.Request.Form.Encode();
 	}
 	log.Bluef(args)
+}
+
+
+func (c *BaseController) NewPagination() *db.Pagination {
+
+	page, err := c.GetInt("page")
+	if nil != err {
+		page = 1
+	}
+	log.Redln("page",page)
+	pagination := db.NewPagination(page, 0, false)
+	link, _ := url.ParseRequestURI(c.Ctx.Request.URL.String())
+	pagination.SetUrl(link)
+	return pagination
+}
+
+
+func (c *BaseController) GetUser() *entities.User {
+	user := c.GetSession("user")
+	if nil == user {
+		return nil
+	}
+	var u, ok = user.(entities.User)
+	if !ok {
+		return nil
+	}
+	return &u
+}
+
+func (c *BaseController) GetUserId() int64 {
+	user := c.GetUser()
+	if nil == user {
+		return -1
+	}
+	return user.Id
 }

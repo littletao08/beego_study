@@ -1,11 +1,16 @@
 package controllers
-import "beego_study/models"
+import (
+	"beego_study/models"
+)
 
 type IndexController struct {
 	BaseController
 }
 
 func (c *IndexController) Index() {
-	c.Data["lastArticle"],_ = models.LastArticle()
+	pagination := c.NewPagination()
+	userId := c.GetUserId()
+	models.AllArticles(userId,pagination)
+	c.Data["pagination"] = pagination
 	c.TplNames = "index.html"
 }

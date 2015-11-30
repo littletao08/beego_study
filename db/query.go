@@ -143,41 +143,40 @@ func (q *Querier) First(container interface{}) error {
 
 func (q *Querier) Pagination(container interface{}, page int, pageSize int) (*Pagination, error) {
 	var err error
-	var count int64
 	var totalItem int
 	var hasNext bool
 	q.Limit((page - 1) * pageSize, pageSize)
 	q.Raw(q.ToCountSql(), q.Parameters()).QueryRow(&totalItem)
 	var sql = q.ToSql()
 
-	count, err = q.Raw(sql, q.Parameters()).QueryRows(container)
-	if nil == err && count > 0 {
-		hasNext = true
-	}
-	pagination := NewPagination(pageSize, totalItem, hasNext)
+	_, err = q.Raw(sql, q.Parameters()).QueryRows(container)
+
+	pagination := NewPagination(page, totalItem, hasNext)
+	pagination.setPerPage(pageSize)
+	pagination.hasNext = pagination.TotalPages() > page
 	pagination.SetData(container)
 
 	return pagination, err
 }
 
-func (q *Querier) FillPagination(container []interface{}, pagination *Pagination) (int64, error) {
+func (q *Querier) FillPagination(container interface{}, pagination *Pagination) (int64, error) {
 
 	var err error
 	var count int64
 	var totalItem int
-	var page = pagination.Page()
-	var pageSize = pagination.PerPageNums
+	var page = pagination.Page
+	var pageSize = pagination.PerPage
 
+	log.Redln("page", page, "pageSize", pageSize)
 	q.Limit((page - 1) * pageSize, pageSize)
 	q.Raw(q.ToCountSql(), q.Parameters()).QueryRow(&totalItem)
-
 
 	var sql = q.ToSql()
 	count, err = q.Raw(sql, q.Parameters()).QueryRows(container)
 
-	pagination.SetNums(totalItem)
-
-	//	pagination.Data = container
+	pagination.Total = totalItem
+	pagination.hasNext = pagination.TotalPages() > page
+	pagination.SetData(container)
 
 	return count, err
 }

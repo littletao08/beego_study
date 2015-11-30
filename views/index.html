@@ -1,22 +1,21 @@
 {{template "public/header.html" .}}
 <script type="text/javascript">
     $(function () {
-        var content = "{{.lastArticle.Content}}"
+        /*var content = "{{.pagination.Data}}"
         if (null == content || 0 == content.length) {
             window.location.href = "/";
         }
-        $("#article-content").html(content)
+        $("#article-content").html(content)*/
     });
 </script>
-    <div class="control-label">
-        标题:
-    </div>
-    <div class="article-title">
-        {{.lastArticle.Title}}
-    </div>
-    <div class="control-label">
-        内容:
-    </div>
-    <div id="article-content" class="md-container"></div>
+{{range .pagination.Data}}
+<div class="control-label">
+    {{.Title}}
+</div>
+<div class="article-title">
+    {{.Tag}}
+</div>
+{{end}}
 
+{{template "public/pagination.html" .}}
 {{template "public/footer.html" .}}
