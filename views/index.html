@@ -5,7 +5,7 @@
     <div class="media">
         <div class="pull-left" >
             <a href="#">
-                <img class="media-object" src="" style="width:64px;height: 64px" alt="">
+                <img class="media-object" src="../static/img/logo.jpg" style="width:64px;height: 64px" alt="">
             </a>
         </div>
         <div class="media-body">
@@ -20,7 +20,7 @@
                     $("#{{.Id}}").html("{{substr .Content 0 300}}")
                 </script>
             </p>
-            <p>{{.CreatedAt}}|浏览<span class="">0</span>|评论<span class="">0</span>|赞<span class="">0</span></p>
+            <p class="article-item-bottom"><span class="">{{.CreatedAt}}</span>|<span class="">浏览0</span>|<span class="">评论0</span>|<span class="">赞0</span></p>
         </div>
     </div>
 </div>

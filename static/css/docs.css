@@ -541,8 +541,9 @@ input.focused {
   position: relative;
   padding: 45px 15px 15px;
   margin: 0 -15px 15px;
+  border:0px;
   border-color: #e5e5e5 #eee #eee;
-  border-style: solid;
+  border-bottom-style: solid;
   border-width: 1px 0;
   -webkit-box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
   box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
@@ -567,10 +568,14 @@ span.tags  {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -o-border-radius: 10px;
-  /* border-radius: 10px; */
   color: #fff;
   text-decoration: none;
 }
 
 
-
+.article-item-bottom span{
+  margin: 0px 5px;
+}
+.article-item-bottom span:first-child{
+  margin-left: 0px;
+}
