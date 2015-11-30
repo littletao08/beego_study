@@ -3,4 +3,4 @@ beego.pid
 lastupdate.tmp
 /beego_study
 *.log
-
+.idea/
