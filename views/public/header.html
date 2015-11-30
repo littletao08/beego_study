@@ -19,6 +19,9 @@
     <!--script-->
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="../static/js/bootstrap.js"></script>
+    <script src="../static/js/affix.js"></script>
+    <script src="../static/js/scrollspy.js"></script>
+
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
     <script src="../static/js/bootstrap-markdown-editor.js"></script>
@@ -94,7 +97,7 @@
     <div class="row">
         <!--左侧边栏-->
         {{if .showRightBar }}
-        <div class="span3 bs-docs-sidebar">
+        <div class="span3 bs-docs-sidebar" >
             <ul class="nav nav-list bs-docs-sidenav affix-top" id="sidebar">
                 <li class="active"><a href="#global"><i class="glyphicon-chevron-right"></i> all</a></li>
                 {{range .categories}}
