@@ -44,5 +44,5 @@ func (c *ArticleController) CreateArticle() {
 		c.Data["json"] = false
 
 	}
-	c.TplNames = "index.html"
+	c.Ctx.Redirect(200,"/")
 }

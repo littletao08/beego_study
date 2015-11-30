@@ -17,7 +17,8 @@
 
             <p id="{{.Id}}">
                 <script>
-                    $("#{{.Id}}").html("{{substr .Content 0 300}}")
+                    var articleContent = "{{substr .Content 0 300}}";
+                    $("#{{.Id}}").html($("<div>").html(articleContent).text())
                 </script>
             </p>
             <p class="article-item-bottom"><span class="">{{.CreatedAt}}</span>|<span class="">浏览0</span>|<span class="">评论0</span>|<span class="">赞0</span></p>
