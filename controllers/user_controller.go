@@ -31,7 +31,7 @@ func (c *UserController) Session() {
 
 	if (user.Valid(name,password)) {
 		c.SetSession("user", user)
-		c.TplNames = "index.html"
+		c.Ctx.Redirect(302,"/")
 	}else {
 		response :=ResponseBody{Success:false,Message:"用户名或密码错误"}
 		c.Data["showRightBar"] = false

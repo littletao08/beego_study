@@ -1,7 +1,7 @@
 package db
 import (
 "errors"
-	"fmt"
+"beego_study/utils"
 )
 
 type ConditionType int
@@ -56,23 +56,10 @@ func NewCondition(condition ConditionType, column string, param interface{}) Con
 	var c Condition
 	c.Type = condition
 	c.Column = column
-	c.Params = toParams(param)
+	c.Params = utils.ToSlice(param)
 	return c
 }
 
-func toParams(param interface{}) []interface{} {
-	if nil == param {
-		return []interface{}{}
-	}
-
-	params, ok := param.([]interface{})
-	fmt.Println("**********ok***********",ok)
-	if ok {
-		return params
-	}else {
-		return []interface{}{param}
-	}
-}
 
 func (c Condition) ToSQL(sqlBuilder SQLBuilder) (string, error) {
 	if len(c.Type.String()) >0 {

@@ -1,19 +1,28 @@
 {{template "public/header.html" .}}
-<script type="text/javascript">
-    $(function () {
-        /*var content = "{{.pagination.Data}}"
-        if (null == content || 0 == content.length) {
-            window.location.href = "/";
-        }
-        $("#article-content").html(content)*/
-    });
-</script>
+
 {{range .pagination.Data}}
-<div class="control-label">
-    {{.Title}}
-</div>
-<div class="article-title">
-    {{.Tag}}
+<div class="bs-example">
+    <div class="media">
+        <div class="pull-left" >
+            <a href="#">
+                <img class="media-object" src="" style="width:64px;height: 64px" alt="">
+            </a>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{.Title}}</h4>
+
+            <p>分类</p>
+
+            <p><span class="tags">tag</span></p>
+
+            <p id="{{.Id}}">
+                <script>
+                    $("#{{.Id}}").html("{{substr .Content 0 300}}")
+                </script>
+            </p>
+            <p>{{.CreatedAt}}|浏览<span class="">0</span>|评论<span class="">0</span>|赞<span class="">0</span></p>
+        </div>
+    </div>
 </div>
 {{end}}
 
