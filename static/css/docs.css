@@ -506,11 +506,17 @@ input.focused {
     padding-bottom: 60px;
     text-align: left;
   }
+  /*hight tip css */
+  .alert{
+    margin-top: 50px;
+    z-index: 1000;
+    display: none;
+  }
 
   /* From here, start to affix the nav because we keep columns here */
   .bs-docs-sidenav.affix {
     position: fixed;
-    top: 54px;
+    top: 85px;
   }
   .bs-docs-sidenav {
     width: 170px;
@@ -578,4 +584,8 @@ span.tags  {
 }
 .article-item-bottom span:first-child{
   margin-left: 0px;
+}
+
+.article-item-bottom a{
+  cursor:hand;
 }

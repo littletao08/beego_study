@@ -42,7 +42,6 @@ func (c *ArticleController) CreateArticle() {
 		c.Data["json"] = true
 	}else {
 		c.Data["json"] = false
-
 	}
-	c.Ctx.Redirect(200,"/")
+	c.ServeJson()
 }

@@ -85,21 +85,28 @@
     </div>
 
 </div>
+<!--请提示-->
+<div class="alert alert-success navbar-fixed-top" id="header-tip">
+    <a class="close" data-dismiss="alert">×</a>
+    <span>What are you doing?! this will delete all files!!<pan>
+</div>
 <!--header-->
 <header class="bs-docs-jumbotron subhead">
+
     <div class="container">
         <h1>Beego Study</h1>
 
         <p class="lead">Beego Study 是基于Beego Framework搭建的个人技术博客网站</p>
     </div>
 </header>
+
 <div class="container" id="container">
     <div class="row">
         <!--左侧边栏-->
         {{if .showRightBar }}
         <div class="span3 bs-docs-sidebar" >
             <ul class="nav nav-list bs-docs-sidenav affix-top" id="sidebar">
-                <li class="active"><a href="#global"><i class="glyphicon-chevron-right"></i> all</a></li>
+                <li class="active"><a href="/"><i class="glyphicon-chevron-right"></i> all</a></li>
                 {{range .categories}}
                 <li><a href="#typography"><i class="glyphicon-chevron-right"></i> {{.Name}}</a></li>
                 {{end}}

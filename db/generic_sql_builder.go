@@ -2,7 +2,7 @@ package db
 import (
 	"strings"
 	"strconv"
-	"github.com/gogather/com/log"
+"github.com/astaxie/beego"
 )
 
 type GenericSQLBuilder struct {
@@ -62,7 +62,7 @@ func (c *GenericSQLBuilder) toSQL0(withGroup bool, withOrderBy bool, withLimit b
 		}
 	}
 
-	log.Redln("conditions", c.conditions, "parameters", c.parameters, "offset", c.Offset, "rowCount", c.RowCount)
+	beego.Debug("conditions", c.conditions, "parameters", c.parameters, "offset", c.Offset, "rowCount", c.RowCount)
 	if (withGroup) {
 		sql += c.toGroupBySql()
 	}

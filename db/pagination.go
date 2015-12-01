@@ -4,8 +4,6 @@ import (
 	"math"
 	"net/url"
 	"strconv"
-
-	"fmt"
 )
 
 const DEFAULT_PER_PAGE = 10
@@ -144,7 +142,6 @@ func ( p *Pagination) HasPrev() bool {
 }
 
 func (p *Pagination) IsActive(pagea int) bool {
-	fmt.Println("page",pagea)
 	return p.Page == pagea
 }
 

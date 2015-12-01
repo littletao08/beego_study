@@ -1,7 +1,6 @@
 package db
 import (
 	_ "github.com/astaxie/beego/utils/pagination"
-	"github.com/gogather/com/log"
 )
 
 type Querier struct {
@@ -57,7 +56,6 @@ func (q *Querier) Join(join string) *Querier {
 
 func (q *Querier) where(c Condition) *Querier {
 	sql, err := c.ToSQL(q.SQLBuilder)
-	log.Redln("sql", sql, "err", err, "Condition", c)
 	if (nil == err) {
 		q.SQLBuilder.Where(sql, c.Params)
 	}
@@ -167,7 +165,6 @@ func (q *Querier) FillPagination(container interface{}, pagination *Pagination) 
 	var page = pagination.Page
 	var pageSize = pagination.PerPage
 
-	log.Redln("page", page, "pageSize", pageSize)
 	q.Limit((page - 1) * pageSize, pageSize)
 	q.Raw(q.ToCountSql(), q.Parameters()).QueryRow(&totalItem)
 
