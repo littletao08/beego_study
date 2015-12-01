@@ -7,6 +7,7 @@ import (
 )
 
 const DEFAULT_PER_PAGE = 10
+const MAX_SHOW_PAGE = 9
 
 type Mode int
 
@@ -74,26 +75,31 @@ func (p *Pagination) SetData(container interface{}) {
 }
 
 
-func (p *Pagination) Pages() []int {
+func (p *Pagination) Pages(maxShowPages int) []int {
+
+	if (maxShowPages < 5 || maxShowPages > MAX_SHOW_PAGE) {
+		maxShowPages = MAX_SHOW_PAGE;
+	}
+	middlePageNum := maxShowPages / 2
 	if p.pageRange == nil && p.Total > 0 {
 		var pages []int
 		pageNums := p.TotalPages()
 		page := p.Page
 		switch {
-		case page >= pageNums - 4 && pageNums > 9:
-			start := pageNums - 9 + 1
-			pages = make([]int, 9)
+		case page >= pageNums - middlePageNum && pageNums > maxShowPages:
+			start := pageNums - maxShowPages + 1
+			pages = make([]int, maxShowPages)
 			for i := range pages {
 				pages[i] = start + i
 			}
-		case page >= 5 && pageNums > 9:
-			start := page - 5 + 1
-			pages = make([]int, int(math.Min(9, float64(page + 4 + 1))))
+		case page >= (middlePageNum + 1) && pageNums > maxShowPages:
+			start := page - middlePageNum
+			pages = make([]int, int(math.Min(float64(maxShowPages), float64(page + middlePageNum + 1))))
 			for i := range pages {
 				pages[i] = start + i
 			}
 		default:
-			pages = make([]int, int(math.Min(9, float64(pageNums))))
+			pages = make([]int, int(math.Min(float64(maxShowPages), float64(pageNums))))
 			for i := range pages {
 				pages[i] = i + 1
 			}
