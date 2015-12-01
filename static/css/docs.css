@@ -506,11 +506,6 @@ input.focused {
     padding-bottom: 60px;
     text-align: left;
   }
-  /*hight tip css */
-  #header-tip{
-    margin-top: 50px;
-    z-index: 1000;
-  }
 
   /* From here, start to affix the nav because we keep columns here */
   .bs-docs-sidenav.affix {

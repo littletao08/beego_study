@@ -92,9 +92,11 @@ jQuery.fn.extend({
             }
             return true ;
         }
+        //从新定义margin-top
+        var topBarHeight = $("#topbar").outerHeight();
         if (tipType == TipType.SUCCESS) {
             $(this).find("span").html(message);
-            $(this).addClass(TipType.SUCCESS).removeClass(TipType.ERROR).fadeIn(1000).delay(1000).fadeOut(500,call);
+            $(this).css("margin-top",topBarHeight).addClass(TipType.SUCCESS).removeClass(TipType.ERROR).fadeIn(1000).delay(1000).fadeOut(500,call);
         }
         else if (tipType == TipType.ERROR) {
             $(this).find("span").html(message);
