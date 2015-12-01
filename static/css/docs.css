@@ -507,10 +507,9 @@ input.focused {
     text-align: left;
   }
   /*hight tip css */
-  .alert{
+  #header-tip{
     margin-top: 50px;
     z-index: 1000;
-    display: none;
   }
 
   /* From here, start to affix the nav because we keep columns here */
