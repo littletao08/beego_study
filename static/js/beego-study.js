@@ -1,4 +1,3 @@
-
 /**
  * Created by zhanglida on 15/11/24.
  */
@@ -16,9 +15,7 @@ $(function () {
     setTimeout(function () {
         $('.bs-docs-sidenav').affix({
             offset: {
-                top: function () {
-                    return $window.width() <= 980 ? 320 : 230
-                }
+                top: 320
                 ,
                 bottom: 270
             }
@@ -31,10 +28,14 @@ $(function () {
         $(this).addClass("active")
     });
     //首页点赞
-    $(".article-item-bottom").find(".praise").click(function(){
+    $(".article-item-bottom").find(".praise").click(function () {
         $("#header-tip").showSuccessTip("点赞成功!");
     });
 
+    //首页评论
+    $(".article-item-bottom").find(".comment").click(function () {
+        $("#header-tip").showErrorTip("评论失败!");
+    });
 
 })
 
@@ -56,7 +57,7 @@ function initMarkdownEditor() {
                 $.post('/articles', {title: "go study", content: content},
                     function (data) {
                         if (data) {
-                            $("#header-tip").showSuccessTip("保存成功!",function(){
+                            $("#header-tip").showSuccessTip("保存成功!", function () {
                                 window.location.href = "/"
                             });
                         } else {
@@ -81,26 +82,35 @@ function initMarkdownEditor() {
 }
 
 
-
 var TipType = {SUCCESS: "alert-success", WARN: "warn", ERROR: "alert-error"};
 
 jQuery.fn.extend({
     showTip: function (message, tipType, callback) {
-        var call = function(){
+
+        var call = function () {
             if (null != callback && $.isFunction(callback)) {
                 callback();
             }
-            return true ;
+            return true;
         }
+
+        $(this).find("span").html(message);
         //从新定义margin-top
         var topBarHeight = $("#topbar").outerHeight();
+        var $close = $(this).find("a:first");
+
         if (tipType == TipType.SUCCESS) {
-            $(this).find("span").html(message);
-            $(this).css("margin-top",topBarHeight).addClass(TipType.SUCCESS).removeClass(TipType.ERROR).fadeIn(1000).delay(1000).fadeOut(500,call);
+            $close.css("display", "none");
+            $(this).css("margin-top", topBarHeight).addClass(TipType.SUCCESS).removeClass(TipType.ERROR).fadeIn(1000).delay(1000).fadeOut(500, call);
         }
+
         else if (tipType == TipType.ERROR) {
-            $(this).find("span").html(message);
-            $(this).addClass(TipType.ERROR).removeClass(TipType.SUCCESS).fadeIn(1000).delay(1000,call)
+            $(this).css("margin-top", topBarHeight).addClass(TipType.ERROR).removeClass(TipType.SUCCESS).fadeIn(1000);
+            $close.css("display", "block");
+            $close.click(function () {
+                $("#header-tip").fadeOut(500);
+                $close.css("display", "none");
+            });
         }
 
     },
