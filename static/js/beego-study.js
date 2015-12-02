@@ -17,7 +17,7 @@ $(function () {
             offset: {
                 top: 340
                 ,
-                bottom: 250
+                bottom: 270
             }
         })
     }, 100)
