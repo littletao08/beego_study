@@ -1,29 +1,32 @@
-p.lead{
+p.lead {
     color: #FFFFFF;
 }
-.bs-docs-sidenav{
- margin: 0px;
+
+.bs-docs-sidenav {
+    margin:0px 0px 10px 0px;
 }
-header.subhead{
+
+header.subhead {
     margin-top: 0px;
 }
-div#editor .btn-group .btn{
+
+div#editor .btn-group .btn {
     font-size: 12px;
 }
 
-.auth-form{
+.auth-form {
     width: 400px;
     margin: 60px auto;
 }
 
-
-.pagination:above-level{
+.pagination:above-level {
     width: 100%;
 }
+
 .pagination {
     margin-left: 10%;
 }
 
-.mobile-pagination{
+.mobile-pagination {
     margin-right: 10%;
 }
