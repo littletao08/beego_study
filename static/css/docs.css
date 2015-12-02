@@ -161,7 +161,7 @@ section > ul li {
 
 /* Base styles are not affixable given mobile-first */
 .bs-docs-sidenav {
-  margin: 20px 0 0;
+  margin: 0;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -510,7 +510,8 @@ input.focused {
   /* From here, start to affix the nav because we keep columns here */
   .bs-docs-sidenav.affix {
     position: fixed;
-    top: 70px;
+    top: 50px;
+    margin-top: 20px;
   }
   .bs-docs-sidenav {
     width: 170px;
@@ -582,4 +583,8 @@ span.tags  {
 
 .article-item-bottom a{
   cursor:hand;
+}
+/*hight tip css */
+div.alert{
+  margin-top: 50px;
 }

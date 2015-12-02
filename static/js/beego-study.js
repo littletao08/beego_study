@@ -15,7 +15,7 @@ $(function () {
     setTimeout(function () {
         $('.bs-docs-sidenav').affix({
             offset: {
-                top: 320
+                top: 340
                 ,
                 bottom: 270
             }
