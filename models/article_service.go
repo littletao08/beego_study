@@ -3,6 +3,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"beego_study/entities"
 	"beego_study/db"
+	"github.com/astaxie/beego"
 )
 
 func Articles(page int) ([]entities.Article, error) {
@@ -32,6 +33,7 @@ func Save(article *entities.Article) error {
 	var err error
 	orm := orm.NewOrm()
 	_, err = orm.Insert(article)
+
 	return err
 }
 

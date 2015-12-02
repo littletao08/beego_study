@@ -37,7 +37,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="brand" href="../" >BeegoStudy</a>
+        <a class="brand" href="../">BeegoStudy</a>
+
         <div class="nav-collapse collapse">
             <ul class="nav">
                 {{range .categories}}
@@ -59,7 +60,11 @@
     </div>
 
 </div>
-
+<!--请提示-->
+<div class="alert navbar-fixed-top" id="header-tip" style="display: none;">
+    <a class="close" data-dismiss="alert">×</a>
+        <span></span>
+</div>
 <!--header-->
 <header class="bs-docs-jumbotron subhead">
 
@@ -74,7 +79,7 @@
     <div class="row">
         <!--左侧边栏-->
         {{if .showRightBar }}
-        <div class="span3 bs-docs-sidebar" >
+        <div class="span3 bs-docs-sidebar">
             <ul class="nav nav-list bs-docs-sidenav affix-top" id="sidebar">
                 <li class="active"><a href="/"><i class="glyphicon-chevron-right"></i> all</a></li>
                 {{range .categories}}
