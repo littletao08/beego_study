@@ -15,3 +15,15 @@ div#editor .btn-group .btn{
     width: 400px;
     margin: 60px auto;
 }
+
+
+.pagination:above-level{
+    width: 100%;
+}
+.pagination {
+    margin-left: 10%;
+}
+
+.mobile-pagination{
+    margin-right: 10%;
+}

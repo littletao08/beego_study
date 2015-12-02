@@ -1,7 +1,7 @@
 <!--分页条-->
 <nav>
     {{if gt .pagination.TotalPages 1}}
-    <ul class="pagination pagination-sm">
+    <ul {{if .isMobile }} class="pagination mobile-pagination  pull-right" {{else}} class="pagination  pull-left" {{end}} >
         {{if .pagination.HasPrev}}
         {{if .isMobile }}
         <li><a href="{{.pagination.PageLinkPrev}}">&lt;</a></li>

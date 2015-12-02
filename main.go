@@ -7,10 +7,10 @@ import (
 
 func main() {
 
-	host := "192.168.10.43"
+	/*host := "192.168.10.43"
 	port := "8080"
-	beego.Run(host, port)
-	//beego.Run()
+	beego.Run(host, port)*/
+	beego.Run()
 
 }
 
