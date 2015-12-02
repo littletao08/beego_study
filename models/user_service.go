@@ -12,7 +12,6 @@ func User(id int) (entities.User, error) {
 	var user entities.User
 	var userKey = constants.USER_KEY + string(id);
 	err = redis_util.Get(userKey, &user)
-	fmt.Println("************err:", err, "user:", user)
 	if err == nil {
 		return user, nil;
 	}
