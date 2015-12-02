@@ -3,7 +3,6 @@ import (
 	"github.com/astaxie/beego/orm"
 	"beego_study/entities"
 	"beego_study/db"
-	"github.com/astaxie/beego"
 )
 
 func Articles(page int) ([]entities.Article, error) {
