@@ -3,7 +3,6 @@ import (
 	"beego_study/entities"
 	"github.com/astaxie/beego/orm"
 	"beego_study/constants"
-	"fmt"
 	"beego_study/utils/redis"
 )
 
