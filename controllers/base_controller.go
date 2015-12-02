@@ -6,7 +6,7 @@ import (
 	"beego_study/db"
 	"beego_study/entities"
 	"net/url"
-	"regexp"
+	"strings"
 )
 // Controller基类继承封装
 type BaseController struct {
@@ -34,15 +34,11 @@ func (c *BaseController) Prepare() {
 		args = c.Ctx.Request.Form.Encode();
 	}
 	userAgent := c.Ctx.Request.UserAgent()
-	patten := ";\\s?(\\S*?\\s?\\S*?)\\s?(Build)?/"
-	reg := regexp.MustCompile(patten)
-	var matchData = reg.Find([]byte(userAgent))
-	userAgent = string(matchData[:len(matchData)])
+	userAgent = strings.ToLower(userAgent)
 	//是否是手机访问
 	c.Data["isMobile"] = false
-	if (len(userAgent) > 0) {
+	if (strings.Contains(userAgent,"android") || strings.Contains(userAgent,"iphone")) {
 		c.Data["isMobile"] = true
-		beego.Debug("**********user-agent:%s************", userAgent)
 	}
 
 	log.Bluef(args)
@@ -55,7 +51,6 @@ func (c *BaseController) NewPagination() *db.Pagination {
 	if nil != err {
 		page = 1
 	}
-	log.Redln("page", page)
 	pagination := db.NewPagination(page, 0, false)
 	link, _ := url.ParseRequestURI(c.Ctx.Request.URL.String())
 	pagination.SetUrl(link)
