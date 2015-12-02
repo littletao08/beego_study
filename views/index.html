@@ -5,7 +5,7 @@
     <div class="media">
         <div class="pull-left" >
             <a href="#">
-                <img class="media-object" src="../static/img/logo.jpg" style="width:64px;height: 64px" alt="">
+                <img class="media-object" src="../static/img/logo.jpg" style="width:64px;height: 64px;" alt="">
             </a>
         </div>
         <div class="media-body">
@@ -15,12 +15,12 @@
 
             <p><span class="tags">tag</span></p>
 
-            <p id="{{.Id}}">
+            <div id="{{.Id}}" >
                 <script>
                     var articleContent = "{{substr .Content 0 300}}";
-                    $("#{{.Id}}").html($("<div>").html(articleContent).text())
+                    $("#{{.Id}}").css("text-align","").text($("<div>").html(articleContent).text().trim())
                 </script>
-            </p>
+            </div>
             <p class="article-item-bottom"><span class="">{{.CreatedAt}}</span>|<span class="">浏览0</span>|<span class="comment"><a href="javascript:void(0);">评论</a>0</span>|<span class="praise"><a href="javascript:void(0);">赞</a>0</span></p>
         </div>
     </div>
