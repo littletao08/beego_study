@@ -1,4 +1,5 @@
 package entities
+import "time"
 /**
  *文章
  */
@@ -10,7 +11,6 @@ type Article struct {
 	Tag string
 	CategoryId int32
 	Content string
-	CreatedAt string
-	UpdatedAt string
-
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

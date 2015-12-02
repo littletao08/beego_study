@@ -36,7 +36,7 @@ func (c *ArticleController) CreateArticle() {
 	}
 	content := c.GetString("content")
 	title := c.GetString("title")
-	article := entities.Article{UserId:1, Title:title, Content:content,CreatedAt:time.Now().Format("2006-01-02 15:04:05")}
+	article := entities.Article{UserId:1, Title:title, Content:content,CreatedAt:time.Now()}
 	err := models.Save(&article)
 	if (nil == err) {
 		c.Data["json"] = true
