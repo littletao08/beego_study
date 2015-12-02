@@ -161,7 +161,8 @@ section > ul li {
 
 /* Base styles are not affixable given mobile-first */
 .bs-docs-sidenav {
-  margin: 0;
+  margin: 0 0 20px 0 ;
+  padding-top: -20px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -519,7 +520,7 @@ input.focused {
   .bs-docs-sidenav.affix-bottom {
     position: absolute;
     top: auto;
-    bottom: 270px;
+    bottom: 250px;
   }
 }
 
