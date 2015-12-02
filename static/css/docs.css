@@ -510,7 +510,7 @@ input.focused {
   /* From here, start to affix the nav because we keep columns here */
   .bs-docs-sidenav.affix {
     position: fixed;
-    top: 85px;
+    top: 70px;
   }
   .bs-docs-sidenav {
     width: 170px;
