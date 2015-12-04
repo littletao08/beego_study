@@ -14,7 +14,7 @@
     <div class="article-detail-nav-right">
         <span class="glyphicon-pencil" title="评论"></span><span class="article-detail-number">111</span>
         <span class="glyphicon-time" title="创建时间"></span><span
-            class="article-detail-number">{{.article.CreatedAt}}</span>
+            class="article-detail-number">{{date .article.CreatedAt "Y-m-d H:i:s"}}</span>
     </div>
 
     <hr>
