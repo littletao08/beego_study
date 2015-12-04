@@ -37,7 +37,7 @@ func (c *BaseController) Prepare() {
 	userAgent = strings.ToLower(userAgent)
 	//是否是手机访问
 	c.Data["isMobile"] = false
-	if (strings.Contains(userAgent,"android") || strings.Contains(userAgent,"iphone")) {
+	if (strings.Contains(userAgent, "android") || strings.Contains(userAgent, "iphone")) {
 		c.Data["isMobile"] = true
 	}
 
@@ -46,7 +46,6 @@ func (c *BaseController) Prepare() {
 
 
 func (c *BaseController) NewPagination() *db.Pagination {
-
 	page, err := c.GetInt("page")
 	if nil != err {
 		page = 1

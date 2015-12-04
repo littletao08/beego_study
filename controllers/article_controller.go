@@ -12,10 +12,16 @@ type ArticleController struct {
 }
 
 func (c *ArticleController) Articles() {
-	page, _ := c.GetInt(":page")
+	page, _ := c.GetInt("page")
 	articles, _ := models.Articles(page)
 	c.Data["articles"] = articles
 	c.TplNames = "index.html"
+}
+
+func (c *ArticleController) ArticleDetail() {
+	//id, _ := c.GetInt(":id")
+	//c.Data["showRightBar"] = false
+	c.TplNames = "article_detail.html"
 }
 
 func (c *ArticleController) New() {

@@ -1,4 +1,5 @@
 <!--分页条-->
+{{if .pagination }}
 <nav>
     {{if gt .pagination.TotalPages 1}}
     <ul {{if .isMobile }} class="pagination mobile-pagination  pull-right" {{else}} class="pagination  pull-left" {{end}} >
@@ -50,3 +51,5 @@
     </ul>
     {{end}}
 </nav>
+{{end}}
+
