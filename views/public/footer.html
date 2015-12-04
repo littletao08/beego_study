@@ -31,9 +31,23 @@
                 </li>
             </ul>
         </div>
-
+        <div class="bs-docs-social">
+            @2015 京ICP备15062344号
+        </div>
     </div>
 </footer>
 <script type="text/javascript" src="http://js.tongji.linezing.com/3607741/tongji.js"></script>
+<script src="../static/js/beego-study.js"></script>
+<script>
+    var message = "{{.message}}";
+    if (message) {
+        message = JSON.parse(message);
+        if (message.Success) {
+            $("#header-tip").showSuccessTip(message.Message);
+        } else {
+            $("#header-tip").showWarnTip(message.Message);
+        }
+    }
+</script>
 </body>
 </html>

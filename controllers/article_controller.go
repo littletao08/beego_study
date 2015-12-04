@@ -5,6 +5,7 @@ import (
 	"beego_study/entities"
 	"github.com/gogather/com/log"
 	"time"
+	"github.com/astaxie/beego"
 )
 
 type ArticleController struct {
@@ -19,14 +20,25 @@ func (c *ArticleController) Articles() {
 }
 
 func (c *ArticleController) ArticleDetail() {
-	//id, _ := c.GetInt(":id")
-	//c.Data["showRightBar"] = false
+	id, _ := c.GetInt64(":id")
+	beego.Error("id", id)
 	c.TplNames = "article_detail.html"
+	if id <= 0 {
+		c.SetError("文章不存在")
+		return
+	}
+
+	article, error := models.ArticleById(id)
+	if nil != error {
+		c.SetError("文章不存在")
+	}else {
+		c.Data["article"] = article
+	}
 }
 
 func (c *ArticleController) New() {
 	user := c.GetSession("user")
-	log.Redln("*******************",user)
+	log.Redln("*******************", user)
 	if (nil == user) {
 		c.Redirect("/login", 302)
 	}else {
@@ -42,7 +54,7 @@ func (c *ArticleController) CreateArticle() {
 	}
 	content := c.GetString("content")
 	title := c.GetString("title")
-	article := entities.Article{UserId:1, Title:title, Content:content,CreatedAt:time.Now()}
+	article := entities.Article{UserId:1, Title:title, Content:content, CreatedAt:time.Now()}
 	err := models.Save(&article)
 	if (nil == err) {
 		c.Data["json"] = true

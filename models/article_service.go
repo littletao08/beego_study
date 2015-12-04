@@ -27,6 +27,21 @@ func LastArticle() (entities.Article, error) {
 	return article, err
 }
 
+func ArticleByIdAndUserId(userId int64,articleId int64) (*entities.Article, error) {
+	var err error
+	var article entities.Article
+	db := db.NewDB()
+	err = db.QueryTable("article").Filter("user_id",userId).Filter("id",articleId).One(&article, "id", "user_id", "title", "tag", "content", "created_at", "updated_at")
+	return &article, err
+}
+
+func ArticleById(articleId int64) (*entities.Article, error) {
+	var err error
+	var article entities.Article
+	db := db.NewDB()
+	err = db.QueryTable("article").Filter("id",articleId).One(&article, "id", "user_id", "title", "tag", "content", "created_at", "updated_at")
+	return &article, err
+}
 
 func Save(article *entities.Article) error {
 	var err error

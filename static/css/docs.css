@@ -424,7 +424,7 @@ section > ul li {
 /* Social proof buttons from GitHub & Twitter */
 .bs-docs-social {
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-align: center;
 }
 /* Quick links on Home */
@@ -538,7 +538,7 @@ input.focused {
     }
 }
 
-.bs-example {
+.article-list {
   position: relative;
   padding: 45px 15px 15px;
   margin: 0 -15px 15px;
@@ -550,7 +550,7 @@ input.focused {
   box-shadow: inset 0 3px 6px rgba(0,0,0,.05);
 }
 
-.bs-example:after {
+.article-list:after {
   position: absolute;
   top: 15px;
   left: 15px;
@@ -563,7 +563,7 @@ input.focused {
 
 span.tags  {
   display: inline-block;
-  margin: 0 5px 5px 0;
+  margin: 5px 5px 10px 4px;
   padding: 0px 10px;
   background-color: #aab5c3;
   -webkit-border-radius: 10px;
@@ -571,6 +571,8 @@ span.tags  {
   -o-border-radius: 10px;
   color: #fff;
   text-decoration: none;
+  height: 18px;
+  line-height: 18px;
 }
 
 
@@ -587,4 +589,31 @@ span.tags  {
 /*light tip css */
 div.alert{
   margin-top: 50px;
+}
+
+
+/***********文章详情页*********************/
+.article-detail-nav{
+  border: 1px solid red;
+}
+
+.article-detail-nav-left{
+  float: left;
+}
+
+.article-detail-nav-right{
+  float: right;
+  margin-right: 20%;
+}
+
+.article-detail-nav-left .article-detail-number{
+   margin-left: 5px;
+}
+.article-detail-nav-right .article-detail-number{
+   margin-left: 5px;
+}
+
+article .user-head{
+  width:54px;
+  height: 54px;
 }

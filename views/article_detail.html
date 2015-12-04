@@ -1,38 +1,47 @@
 {{template "public/header.html" .}}
-    <article>
-        <h5>beego study title</h5>
-        <div class="row">
-            <div class="article-detail-tag">
-                <span class="glyphicon-tag"></span> <span class="tags">golang</span><span class="tags">golang</span><span class="tags">golang</span>
-            </div>
-        </div>
+<article>
+    <h4>{{.article.Title}}</h4>
 
-        <div class="row">
-            <div class="article-detail-nav">
-                <span class="glyphicon-eye-open">111</span>
-                <span class="glyphicon-heart">1111</span>
-            </div>
-            <div class="article-detail-nav">
-                <span class="glyphicon-pencil">20</span>
-                <span class="glyphicon-time">August 24, 2013 9:00 PM</span>
-            </div>
-        </div>
+    <div class="article-detail-tag">
+        <span class="glyphicon-tag" title="标签"></span> <span class="tags">golang</span><span
+            class="tags">golang</span><span class="tags">golang</span>
+    </div>
 
-        <hr>
+    <div class="article-detail-nav-left">
+        <span class="glyphicon-eye-open" title="浏览"></span><span class="article-detail-number">111</span>
+        <span class="glyphicon-heart-empty" title="点赞"></span><span class="article-detail-number">111</span>
+    </div>
+    <div class="article-detail-nav-right">
+        <span class="glyphicon-pencil" title="评论"></span><span class="article-detail-number">111</span>
+        <span class="glyphicon-time" title="创建时间"></span><span
+            class="article-detail-number">{{.article.CreatedAt}}</span>
+    </div>
 
-        <div class="article-content">
-        </div>
-        <div class="media hidden">
-            <a class="pull-left" href="#">
-                <img class="media-object user-head" src="../static/img/logo.jpg" alt="头像">
-            </a>
-            <div class="media-body">
-                <h10 class="media-heading">User Name</h10>
-                <div class="media">
-                </div>
+    <hr>
+
+    <div class="article-content">
+        <script>
+            var content = "{{.article.Content}}";
+            $("div.article-content").html(content);
+        </script>
+    </div>
+    <div class="article-detail-nav-left clearfix">
+        <span class="glyphicon-pencil" title="评论"></span>
+    </div>
+    <hr>
+
+    <div class="media hidden">
+        <a class="pull-left" href="#">
+            <img class="media-object user-head" src="../static/img/logo.jpg" alt="头像">
+        </a>
+
+        <div class="media-body">
+            <h10 class="media-heading">User Name</h10>
+            <div class="media">
             </div>
         </div>
-    </article>
+    </div>
+</article>
 {{template "public/footer.html" .}}
 
 

@@ -82,7 +82,7 @@ function initMarkdownEditor() {
 }
 
 
-var TipType = {SUCCESS: "alert-success", WARN: "warn", ERROR: "alert-error"};
+var TipType = {SUCCESS: "alert-success", WARN: "alert-danger", ERROR: "alert-error"};
 
 jQuery.fn.extend({
     showTip: function (message, tipType, callback) {
@@ -112,6 +112,10 @@ jQuery.fn.extend({
                 $close.css("display", "none");
             });
         }
+        else if (tipType == TipType.WARN) {
+            $close.css("display", "none");
+            $(this).css("margin-top", topBarHeight).addClass(TipType.WARN).removeClass(TipType.WARN).fadeIn(1000).delay(1000).fadeOut(500, call);
+        }
 
     },
     showSuccessTip: function (message, callback) {
@@ -119,6 +123,9 @@ jQuery.fn.extend({
     },
     showErrorTip: function (message, callback) {
         $(this).showTip(message, TipType.ERROR, callback);
+    },
+    showWarnTip: function (message, callback) {
+        $(this).showTip(message, TipType.WARN, callback);
     }
 
 })

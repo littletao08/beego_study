@@ -7,6 +7,7 @@ import (
 	"beego_study/entities"
 	"net/url"
 	"strings"
+	"encoding/json"
 )
 // Controller基类继承封装
 type BaseController struct {
@@ -75,4 +76,15 @@ func (c *BaseController) GetUserId() int64 {
 		return -1
 	}
 	return user.Id
+}
+func (c *BaseController) SetError(message string) {
+	response := new(ResponseBody)
+	response.Code = -1
+	response.Success = false
+	response.Message = message
+	result, err := json.Marshal(response)
+	if nil == err {
+		c.Data["message"] = string(result)
+	}
+
 }
