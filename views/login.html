@@ -1,5 +1,6 @@
 {{template "public/header.html" .}}
 
+<!--
 <div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
 
     <div class="auth-form" id="login">
@@ -44,14 +45,32 @@
     </div>
 
 </div>
+-->
+
+<div class="bubble auth-form-container">
+    <h3 class="bubble-title">登录 BeegoStudy</h3>
+
+    <div class="bubble-content">
+        <form accept-charset="UTF-8" action="/users/session" data-form-nonce="8389cfbe9d1dd800d8c2c69c8671865bdbdc8244"
+              method="post" novalidate="novalidate">
+            <label>用户名或邮箱</label>
+            <input type="email" name="name" value="" >
+
+            <label>
+                密码
+                <a href="#" class="hide">(forgot password)</a>
+            </label>
+            <input type="password" name="password">
+
+            <button type="submit" class="btn btn-block" data-disable-with="Signing in…">登录</button>
+        </form>
+    </div>
+</div>
 
 <script>
 
     $.validate({
         modules: 'location, date, security, file',
-        onModulesLoaded: function () {
-            $('#country').suggestCountry();
-        }
     });
 
     // Restrict presentation length
