@@ -33,9 +33,7 @@ func (c *UserController) Session() {
 		c.SetSession("user", user)
 		c.Ctx.Redirect(302,"/")
 	}else {
-		response :=ResponseBody{Success:false,Message:"用户名或密码错误"}
-		c.Data["showRightBar"] = false
-		c.Data["response"] = response
+		c.SetError("用户名或者密码错误")
 		c.TplNames = "login.html"
 	}
 }
