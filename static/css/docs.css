@@ -643,88 +643,13 @@ article .user-head {
     height: 54px;
 }
 
-/***********login*****************/
 
-form {
-    display: block;
-    margin-top: 0em;
-}
-.bubble.auth-form-container .bubble-title {
-    background-color: #586821;
-    color: #fff;
-}
-.bubble-title {
-    display: block;
-    padding: 5px 15px;
-    margin: 0;
-    font-size: 14px;
-    color: #444;
-    border-bottom: 1px solid #ddd;
+/************登录*******************/
+.auth-form {
+    max-width: 400px;
+    margin: 60px auto;
 }
 
-.bubble.auth-form-container {
-    /* margin-top: 30px; */
-    /* margin-bottom: 30px; */
-}
-.bubble {
-    margin: 0 15px 15px;
-    padding: 0;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    background: #fff;
-    white-space: normal;
-    word-wrap: break-word;
-    overflow: hidden;
-}
-.bubble-content {
-    padding: 15px;
-}
-
-
-.bubble.auth-form-container label {
-    margin: 0 0 5px;
-    display: block;
-}
-
-.btn-block {
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-.btn {
-    display: inline-block;
-    padding: 9px 15px;
-    margin: 0;
-    border-radius: 3px;
-    border: 1px solid #ddd;
-    border-bottom-color: #cecece;
-    background-image: -webkit-linear-gradient(#fafafa, #eaeaea);
-    background-image: linear-gradient(#fafafa, #eaeaea);
-    font-size: 13px;
-    font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-weight: bold;
-    line-height: 1.5;
-    color: #333;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.9);
-    white-space: nowrap;
-    vertical-align: middle;
-    -webkit-appearance: none;
-}
-
-.bubble.auth-form-container input[type="text"], .bubble.auth-form-container input[type="password"], .bubble.auth-form-container input[type="tel"], .bubble.auth-form-container input[type="email"] {
-    display: block;
-    width: 100%;
-    margin: 0 0 15px;
-}
-.form-control, input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="tel"], input[type="url"], select, textarea {
-    min-height: 34px;
-    padding: 7px 8px;
-    font-size: 13px;
-    color: #333;
-    vertical-align: middle;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    outline: none;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+.auth-form .btn{
+    margin: 5px auto;
 }

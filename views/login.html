@@ -1,22 +1,16 @@
 {{template "public/header.html" .}}
 
-<!--
 <div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
 
     <div class="auth-form" id="login">
         <form accept-charset="UTF-8" id="loginForm" action="/users/session"
-              data-form-nonce="640c48ed516caf6dfe2d21cbc267a6b3148d9d62"
               method="post">
-            <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"><input
-                    name="authenticity_token" type="hidden"
-                    value="L7szyoFTXAc7cnWeFeK9Xc6zh5TX+EUMdeca+M/Spx4XE5fAktMh2ozHn1quHO82tSySCM5lB+6oQKN8dTpvEg==">
-            </div>
             <div class="auth-form-header">
-                <h1 class="hosted-signin-title">Sign in</h1>
+                <h2 class="hosted-signin-title">欢迎登录</h2>
             </div>
             <div class="auth-form-body">
                 <label for="login_field">
-                    Username or email address
+                    用户名或者邮箱
                 </label>
 
                 <div class="controls has-error">
@@ -26,7 +20,7 @@
                            data-validation-error-msg="用户名不能为空">
                 </div>
                 <label for="password">
-                    Password <a href="/password_reset" class="hidden">(forgot password)</a>
+                    密码 <a href="/password_reset" class="hidden">(forgot password)</a>
                 </label>
 
                 <div class="controls has-error">
@@ -37,7 +31,7 @@
                     <span class="form-error">{{.response.Message}}</span>
                 <div class="">
                     <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
-                           value="Sign in">
+                           value="登 录">
                 </div>
 
             </div>
@@ -45,8 +39,8 @@
     </div>
 
 </div>
--->
 
+<!--
 <div class="bubble auth-form-container">
     <h3 class="bubble-title">登录 BeegoStudy</h3>
 
@@ -66,6 +60,7 @@
         </form>
     </div>
 </div>
+-->
 
 <script>
 
