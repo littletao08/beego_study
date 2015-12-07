@@ -31,7 +31,21 @@ $(function () {
     });
     //首页点赞
     $(".article-item-bottom").find(".praise").click(function () {
-        $("#header-tip").showSuccessTip("点赞成功!");
+        //后台发送请求,文章点赞+1 ,同一个用户只能有一次点赞;
+
+        //后台请求返回点赞成功;返回累计点赞的数量
+        $.ajax("/article/praise/2", {
+            type: 'post',
+            success: function (response) {
+                $("#header-tip").showSuccessTip("点赞成功!");
+                $(this).find("i").html("(1)");
+            }, error: function () {
+                $("#header-tip").showSuccessTip("点赞失败!");
+            }
+        })
+
+
+
     });
 
     //首页评论
