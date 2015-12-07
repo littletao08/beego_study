@@ -134,3 +134,46 @@ CREATE TABLE `parameter` (
 LOCK TABLES `parameter` WRITE;
 /*!40000 ALTER TABLE `parameter` DISABLE KEYS */;
 
+
+DROP TABLE IF EXISTS `user_view_log`;
+
+CREATE TABLE `user_view_log` (
+  `id` bigint(22) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(22) DEFAULT NULL COMMENT '用户编号',
+  `article_id` bigint(22) DEFAULT NULL COMMENT '文章编号',
+  `ip` varchar(50) DEFAULT NULL COMMENT '访问ip',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `user_like_log`;
+
+CREATE TABLE `user_like_log` (
+  `id` bigint(22) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(22) DEFAULT NULL COMMENT '用户编号',
+  `article_id` bigint(22) DEFAULT NULL COMMENT '文章编号',
+  `ip` varchar(50) DEFAULT NULL COMMENT '操作者ip',
+  `valid` tinyint(1) DEFAULT 1 COMMENT '1:有效;0:无效',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `comment`;
+
+CREATE TABLE `comment` (
+  `id` bigint(22) unsigned NOT NULL AUTO_INCREMENT,
+  `comment_user_id` bigint(22) DEFAULT NULL COMMENT '评论者编号',
+  `be_commented_user_id` bigint(22) DEFAULT NULL COMMENT '被评论者编号',
+  `article_id` bigint(22) DEFAULT NULL COMMENT '文章编号',
+  `parent_id` bigint(22) DEFAULT NULL COMMENT '操作者ip',
+  `valid` tinyint(1) DEFAULT 1 COMMENT '1:有效;0:无效',
+  `content` varchar(500) DEFAULT null COMMENT '评论内容',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
