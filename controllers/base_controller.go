@@ -86,5 +86,4 @@ func (c *BaseController) SetError(message string) {
 	if nil == err {
 		c.Data["message"] = string(result)
 	}
-
 }

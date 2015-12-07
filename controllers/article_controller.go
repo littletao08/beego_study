@@ -71,3 +71,7 @@ func (c *ArticleController) CreateArticle() {
 		c.TplNames = "article_create.html"
 	}
 }
+
+func (c *ArticleController) ArticlePraise(){
+	c.TplNames = "index.html"
+}
