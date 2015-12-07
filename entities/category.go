@@ -5,5 +5,4 @@ type Category struct {
 	Order     int32
 	CreatedAt string
 	UpdatedAt string
-
 }

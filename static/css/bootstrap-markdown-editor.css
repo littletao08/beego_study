@@ -5,7 +5,8 @@
  */
 
 .md-container {
-    position: relative
+    position: relative;
+    margin-top: 10px;
 }
 
 .md-loading {

@@ -52,14 +52,22 @@ func (c *ArticleController) CreateArticle() {
 	if (nil == user) {
 		c.Redirect("/login", 200)
 	}
+
 	content := c.GetString("content")
 	title := c.GetString("title")
-	article := entities.Article{UserId:1, Title:title, Content:content, CreatedAt:time.Now()}
+	tag := c.GetString("tag")
+	category := c.GetString("category")
+
+	userId := c.GetUserId()
+
+	beego.Error("title",title,"category",category,"tag",tag,"content",content)
+
+	article := entities.Article{UserId:userId, Title:title,Tag:tag, Content:content, CreatedAt:time.Now()}
 	err := models.Save(&article)
 	if (nil == err) {
-		c.Data["json"] = true
+		c.Redirect("/",302)
 	}else {
-		c.Data["json"] = false
+		c.SetError("文章创建失败")
+		c.TplNames = "article_create.html"
 	}
-	c.ServeJson()
 }

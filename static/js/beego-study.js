@@ -15,8 +15,8 @@ $(function () {
     setTimeout(function () {
         $('.bs-docs-sidenav').affix({
             offset: {
-                top: function(){
-                    return 236
+                top: function () {
+                    return 270
                 }
                 ,
                 bottom: 270
@@ -44,43 +44,49 @@ $(function () {
 
 function initMarkdownEditor() {
 
+    var contentError = "<span class=\"help-block form-error\">内容不能为空</span>";
+
     $("#editor").markdownEditor(
         {
             preview: true,
             onPreview: function (content, callback) {
                 callback(marked(content));
-            },
-            onSave: function (content) {
-                var content = marked(content);
-                if (!$.trim(content)) {
-                    $(".md-editor").css("border", "1px solid red");
-                    return;
-                }
-                $.post('/articles', {title: "go study", content: content},
-                    function (data) {
-                        if (data) {
-                            $("#header-tip").showSuccessTip("保存成功!", function () {
-                                window.location.href = "/"
-                            });
-                        } else {
-                            $("#header-tip").showSuccessTip("保存失败!")
-                        }
-                    }
-                )
             }
         }
     );
 
-    $("textarea").keyup(function () {
+    $("textarea").attr("name", "content").keyup(function () {
         var content = $('#editor').markdownEditor('content');
         if (null != content && content.length > 0) {
-            $(".md-editor").css("border", "");
+            removeContentError();
         } else {
-            $(".md-editor").css("border", "1px solid red");
+            showContentError();
         }
     });
 
+    $("form#articleEditorForm").find("input[name='commit']").click(function () {
+        var content = $('#editor').markdownEditor('content');
+        if (!$.trim(content)) {
+            showContentError();
+            return false;
+        }
 
+        $("textarea").val(content);
+    })
+
+
+    var showContentError = function () {
+        $(".md-editor").css("border", "1px solid red");
+        //.after($(contentError))
+        var $contentError = $(".md-editor").next($(".form-error"));
+        if (!$contentError || !$contentError.html()) {
+            $(".md-editor").after($(contentError));
+        }
+    }
+
+    var removeContentError = function () {
+        $(".md-editor").css("border", "").next().remove();
+    }
 }
 
 
