@@ -16,7 +16,7 @@ func init() {
 	beego.Router("/articles/:id([0-9]", &controllers.ArticleController{},"get:ArticleDetail")
 
 	beego.Router("/sponsors/new", &controllers.SponsorController{},"post:New")
-	beego.Router("/article/praise/:id([0-9]",&controllers.ArticleController{},"get:ArticlePraise")
+	beego.Router("/articles/:id([0-9]/likes",&controllers.ArticleController{},"post:Like")
 
 }
 

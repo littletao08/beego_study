@@ -135,9 +135,9 @@ LOCK TABLES `parameter` WRITE;
 /*!40000 ALTER TABLE `parameter` DISABLE KEYS */;
 
 
-DROP TABLE IF EXISTS `user_view_log`;
+DROP TABLE IF EXISTS `article_view`;
 
-CREATE TABLE `user_view_log` (
+CREATE TABLE `article_view` (
   `id` bigint(22) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(22) DEFAULT NULL COMMENT '用户编号',
   `article_id` bigint(22) DEFAULT NULL COMMENT '文章编号',
@@ -147,9 +147,9 @@ CREATE TABLE `user_view_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `user_like_log`;
+DROP TABLE IF EXISTS `article_like`;
 
-CREATE TABLE `user_like_log` (
+CREATE TABLE `article_like` (
   `id` bigint(22) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(22) DEFAULT NULL COMMENT '用户编号',
   `article_id` bigint(22) DEFAULT NULL COMMENT '文章编号',

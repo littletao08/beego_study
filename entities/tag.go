@@ -1,11 +1,10 @@
 package entities
 import "time"
-type Category struct {
+
+type Tag struct {
 	Id        int32
-	UserId    int64
 	Name      string
 	ArticleCount int32
-	Order     int32
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

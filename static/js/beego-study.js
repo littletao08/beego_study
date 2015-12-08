@@ -30,29 +30,49 @@ $(function () {
         $(this).addClass("active")
     });
     //首页点赞
-    $("div[class^='article-detail-nav']").find(".like").click(function () {
-        //后台发送请求,文章点赞+1 ,同一个用户只能有一次点赞;
-        //后台请求返回点赞成功;返回累计点赞的数量
-        $.ajax("/article/praise/2", {
-            type: 'post',
-            success: function (data) {
-                $("#header-tip").showSuccessTip("点赞成功!");
-                $(this).find("i").html("(1)");
-            }, error: function (data) {
-                $("#header-tip").showSuccessTip(data);
-            }
-        })
-
-
-
-    });
+    bindLikeBtnEvent();
 
     //首页评论
     $(".article-item-bottom").find(".comment").click(function () {
         $("#header-tip").showErrorTip("评论失败!");
     });
 
-})
+});
+
+function bindLikeBtnEvent(){
+    $(".article-like").click(function () {
+        var $like = $(this);
+        var articleId = $like.attr("article-id");
+        $.ajax({
+            url: "/articles/" + articleId + "/likes",
+            type: 'post',
+            success: function (data) {
+                var $likeCount = $like.next();
+                if (data.Success) {
+                    var oldCount = Number($likeCount.html());
+                    if (data.Message > 0) {
+                        $likeCount.text(oldCount + 1);
+                        $like.attr("class","glyphicon-heart-empty article-like");
+                    } else {
+                        $likeCount.text(oldCount - 1);
+                        $like.attr("class","glyphicon-heart article-like");
+                    }
+                }
+                else if(data.Code==1000){
+                    $("#header-tip").showErrorTip("您未登录");
+                }
+                else {
+                    $("#header-tip").showSuccessTip("点赞失败");
+                }
+            },
+            error: function () {
+                $("#header-tip").showSuccessTip("点赞失败");
+            }
+        })
+
+
+    });
+}
 
 
 function initMarkdownEditor() {

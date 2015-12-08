@@ -1,7 +1,7 @@
 package entities
 import "time"
 
-type UserViewLog struct {
+type ArticleView struct {
 	Id int64
 	UserId int64
 	ArticleId int64

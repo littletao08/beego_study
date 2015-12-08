@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strings"
 	"encoding/json"
+	"beego_study/exception"
 )
 // Controller基类继承封装
 type BaseController struct {
@@ -16,7 +17,7 @@ type BaseController struct {
 
 type ResponseBody struct {
 	Success bool
-	Message string
+	Message interface{}
 	Code    int
 	Data    interface{}
 }
@@ -58,7 +59,7 @@ func (c *BaseController) NewPagination() *db.Pagination {
 }
 
 
-func (c *BaseController) GetUser() *entities.User {
+func (c *BaseController) CurrentUser() *entities.User {
 	user := c.GetSession("user")
 	if nil == user {
 		return nil
@@ -70,14 +71,14 @@ func (c *BaseController) GetUser() *entities.User {
 	return &u
 }
 
-func (c *BaseController) GetUserId() int64 {
-	user := c.GetUser()
+func (c *BaseController) UserId() int64 {
+	user := c.CurrentUser()
 	if nil == user {
-		return -1
+		return 0
 	}
 	return user.Id
 }
-func (c *BaseController) SetError(message string) {
+func (c *BaseController) StringError(message string) {
 	response := new(ResponseBody)
 	response.Code = -1
 	response.Success = false
@@ -86,4 +87,37 @@ func (c *BaseController) SetError(message string) {
 	if nil == err {
 		c.Data["message"] = string(result)
 	}
+}
+
+
+func (c *BaseController) ErrorCodeJsonError(exception exception.ErrorCode) {
+	response := new(ResponseBody)
+	response.Code = exception.Code()
+	response.Success = false
+	response.Message = exception.Message()
+	c.Data["json"] = response
+	c.ServeJson()
+}
+
+func (c *BaseController) JsonError(message interface{}) {
+	response := new(ResponseBody)
+	response.Code = -1
+	response.Success = false
+	response.Message = message
+	c.Data["json"] = response
+	c.ServeJson()
+}
+
+func (c *BaseController) JsonSuccess(message interface{}) {
+	response := new(ResponseBody)
+	response.Code = 0
+	response.Success = true
+	response.Message = message
+	c.Data["json"] = response
+	c.ServeJson()
+}
+
+
+func (c *BaseController) Ip() string {
+	return c.Ctx.Request.Host
 }

@@ -3,6 +3,10 @@ import (
 	"github.com/astaxie/beego/orm"
 	"beego_study/entities"
 	"beego_study/db"
+	"time"
+	"errors"
+	"beego_study/exception"
+	"github.com/astaxie/beego"
 )
 
 func Articles(page int) ([]entities.Article, error) {
@@ -27,11 +31,11 @@ func LastArticle() (entities.Article, error) {
 	return article, err
 }
 
-func ArticleByIdAndUserId(userId int64,articleId int64) (*entities.Article, error) {
+func ArticleByIdAndUserId(userId int64, articleId int64) (*entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").Filter("user_id",userId).Filter("id",articleId).One(&article, "id", "user_id", "title", "tag", "content", "created_at", "updated_at")
+	err = db.QueryTable("article").Filter("user_id", userId).Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content", "created_at", "updated_at")
 	return &article, err
 }
 
@@ -39,16 +43,104 @@ func ArticleById(articleId int64) (*entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").Filter("id",articleId).One(&article, "id", "user_id", "title", "tag", "content", "created_at", "updated_at")
+	err = db.QueryTable("article").Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content", "created_at", "updated_at")
 	return &article, err
 }
 
-func Save(article *entities.Article) error {
+func SaveArticle(article *entities.Article) error {
 	var err error
 	orm := orm.NewOrm()
 	_, err = orm.Insert(article)
 
 	return err
+}
+
+
+func IncrViewCount(articleId int64, userId int64, ip string) error {
+
+	db := db.NewDB()
+	err := db.Begin()
+
+	hasViewed, err := HasViewArticle(articleId, userId, ip,db)
+	if nil != err || hasViewed {
+		db.Rollback()
+		return err
+	}
+	article, err := ArticleById(articleId)
+
+	articleOwnerId := article.UserId
+	if err != nil {
+		db.Rollback()
+		return err
+	}
+
+	if articleOwnerId <= 0 {
+		db.Rollback()
+		return errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
+	}
+
+	var sql = "update article set view_count=view_count+1  where user_id = ? and id = ? "
+
+	_, err = db.Execute(sql, []interface{}{articleOwnerId, articleId})
+	beego.Error("************************")
+	if nil == err {
+		var articleView = entities.ArticleView{UserId:userId, ArticleId:articleId, Ip:ip, CreatedAt:time.Now()}
+		err = SaveArticleView(articleView,db)
+	}
+
+	if nil == err {
+		err = db.Commit()
+	}else {
+		err = db.Rollback()
+	}
+
+	return err
+}
+
+
+func IncrLikeCount(articleId int64, userId int64)(int,error) {
+	db := db.NewDB()
+	err := db.Begin()
+
+	hasLiked, err := HasLikeArticle(articleId, userId,db)
+	if nil != err {
+		db.Rollback()
+		return 0,err
+	}
+
+	article, err := ArticleById(articleId)
+
+	articleOwnerId := article.UserId
+	if err != nil {
+		db.Rollback()
+		return 0,err
+	}
+
+	if articleOwnerId <= 0 {
+		db.Rollback()
+		return 0,errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
+	}
+
+	var sql = "update article set like_count=like_count+? where user_id = ? and id = ? "
+	var incrCount, valid int = 1, 1
+	if hasLiked {
+		incrCount = -1
+		valid = 0
+	}
+	_, err = db.Execute(sql, []interface{}{incrCount, articleOwnerId, articleId})
+	if nil == err {
+		var articleLike = entities.ArticleLike{UserId:userId, ArticleId:articleId, Valid:valid, CreatedAt:time.Now()}
+		err = SaveOrUpdate(articleLike,db)
+	}
+
+	if nil == err {
+		err = db.Commit()
+	}else {
+		incrCount = 0
+		err = db.Rollback()
+	}
+
+	return incrCount,err
 }
 
 

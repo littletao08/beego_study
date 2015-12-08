@@ -6,6 +6,7 @@ import (
 	"github.com/gogather/com/log"
 	"time"
 	"github.com/astaxie/beego"
+	"beego_study/exception"
 )
 
 type ArticleController struct {
@@ -21,18 +22,23 @@ func (c *ArticleController) Articles() {
 
 func (c *ArticleController) ArticleDetail() {
 	id, _ := c.GetInt64(":id")
+	ip := c.Ip()
+	userId := c.UserId()
 	beego.Error("id", id)
 	c.TplNames = "article_detail.html"
+
 	if id <= 0 {
-		c.SetError("文章不存在")
+		c.StringError("文章不存在")
 		return
 	}
 
 	article, error := models.ArticleById(id)
+
 	if nil != error {
-		c.SetError("文章不存在")
+		c.StringError("文章不存在")
 	}else {
 		c.Data["article"] = article
+		models.IncrViewCount(id, userId, ip)
 	}
 }
 
@@ -58,20 +64,43 @@ func (c *ArticleController) CreateArticle() {
 	tag := c.GetString("tag")
 	category := c.GetString("category")
 
-	userId := c.GetUserId()
+	userId := c.UserId()
 
-	beego.Error("title",title,"category",category,"tag",tag,"content",content)
+	beego.Error("title", title, "category", category, "tag", tag, "content", content)
 
-	article := entities.Article{UserId:userId, Title:title,Tag:tag, Content:content, CreatedAt:time.Now()}
-	err := models.Save(&article)
+	article := entities.Article{UserId:userId, Title:title, Tag:tag, Content:content, CreatedAt:time.Now()}
+	err := models.SaveArticle(&article)
 	if (nil == err) {
-		c.Redirect("/",302)
+		c.Redirect("/", 302)
 	}else {
-		c.SetError("文章创建失败")
+		c.StringError("文章创建失败")
 		c.TplNames = "article_create.html"
 	}
 }
 
-func (c *ArticleController) ArticlePraise(){
-	c.TplNames = "index.html"
+
+func (c *ArticleController) Like() {
+
+
+	articleId, err := c.GetInt64(":id")
+	if nil != err {
+		c.ErrorCodeJsonError(exception.NOT_EXIST_ARTICLE_ERROR)
+		return
+	}
+	userId := c.UserId()
+
+	if userId < 1 {
+		c.ErrorCodeJsonError(exception.NOT_LOGIN)
+		return
+	}
+
+    var incrCount int
+	incrCount,err = models.IncrLikeCount(articleId, userId)
+
+	if nil == err {
+		c.JsonSuccess(incrCount)
+	}else {
+		c.JsonError("")
+	}
 }
+

@@ -9,14 +9,17 @@ import (
  */
 
 type Article struct {
-	Id         int64
-	UserId     int64
-	Title      string
-	Tag        string
-	CategoryId int32
-	Content    string
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
+	Id           int64
+	UserId       int64
+	Title        string
+	Tag          string
+	Categories   []*Category `orm:"rel(m2m)"`
+	Content      string
+	ViewCount    int
+	LikeCount    int
+	CommentCount int
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
 
 
@@ -30,3 +33,4 @@ func (a Article) Tags() []string {
 	beego.Error("******tag*************", len(tags))
 	return tags
 }
+

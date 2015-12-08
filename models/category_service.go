@@ -19,3 +19,5 @@ func Categories() ([]entities.Category, error) {
 	_, err = db.QueryTable("category").OrderBy("order").All(&categories, "id", "name", "order", "created_at", "updated_at")
 	return categories, err
 }
+
+
