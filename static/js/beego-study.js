@@ -52,10 +52,10 @@ function bindLikeBtnEvent(){
                     var oldCount = Number($likeCount.html());
                     if (data.Message > 0) {
                         $likeCount.text(oldCount + 1);
-                        $like.attr("class","glyphicon-heart-empty article-like");
+                        $like.attr("class","glyphicon-heart article-like");
                     } else {
                         $likeCount.text(oldCount - 1);
-                        $like.attr("class","glyphicon-heart article-like");
+                        $like.attr("class","glyphicon-heart-empty article-like");
                     }
                 }
                 else if(data.Code==1000){
