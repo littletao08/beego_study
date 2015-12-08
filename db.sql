@@ -151,14 +151,14 @@ DROP TABLE IF EXISTS `article_like`;
 
 CREATE TABLE `article_like` (
   `id` bigint(22) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(22) DEFAULT NULL COMMENT '用户编号',
+  `user_id` bigint(22) DEFAULT '0' COMMENT '用户编号',
   `article_id` bigint(22) DEFAULT NULL COMMENT '文章编号',
-  `ip` varchar(50) DEFAULT NULL COMMENT '操作者ip',
-  `valid` tinyint(1) DEFAULT 1 COMMENT '1:有效;0:无效',
+  `valid` tinyint(1) DEFAULT '1' COMMENT '1:有效;0:无效',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_userid_articleid` (`user_id`,`article_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `comment`;
