@@ -67,7 +67,6 @@ function initMarkdownEditor() {
             }
         }
     );
-
     $("textarea").attr("name", "content").keyup(function () {
         var content = $('#editor').markdownEditor('content');
         if (null != content && content.length > 0) {
@@ -89,7 +88,7 @@ function initMarkdownEditor() {
 
 
     var showContentError = function () {
-        $(".md-editor").css("border", "1px solid red");
+        $(".md-editor").css("border-color", "red");
         //.after($(contentError))
         var $contentError = $(".md-editor").next($(".form-error"));
         if (!$contentError || !$contentError.html()) {
@@ -98,7 +97,7 @@ function initMarkdownEditor() {
     }
 
     var removeContentError = function () {
-        $(".md-editor").css("border", "").next().remove();
+        $(".md-editor").css("border-color", "#d8d8d8").next().remove();
     }
 }
 
