@@ -119,5 +119,5 @@ func (c *BaseController) JsonSuccess(message interface{}) {
 
 
 func (c *BaseController) Ip() string {
-	return c.Ctx.Request.Host
+	return c.Ctx.Request.RemoteAddr
 }
