@@ -2,7 +2,6 @@ package entities
 import (
 	"time"
 	"strings"
-	"github.com/astaxie/beego"
 )
 /**
  *文章
@@ -31,7 +30,6 @@ func (a Article) Tags() []string {
 	tag := strings.TrimSpace(a.Tag);
 	tags := strings.Split(tag, ",")
 
-	beego.Error("******tag*************", len(tags))
 	return tags
 }
 
