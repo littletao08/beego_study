@@ -6,15 +6,15 @@ import (
 	"time"
 	"errors"
 	"beego_study/exception"
-	"github.com/astaxie/beego"
 	"beego_study/utils"
+	"github.com/astaxie/beego"
 )
 
 func Articles(page int) ([]entities.Article, error) {
 	var err error
 	var articles []entities.Article
 	db := db.NewDB()
-	_, err = db.QueryTable("article").All(&articles, "id", "user_id", "title", "tag", "content","view_count","like_count","comment_count", "created_at", "updated_at")
+	_, err = db.QueryTable("article").All(&articles, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
 
 	return articles, err
 }
@@ -33,16 +33,15 @@ func AllArticles(userId int64, pagination *db.Pagination) {
 	if nil != err {
 		return
 	}
-	signs := ArticleLikeSigns(userId,ids)
-    beego.Error("len",len(signs))
+	signs := ArticleLikeSigns(userId, ids)
 	signMap := make(map[int64]bool)
 	for _, v := range signs {
 		signMap[v] = true
 	}
-    var newArticles []entities.Article
+	var newArticles []entities.Article
 	for _, v := range articles {
 		v.HasLike = signMap[v.Id]
-		newArticles = append(newArticles,v)
+		newArticles = append(newArticles, v)
 	}
 
 	pagination.SetData(newArticles)
@@ -52,7 +51,7 @@ func LastArticle() (entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").OrderBy("-id").One(&article, "id", "user_id", "title", "tag", "content","view_count","like_count","comment_count", "created_at", "updated_at")
+	err = db.QueryTable("article").OrderBy("-id").One(&article, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
 	return article, err
 }
 
@@ -60,7 +59,7 @@ func ArticleByIdAndUserId(userId int64, articleId int64) (*entities.Article, err
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").Filter("user_id", userId).Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content", "view_count","like_count","comment_count","created_at", "updated_at")
+	err = db.QueryTable("article").Filter("user_id", userId).Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
 	return &article, err
 }
 
@@ -68,7 +67,7 @@ func ArticleById(articleId int64) (*entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content","view_count","like_count","comment_count", "created_at", "updated_at")
+	err = db.QueryTable("article").Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
 	return &article, err
 }
 
@@ -107,7 +106,6 @@ func IncrViewCount(articleId int64, userId int64, ip string) error {
 	var sql = "update article set view_count=view_count+1  where user_id = ? and id = ? "
 
 	_, err = db.Execute(sql, []interface{}{articleOwnerId, articleId})
-	beego.Error("************************")
 	if nil == err {
 		var articleView = entities.ArticleView{UserId:userId, ArticleId:articleId, Ip:ip, CreatedAt:time.Now()}
 		err = SaveArticleView(articleView, db)
