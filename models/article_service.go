@@ -7,7 +7,6 @@ import (
 	"errors"
 	"beego_study/exception"
 	"beego_study/utils"
-	"github.com/astaxie/beego"
 )
 
 func Articles(page int) ([]entities.Article, error) {
