@@ -45,8 +45,11 @@ func (c *ArticleController) ArticleDetail() {
 	if nil != error {
 		c.StringError("文章不存在")
 	}else {
+		success, _ := models.IncrViewCount(id, userId, ip)
+		if success {
+			article.ViewCount = article.ViewCount + 1
+		}
 		c.Data["article"] = article
-		models.IncrViewCount(id, userId, ip)
 	}
 }
 

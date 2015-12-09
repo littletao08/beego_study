@@ -79,7 +79,7 @@ func SaveArticle(article *entities.Article) error {
 }
 
 
-func IncrViewCount(articleId int64, userId int64, ip string) error {
+func IncrViewCount(articleId int64, userId int64, ip string) (bool ,error) {
 
 	db := db.NewDB()
 	err := db.Begin()
@@ -87,19 +87,19 @@ func IncrViewCount(articleId int64, userId int64, ip string) error {
 	hasViewed, err := HasViewArticle(articleId, userId, ip, db)
 	if nil != err || hasViewed {
 		db.Rollback()
-		return err
+		return false,err
 	}
 	article, err := ArticleById(articleId)
 
 	articleOwnerId := article.UserId
 	if err != nil {
 		db.Rollback()
-		return err
+		return false,err
 	}
 
 	if articleOwnerId <= 0 {
 		db.Rollback()
-		return errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
+		return false,errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
 	}
 
 	var sql = "update article set view_count=view_count+1  where user_id = ? and id = ? "
@@ -116,7 +116,7 @@ func IncrViewCount(articleId int64, userId int64, ip string) error {
 		err = db.Rollback()
 	}
 
-	return err
+	return nil==err,err
 }
 
 
