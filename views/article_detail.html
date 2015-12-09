@@ -10,11 +10,11 @@
     </div>
 
     <div class="article-detail-nav-left">
-        <span class="glyphicon-eye-open" title="浏览"></span><span class="article-detail-number">111</span>
-        <span class="glyphicon-heart-empty like" title="点赞"></span><span class="article-detail-number">111</span>
+        <span class="glyphicon-eye-open" title="浏览"></span><span class="article-detail-number">{{.article.ViewCount}}</span>
+        <span {{if .article.HasLike }} class="glyphicon-heart article-like" {{else}} class="glyphicon-heart-empty article-like"  {{end}} title="点赞" article-id="{{.article.Id}}"></span><span class="article-detail-number">{{.article.LikeCount}}</span>
     </div>
     <div class="article-detail-nav-right">
-        <span class="glyphicon-pencil" title="评论"></span><span class="article-detail-number">111</span>
+        <span class="glyphicon-pencil" title="评论"></span><span class="article-detail-number">{{.article.CommentCount}}</span>
         <span class="glyphicon-time" title="创建时间"></span><span
             class="article-detail-number">{{date .article.CreatedAt "Y-m-d H:i:s"}}</span>
     </div>

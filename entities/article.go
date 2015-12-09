@@ -18,6 +18,7 @@ type Article struct {
 	ViewCount    int
 	LikeCount    int
 	CommentCount int
+	HasLike      bool
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

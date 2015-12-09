@@ -7,6 +7,7 @@ import (
 	"time"
 	"github.com/astaxie/beego"
 	"beego_study/exception"
+	"beego_study/db"
 )
 
 type ArticleController struct {
@@ -33,6 +34,13 @@ func (c *ArticleController) ArticleDetail() {
 	}
 
 	article, error := models.ArticleById(id)
+
+	if userId > 0 {
+		hasLike, err := models.HasLikeArticle(id, userId, db.NewDB())
+		if nil == err {
+			article.HasLike = hasLike
+		}
+	}
 
 	if nil != error {
 		c.StringError("文章不存在")
@@ -94,8 +102,8 @@ func (c *ArticleController) Like() {
 		return
 	}
 
-    var incrCount int
-	incrCount,err = models.IncrLikeCount(articleId, userId)
+	var incrCount int
+	incrCount, err = models.IncrLikeCount(articleId, userId)
 
 	if nil == err {
 		c.JsonSuccess(incrCount)
