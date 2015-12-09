@@ -119,7 +119,5 @@ func (c *BaseController) JsonSuccess(message interface{}) {
 
 
 func (c *BaseController) Ip() string {
-	beego.Error(c.Ctx.Request.Header)
-
-	return c.Ctx.Request.Header.Get("X-Forwarded-For")
+	return c.Ctx.Request.Header.Get("X-Real-Ip")
 }
