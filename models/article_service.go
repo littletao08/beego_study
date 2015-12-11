@@ -7,6 +7,7 @@ import (
 	"errors"
 	"beego_study/exception"
 	"beego_study/utils"
+	"bytes"
 )
 
 func Articles(page int) ([]entities.Article, error) {
@@ -73,7 +74,11 @@ func ArticleById(articleId int64) (*entities.Article, error) {
 func SaveArticle(article *entities.Article) error {
 	var err error
 	orm := orm.NewOrm()
-	_, err = orm.Insert(article)
+
+	bBuffer :=bytes.NewBufferString("insert into article (user_id,title, tag, content, created_at) ")
+	bBuffer.WriteString("values(?,?,?,?,now())")
+
+	_, err = orm.Raw(bBuffer.String(),[]interface{}{article.UserId,article.Title,article.Tag,article.Content}).Exec()
 
 	return err
 }

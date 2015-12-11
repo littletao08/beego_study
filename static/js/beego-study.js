@@ -75,8 +75,7 @@ function bindLikeBtnEvent(){
 }
 
 
-function initMarkdownEditor() {
-
+function initMarkdownEditor(content) {
     var contentError = "<span class=\"help-block form-error\">内容不能为空</span>";
 
     $("#editor").markdownEditor(
@@ -87,6 +86,10 @@ function initMarkdownEditor() {
             }
         }
     );
+
+    //articleContent
+    $('#editor').markdownEditor("setContent",content);
+
     $("textarea").attr("name", "content").keyup(function () {
         var content = $('#editor').markdownEditor('content');
         if (null != content && content.length > 0) {

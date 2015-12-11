@@ -89,6 +89,16 @@ func (c *BaseController) StringError(message string) {
 	}
 }
 
+func (c *BaseController) StringSuccess(message string) {
+	response := new(ResponseBody)
+	response.Code = 0
+	response.Success = true
+	response.Message = message
+	result, err := json.Marshal(response)
+	if nil == err {
+		c.Data["message"] = string(result)
+	}
+}
 
 func (c *BaseController) ErrorCodeJsonError(exception exception.ErrorCode) {
 	response := new(ResponseBody)

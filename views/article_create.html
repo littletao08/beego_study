@@ -6,19 +6,19 @@
         <div class="controls has-error">
             <input type="text" id="title" name="title" placeholder="标题" autocapitalize="off" autocorrect="off" autofocus="autofocus"
                    tabindex="1" type="text" data-validation="required"
-                   data-validation-error-msg="标题不能为空">
+                   data-validation-error-msg="标题不能为空" value="{{.article.Title}}">
         </div>
     </div>
     <div class="control-group">
         <div class="controls">
             <input type="text" id="category" name="category" placeholder="分类" autocapitalize="off" autocorrect="off"
                    autofocus="autofocus" tabindex="2" type="text" data-validation="required"
-                   data-validation-error-msg="分类不能为空">
+                   data-validation-error-msg="分类不能为空" value="{{.article.Categories}}">
         </div>
     </div>
     <div class="control-group">
         <div class="controls">
-            <input type="text" id="tag" name="tag" placeholder="标签,多个标签请用分号分隔">
+            <input type="text" id="tag" name="tag" placeholder="标签,多个标签请用分号分隔" value="{{.article.Tag}}">
         </div>
     </div>
     <div class="control-group">
@@ -32,7 +32,8 @@
 </form>
 <script>
     $(function () {
-        initMarkdownEditor()
+        var content = '{{.article.Content}}';
+        initMarkdownEditor(content);
     });
 
     $.validate({

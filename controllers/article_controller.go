@@ -8,6 +8,7 @@ import (
 	"github.com/astaxie/beego"
 	"beego_study/exception"
 	"beego_study/db"
+	"strings"
 )
 
 type ArticleController struct {
@@ -74,17 +75,23 @@ func (c *ArticleController) CreateArticle() {
 	title := c.GetString("title")
 	tag := c.GetString("tag")
 	category := c.GetString("category")
+	var categories []string
+	if len(category) > 0 {
+		categories = strings.Split(category, ",")
+	}
 
 	userId := c.UserId()
 
-	beego.Error("title", title, "category", category, "tag", tag, "content", content)
+	beego.Debug("title", title, "categories", categories, "tag", tag, "content", content)
 
 	article := entities.Article{UserId:userId, Title:title, Tag:tag, Content:content, CreatedAt:time.Now()}
 	err := models.SaveArticle(&article)
 	if (nil == err) {
-		c.Redirect("/", 302)
+		c.Redirect("../",302)
 	}else {
+		beego.Error("文章创建失败")
 		c.StringError("文章创建失败")
+		c.Data["article"] = article
 		c.TplNames = "article_create.html"
 	}
 }
