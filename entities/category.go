@@ -9,3 +9,12 @@ type Category struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+
+func NewCategories(userId int64,names []string) []Category{
+	var categories []Category
+	for _,name :=range names{
+	  categories = append(categories,Category{UserId:userId,Name:name})
+	}
+	return categories
+}

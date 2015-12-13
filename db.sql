@@ -61,13 +61,15 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `category`;
 
 CREATE TABLE `category` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(22) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT '0',
   `name` varchar(200) DEFAULT NULL COMMENT '名称',
-  `order` int(11) DEFAULT NULL COMMENT '排序编号',
+  `order` int(11) DEFAULT '0' COMMENT '排序编号',
+  `article_count` int(11) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;

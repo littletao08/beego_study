@@ -3,8 +3,14 @@
     <h4>{{.article.Title}}</h4>
 
     <div class="article-detail-tag">
-        <span class="glyphicon-tag" title="标签"></span>
-        {{range $index, $tag := $.article.Tags }}
+        <span title="分类">分类</span>
+        {{range $index, $category := .article.SliceCategories }}
+        <span class="tags">{{$category}}</span>
+        {{end}}
+    </div>
+    <div class="article-tag article-detail-tag">
+        <span class="glyphicon-tags" title="标签"></span>
+        {{range $index, $tag := $.article.SliceTags }}
         <span class="tags">{{$tag}}</span>
         {{end}}
     </div>

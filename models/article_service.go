@@ -1,6 +1,5 @@
 package models
 import (
-	"github.com/astaxie/beego/orm"
 	"beego_study/entities"
 	"beego_study/db"
 	"time"
@@ -8,13 +7,14 @@ import (
 	"beego_study/exception"
 	"beego_study/utils"
 	"bytes"
+	"strings"
 )
 
 func Articles(page int) ([]entities.Article, error) {
 	var err error
 	var articles []entities.Article
 	db := db.NewDB()
-	_, err = db.QueryTable("article").All(&articles, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
+	_, err = db.QueryTable("article").All(&articles)
 
 	return articles, err
 }
@@ -51,7 +51,7 @@ func LastArticle() (entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").OrderBy("-id").One(&article, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
+	err = db.QueryTable("article").OrderBy("-id").One(&article)
 	return article, err
 }
 
@@ -59,7 +59,7 @@ func ArticleByIdAndUserId(userId int64, articleId int64) (*entities.Article, err
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").Filter("user_id", userId).Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
+	err = db.QueryTable("article").Filter("user_id", userId).Filter("id", articleId).One(&article)
 	return &article, err
 }
 
@@ -67,24 +67,43 @@ func ArticleById(articleId int64) (*entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()
-	err = db.QueryTable("article").Filter("id", articleId).One(&article, "id", "user_id", "title", "tag", "content", "view_count", "like_count", "comment_count", "created_at", "updated_at")
+	err = db.QueryTable("article").Filter("id", articleId).One(&article)
+
 	return &article, err
 }
 
 func SaveArticle(article *entities.Article) error {
+
+
 	var err error
-	orm := orm.NewOrm()
+	db := db.NewDB()
+	db.Begin()
 
-	bBuffer :=bytes.NewBufferString("insert into article (user_id,title, tag, content, created_at) ")
-	bBuffer.WriteString("values(?,?,?,?,now())")
+	bBuffer := bytes.NewBufferString("insert into article (user_id,title, tags,categories, content, created_at) ")
+	bBuffer.WriteString("values(?,?,?,?,?,now())")
 
-	_, err = orm.Raw(bBuffer.String(),[]interface{}{article.UserId,article.Title,article.Tag,article.Content}).Exec()
+	_, err = db.Raw(bBuffer.String(), []interface{}{article.UserId, article.Title, article.Tags, article.Categories, article.Content}).Exec()
+
+	if nil == err {
+		var categories []entities.Category
+		if len(article.Categories) > 0 {
+			categoryNames := strings.Split(article.Categories, ",")
+			categories = entities.NewCategories(article.UserId, categoryNames)
+		}
+		BatchSaveOrUpdateCategory(db,categories)
+	}
+
+	if nil == err {
+		db.Commit()
+	}else {
+		db.Rollback()
+	}
 
 	return err
 }
 
 
-func IncrViewCount(articleId int64, userId int64, ip string) (bool ,error) {
+func IncrViewCount(articleId int64, userId int64, ip string) (bool, error) {
 
 	db := db.NewDB()
 	err := db.Begin()
@@ -92,19 +111,19 @@ func IncrViewCount(articleId int64, userId int64, ip string) (bool ,error) {
 	hasViewed, err := HasViewArticle(articleId, userId, ip, db)
 	if nil != err || hasViewed {
 		db.Rollback()
-		return false,err
+		return false, err
 	}
 	article, err := ArticleById(articleId)
 
 	articleOwnerId := article.UserId
 	if err != nil {
 		db.Rollback()
-		return false,err
+		return false, err
 	}
 
 	if articleOwnerId <= 0 {
 		db.Rollback()
-		return false,errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
+		return false, errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
 	}
 
 	var sql = "update article set view_count=view_count+1  where user_id = ? and id = ? "
@@ -121,7 +140,7 @@ func IncrViewCount(articleId int64, userId int64, ip string) (bool ,error) {
 		err = db.Rollback()
 	}
 
-	return nil==err,err
+	return nil == err, err
 }
 
 

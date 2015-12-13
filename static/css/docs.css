@@ -594,6 +594,12 @@ span.tags {
     line-height: 18px;
 }
 
+
+.article-tag span:first-child{
+    margin-right: 15px;
+}
+
+
 .article-item-bottom span {
     margin: 0px 5px;
 }
@@ -623,6 +629,10 @@ div.alert {
     margin-left: 0px;
 }
 
+article span{
+    font-size: 15px;
+}
+
 /***********文章详情页*********************/
 
 
@@ -642,13 +652,15 @@ div.alert {
         clear: both;
     }
 }
-
+.article-detail-nav .article-detail-number{
+    margin-left: 10px;
+}
 .article-detail-nav-left .article-detail-number {
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 .article-detail-nav-right .article-detail-number {
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 article .user-head {
