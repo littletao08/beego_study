@@ -42,10 +42,17 @@ func (c *BaseController) Prepare() {
 	if (strings.Contains(userAgent, "android") || strings.Contains(userAgent, "iphone")) {
 		c.Data["isMobile"] = true
 	}
-
+	user := c.CurrentUser()
+	if nil != user {
+		c.Data["user"] = user
+		beego.Error(user)
+	}
 	log.Bluef(args)
 }
 
+func (c *BaseController) Finish() {
+
+}
 
 func (c *BaseController) NewPagination() *db.Pagination {
 	page, err := c.GetInt("page")

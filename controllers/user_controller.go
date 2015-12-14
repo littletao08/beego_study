@@ -31,6 +31,7 @@ func (c *UserController) Session() {
 
 	if (user.Valid(name,password)) {
 		c.SetSession("user", user)
+		c.Data["user"] = user
 		c.Ctx.Redirect(302,"/")
 	}else {
 		c.StringError("用户名或者密码错误")

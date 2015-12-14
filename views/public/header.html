@@ -35,23 +35,36 @@
         </button>
         <a class="brand" href="../">BeegoStudy</a>
 
-        <div class="nav-collapse collapse">
+        <!--<div class="nav-collapse collapse">
             <ul class="nav">
                 {{range .categories}}
                 <li><a>{{.Name}}</a></li>
                 {{end}}
             </ul>
+        </div>-->
+        {{if .user }}
+        <div class="nav-collapse collapse pull-right">
+            <ul class="nav navbar-nav navbar-right" id="signin">
+                <span>{{.user.Name}}</span>
+            </ul>
         </div>
+        <div class="nav-collapse collapse pull-right">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/articles/new">publish</a></li>
+            </ul>
+        </div>
+        {{else}}
         <div class="nav-collapse collapse pull-right">
             <ul class="nav navbar-nav navbar-right" id="signin">
                 <li><a href="/login">sign in</a></li>
             </ul>
         </div>
         <div class="nav-collapse collapse pull-right">
-            <ul class="nav navbar-nav navbar-right" id="publish">
+            <ul class="nav navbar-nav navbar-right">
                 <li><a href="/articles/new">publish</a></li>
             </ul>
         </div>
+        {{end}}
 
     </div>
 

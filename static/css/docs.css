@@ -37,6 +37,18 @@ section > ul li {
     margin-bottom: 5px;
 }
 
+#topbar .navbar-nav span {
+    color: #ffffff;
+    /* display: block; */
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+}
+
+
 /* Jumbotrons
 -------------------------------------------------- */
 
