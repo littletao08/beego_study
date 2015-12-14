@@ -4,6 +4,7 @@ import (
 	"time"
 	"beego_study/entities"
 	"fmt"
+	_"beego_study/test/initials"
 	_"beego_study/initials"
 	"beego_study/db"
 	"beego_study/models"

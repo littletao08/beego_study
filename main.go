@@ -11,6 +11,7 @@ func main() {
 	port := "8080"
 	beego.Run(host, port)*/
 	beego.Run()
+	beego.Error("**************************")
 
 }
 
