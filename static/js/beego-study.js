@@ -106,8 +106,6 @@ function initMarkdownEditor(content) {
             return false;
         }
         $("textarea").val(content);
-
-        return false
     })
 
 
