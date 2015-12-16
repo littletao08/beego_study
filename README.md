@@ -32,14 +32,14 @@
 go version go1.5 darwin/amd64
 
 ###BeegoStudy 依赖包
-github.com/astaxie/beego
-github.com/garyburd/redigo/internal
-github.com/garyburd/redigo/redis
-github.com/go-sql-driver/mysql
-github.com/gogather/com/log
+ * github.com/astaxie/beego
+ * github.com/garyburd/redigo/internal
+ * github.com/garyburd/redigo/redis
+ * github.com/go-sql-driver/mysql
+ * github.com/gogather/com/log
 
 ###资源
-https://golang.org/doc/effective_go.html
-http://dave.cheney.net/resources-for-new-go-programmers
-http://www.golangbootcamp.com/
+ * https://golang.org/doc/effective_go.html
+ * http://dave.cheney.net/resources-for-new-go-programmers
+ * http://www.golangbootcamp.com/
   
