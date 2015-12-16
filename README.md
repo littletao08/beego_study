@@ -42,4 +42,5 @@ go version go1.5 darwin/amd64
  * https://golang.org/doc/effective_go.html
  * http://dave.cheney.net/resources-for-new-go-programmers
  * http://www.golangbootcamp.com/
+ * http://talks.golang.org/
   
