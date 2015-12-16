@@ -105,7 +105,7 @@ function initMarkdownEditor(content) {
             showContentError();
             return false;
         }
-        $("textarea").val(content);
+        $("textarea").val(marked(content));
     })
 
 
