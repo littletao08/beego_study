@@ -105,14 +105,14 @@ function initMarkdownEditor(content) {
             showContentError();
             return false;
         }
-
         $("textarea").val(content);
+
+        return false
     })
 
 
     var showContentError = function () {
         $(".md-editor").css("border-color", "red");
-        //.after($(contentError))
         var $contentError = $(".md-editor").next($(".form-error"));
         if (!$contentError || !$contentError.html()) {
             $(".md-editor").after($(contentError));
@@ -120,7 +120,7 @@ function initMarkdownEditor(content) {
     }
 
     var removeContentError = function () {
-        $(".md-editor").css("border-color", "#d8d8d8").next().remove();
+        $(".md-editor").css("border-color", "#d8d8d8").next(".form-error").remove();
     }
 }
 
