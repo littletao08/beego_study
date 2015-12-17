@@ -12,8 +12,7 @@ import (
 
 func TestPagination(t *testing.T) {
 	fmt.Println("1111")
-	var container []entities.User
-	pagination, _ := db.NewDB().From("user").Select("id", "name").Pagination(&container, 1, 10)
+	pagination, _ := db.NewDB().From("user").Select("id", "name").Pagination(&[]entities.User{}, 1, 10)
 	for _, value := range pagination.Data {
 		fmt.Println("id", value.(entities.User).Id, "name", value.(entities.User).Name)
 	}
