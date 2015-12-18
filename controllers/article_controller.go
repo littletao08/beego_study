@@ -50,6 +50,9 @@ func (c *ArticleController) ArticleDetail() {
 			article.ViewCount = article.ViewCount + 1
 		}
 		c.Data["article"] = article
+		c.SetKeywords(article.Categories + "," + article.Tags)
+		var subLength = models.ParameterIntValue("seo-description-length")
+		c.SetDescription(article.ShortContent(subLength))
 	}
 }
 
@@ -88,6 +91,7 @@ func (c *ArticleController) CreateArticle() {
 		c.Data["article"] = article
 		c.TplNames = "article_create.html"
 	}
+
 }
 
 

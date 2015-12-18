@@ -74,7 +74,6 @@ func ArticleById(articleId int64) (*entities.Article, error) {
 
 func SaveArticle(article *entities.Article) error {
 
-
 	var err error
 	db := db.NewDB()
 	db.Begin()

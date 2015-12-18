@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Beego Study博客</title>
+    <title>{{if .title}}{{.title}}_ThreePerson社区{{else}}ThreePerson社区 GoLang编程 Beego框架 GoLang web_ThreePerson社区争做最好的IT技术开发交流平台{{end}}</title>
+    <meta name="keywords" content="{{if .keywords}}{{.keywords}}{{end}}">
+    <meta name="description" content="{{if .description}}{{.description}}{{end}}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <Link Rel="SHORTCUT ICON" href="../../static/img/bee.png"/>
-    <meta name="description" content="beegostudy - 基于beego framework博客网站。">
-    <meta name="keywords" content="beego,golang,go,java,nosql,mysql,js,css,redis">
     <meta name="baidu_union_verify" content="829b27791ae5f658b0cd07c617d7e69f">
-    <meta name="baidu-site-verification" content="oHWeWSG5w9" />
+    <meta name="baidu-site-verification" content="oHWeWSG5w9"/>
     <!--csss-->
     <link href="../static/css/bootstrap.css" rel="stylesheet">
     <link href="../static/css/main.css" rel="stylesheet">
@@ -35,8 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="brand" href="../">BeegoStudy</a>
-
+        <a class="brand" href="../">ThreePerson</a>
         <!--<div class="nav-collapse collapse">
             <ul class="nav">
                 {{range .categories}}
@@ -107,9 +106,8 @@
 <header class="bs-docs-jumbotron subhead">
 
     <div class="container">
-        <h1>Beego Study</h1>
-
-        <p class="lead">Beego Study 是基于Beego Framework搭建的个人技术博客网站</p>
+        <h1>ThreePerson社区</h1>
+        <p class="lead">ThreePerson社区是基于Beego Framework搭建的IT技术开发交流平台</p>
     </div>
 </header>
 

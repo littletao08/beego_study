@@ -8,6 +8,11 @@ import (
 	_"beego_study/initials"
 	"beego_study/db"
 	"beego_study/models"
+	"html"
+	"strings"
+	"github.com/goquery"
+	"github.com/astaxie/beego"
+	"github.com/gogather/com"
 )
 
 
@@ -39,4 +44,20 @@ func TestRel(t *testing.T) {
 	db := db.NewDB()
 	var articles []entities.Article
 	db.QueryTable("article").RelatedSel().Filter("user_id", 1).All(&articles)
+}
+
+func TestGet(t *testing.T) {
+	article, _ := models.ArticleById(35120)
+	var content = html.UnescapeString(article.Content)
+	if len(content) == 0 {
+		return
+	}
+	reader := strings.NewReader(content)
+	doc, _ := goquery.NewDocumentFromReader(reader)
+	text := doc.Text()
+	text = strings.Replace(text," ","",-1)
+	text = strings.Replace(text, "\n", "", -1)
+	text = strings.Replace(text, "\t", "", -1)
+	subText := com.SubString(text, 0, 160)
+	beego.Error(subText)
 }

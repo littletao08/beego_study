@@ -2,6 +2,9 @@ package entities
 import (
 	"time"
 	"strings"
+	"github.com/gogather/com"
+	"github.com/goquery"
+	"html"
 )
 /**
  *文章
@@ -22,6 +25,19 @@ type Article struct {
 	UpdatedAt    time.Time
 }
 
+func (a Article) ShortContent(subLength int) string {
+	var content = html.UnescapeString(a.Content)
+	if len(content) == 0 {
+		return ""
+	}
+	reader := strings.NewReader(content)
+	doc, _ := goquery.NewDocumentFromReader(reader)
+	text := doc.Text()
+	text = strings.Replace(text," ","",-1)
+	text = strings.Replace(text, "\n", "", -1)
+	subText := com.SubString(text, 0, 160)
+	return subText
+}
 
 func (a Article) SliceTags() []string {
 	if len(a.Tags) == 0 {

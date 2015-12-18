@@ -2,7 +2,6 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"beego_study/models"
-	"github.com/gogather/com/log"
 	"beego_study/db"
 	"beego_study/entities"
 	"net/url"
@@ -26,9 +25,15 @@ func (c *BaseController) Prepare() {
 	categories, _ := models.Categories()
 	c.Data["categories"] = categories
 	c.Data["showRightBar"] = true
+	var keywords, _ = models.ParameterValue("index-keywords")
+	c.Data["keywords"] = keywords
+	var description, _ = models.ParameterValue("index-description")
+	c.Data["description"] = description
+
 	response := ResponseBody{Success:true}
 	c.Data["response"] = response
-	var args string
+
+	var args interface{}
 	method := c.Ctx.Request.Method
 	if ("GET" == method) {
 		args = c.Ctx.Request.RequestURI
@@ -47,7 +52,8 @@ func (c *BaseController) Prepare() {
 		c.Data["user"] = user
 		beego.Error(user)
 	}
-	log.Bluef(args)
+
+	beego.Info("request-params:", args)
 }
 
 func (c *BaseController) Finish() {
@@ -137,4 +143,14 @@ func (c *BaseController) JsonSuccess(message interface{}) {
 
 func (c *BaseController) Ip() string {
 	return c.Ctx.Request.Header.Get("X-Real-Ip")
+}
+
+func (c *BaseController) SetKeywords(keywords string) *BaseController {
+	c.Data["keywords"] = keywords
+	return c
+}
+
+func (c *BaseController) SetDescription(description string) *BaseController {
+	c.Data["description"] = description
+	return c
 }

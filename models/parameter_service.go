@@ -5,8 +5,17 @@ import (
 	"github.com/astaxie/beego/orm"
 	"time"
 	"beego_study/utils/redis"
+	"strconv"
 )
 
+func ParameterIntValue(key string) int {
+	value, err := ParameterValue(key)
+	if nil != err {
+		return 0
+	}
+	intVal, _ := strconv.Atoi(value.(string))
+	return intVal
+}
 func ParameterValue(key string) (interface{}, error) {
 
 	var v interface{}
