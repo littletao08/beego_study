@@ -34,7 +34,7 @@ $(function () {
 
     //首页评论
     $(".article-item-bottom").find(".comment").click(function () {
-        $("#header-tip").showErrorTip("评论失败!");
+        $("#header-tip").showWarnTip("评论失败!");
     });
 
 });
@@ -59,14 +59,14 @@ function bindLikeBtnEvent(){
                     }
                 }
                 else if(data.Code==1000){
-                    $("#header-tip").showErrorTip("您未登录");
+                    $("#header-tip").showWarnTip("您未登录");
                 }
                 else {
-                    $("#header-tip").showSuccessTip("点赞失败");
+                    $("#header-tip").showWarnTip("点赞失败");
                 }
             },
             error: function () {
-                $("#header-tip").showSuccessTip("点赞失败");
+                $("#header-tip").showWarnTip("点赞失败");
             }
         })
 
