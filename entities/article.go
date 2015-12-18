@@ -3,8 +3,8 @@ import (
 	"time"
 	"strings"
 	"github.com/gogather/com"
-	"github.com/goquery"
 	"html"
+	"github.com/PuerkitoBio/goquery"
 )
 /**
  *文章
@@ -33,7 +33,7 @@ func (a Article) ShortContent(subLength int) string {
 	reader := strings.NewReader(content)
 	doc, _ := goquery.NewDocumentFromReader(reader)
 	text := doc.Text()
-	text = strings.Replace(text," ","",-1)
+	text = strings.Replace(text, " ", "", -1)
 	text = strings.Replace(text, "\n", "", -1)
 	subText := com.SubString(text, 0, 160)
 	return subText
