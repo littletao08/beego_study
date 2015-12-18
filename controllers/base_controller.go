@@ -8,6 +8,10 @@ import (
 	"strings"
 	"encoding/json"
 	"beego_study/exception"
+	"io"
+	"bytes"
+	"github.com/tdewolff/minify"
+	"github.com/tdewolff/minify/html"
 )
 // Controller基类继承封装
 type BaseController struct {
@@ -59,6 +63,51 @@ func (c *BaseController) Prepare() {
 func (c *BaseController) Finish() {
 
 }
+
+func (c *BaseController) Render() error {
+	if !c.EnableRender {
+		return nil
+	}
+	rb, err := c.RenderBytes()
+
+	if err != nil {
+		return err
+	} else {
+		c.Ctx.Output.Header("Content-Type", "text/html; charset=utf-8")
+		if err != nil {
+			return err
+		}
+		miniRb, err := mini(rb)
+		if err != nil {
+			return err
+		}
+		c.Ctx.Output.Body(miniRb)
+	}
+
+	return nil
+
+
+
+}
+
+func mini(renderBytes []byte) ([]byte, error) {
+	m := minify.New()
+	m.AddFunc("text/html", html.Minify)
+	m.AddFunc("text/css", func(_ *minify.M, w io.Writer, r io.Reader, _ map[string]string) error {
+		_, err := io.Copy(w, r)
+		return err
+	})
+	m.AddFunc("text/javascript", func(_ *minify.M, w io.Writer, r io.Reader, _ map[string]string) error {
+		_, err := io.Copy(w, r)
+		return err
+	})
+	r := bytes.NewBuffer(renderBytes)
+	w := &bytes.Buffer{}
+	err := html.Minify(m, w, r, nil)
+
+	return w.Bytes(), err
+}
+
 
 func (c *BaseController) NewPagination() *db.Pagination {
 	page, err := c.GetInt("page")
