@@ -11,18 +11,23 @@ $(function () {
             $(data).submit();
         })
     });
+    // Disable certain links in docs
+    $('section [href^=#]').click(function (e) {
+        e.preventDefault()
+    })
     //左边栏滚动控制
     setTimeout(function () {
         $('.bs-docs-sidenav').affix({
             offset: {
-                top: function () {
-                    return 270
-                }
-                ,
+                top: 270,
                 bottom: 270
             }
         })
     }, 100)
+
+    //设置内容区最小告诉和左边栏的高度一致
+    var sidebarHeight = $("div#container-left").height();
+    $("div#container-right").css("min-height",sidebarHeight);
 
     //左边脸菜单css切换
     $("#sidebar li").click(function () {
