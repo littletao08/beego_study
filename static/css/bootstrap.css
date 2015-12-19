@@ -1034,7 +1034,7 @@ label {
 
 select,
 textarea,
-input[type="text"],
+input,
 input[type="password"],
 input[type="datetime"],
 input[type="datetime-local"],

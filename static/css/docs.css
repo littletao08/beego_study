@@ -671,7 +671,7 @@ article span{
     }
 }
 
-.article-detail-nav-right > span{
+.article-detail-nav-right > span:last-child{
     margin-left: 10px;
 }
 
