@@ -14,8 +14,8 @@
 
                 <h4 class="media-heading"><a href="/articles/{{.Id}}">{{$article.Title}}</a></h4>
 
-                <div class="article-detail-category">
-                    <span title="分类">分类</span>
+                <div class="article-tag article-detail-tag">
+                    <span class="glyphicon-bookmark" title="分类"></span>
                     {{range $index, $category := $article.SliceCategories }}
                     <span class="tags">{{$category}}</span>
                     {{end}}
@@ -37,9 +37,9 @@
                 </div>
 
                 <div class="article-detail-nav">
-                    <span class="glyphicon-eye-open" title="浏览"></span><span class="article-detail-number">{{.ViewCount}}</span>
+                    <span class="glyphicon-eye-open" title="浏览数"></span><span class="article-detail-number">{{.ViewCount}}</span>
                     <span {{if .HasLike }} class="glyphicon-heart article-like" {{else}} class="glyphicon-heart-empty article-like"  {{end}} title="点赞" article-id="{{.Id}}"></span><span class="article-detail-number">{{.LikeCount}}</span>
-                    <span class="glyphicon-pencil" title="评论"></span><span class="article-detail-number">{{.CommentCount}}</span>
+                    <span class="glyphicon-comment" title="评论数"></span><span class="article-detail-number">{{.CommentCount}}</span>
                     <span class="glyphicon-time" title="创建时间"></span><span
                         class="article-detail-number">{{date $article.CreatedAt "Y-m-d H:i:s"}}</span>
                 </div>

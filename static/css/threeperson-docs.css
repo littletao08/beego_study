@@ -33,6 +33,7 @@ section > .lead {
     color: #5a5a5a;
 }
 
+
 section > ul li {
     margin-bottom: 5px;
 }
@@ -537,6 +538,10 @@ input.focused {
         text-align: left;
     }
 
+    .subhead h1 {
+        font-size: 40px;
+    }
+
     /* From here, start to affix the nav because we keep columns here */
     .bs-docs-sidenav.affix {
         position: fixed;
@@ -657,6 +662,7 @@ article span{
         float: right;
         margin-right: 20%;
     }
+
 }
 
 @media screen and (max-width: 768px) {
@@ -664,6 +670,11 @@ article span{
         clear: both;
     }
 }
+
+.article-detail-nav-right > span{
+    margin-left: 10px;
+}
+
 .article-detail-nav .article-detail-number{
     margin-left: 10px;
 }
