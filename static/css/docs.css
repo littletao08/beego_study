@@ -671,7 +671,7 @@ article span{
     }
 }
 
-.article-detail-nav-right > span:last-child{
+.article-detail-nav-right .glyphicon-pencil{
     margin-left: 10px;
 }
 
