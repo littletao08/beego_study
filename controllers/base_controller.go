@@ -64,7 +64,7 @@ func (c *BaseController) Finish() {
 
 }
 
-func (c *BaseController) Render() error {
+/*func (c *BaseController) Render() error {
 	if !c.EnableRender {
 		return nil
 	}
@@ -85,10 +85,7 @@ func (c *BaseController) Render() error {
 	}
 
 	return nil
-
-
-
-}
+}*/
 
 func mini(renderBytes []byte) ([]byte, error) {
 	m := minify.New()

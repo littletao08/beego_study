@@ -1,7 +1,9 @@
-{{template "public/header.html" .}}
-<link href="../static/css/bootstrap-markdown-editor.css" rel="stylesheet">
-<form accept-charset="UTF-8"  action="/articles"
-      method="post" class="article-editor-form" name="article-editor-form">
+{{template "/public/header.html" .}}
+<link href="{{.RemoteAddr}}/static/css/bootstrap-markdown-editor.css" rel="stylesheet">
+<form accept-charset="UTF-8" action="/articles"
+      method="POST" class="article-editor-form" name="article-editor-form">
+    <input type="hidden" name="id" value="{{.article.Id}}">
+    <input type="hidden" name="_method" value="PUT">
     <div class="control-group">
         <div class="controls has-error">
             <input type="text" id="title" name="title" placeholder="标题" autocapitalize="off" autocorrect="off" autofocus="autofocus"

@@ -3,7 +3,6 @@ package controllers
 import (
 	"beego_study/models"
 	"beego_study/entities"
-	"github.com/gogather/com/log"
 	"time"
 	"github.com/astaxie/beego"
 	"beego_study/exception"
@@ -56,9 +55,68 @@ func (c *ArticleController) ArticleDetail() {
 	}
 }
 
+
+func (c *ArticleController) EditArticle() {
+	id, _ := c.GetInt64(":id")
+	userId := c.UserId()
+	c.TplNames = "article_edit.html"
+
+	if id <= 0 {
+		c.StringError("文章不存在")
+		return
+	}
+
+	if (userId == 0) {
+		c.Redirect("/login", 302)
+		return
+	}
+
+	article, error := models.ArticleById(id)
+
+	if nil != error {
+		c.StringError("文章不存在")
+	}else {
+		c.Data["article"] = article
+		c.SetKeywords(article.Categories + "," + article.Tags)
+		var subLength = models.ParameterIntValue("seo-description-length")
+		c.SetDescription(article.ShortContent(subLength))
+	}
+}
+
+
+
+func (c *ArticleController) UpdateArticle() {
+	user := c.GetSession("user")
+	if (nil == user) {
+		c.Redirect("/login", 200)
+	}
+
+	id, err := c.GetInt64("id")
+
+	var article entities.Article
+	if nil == err {
+		userId := c.UserId()
+		content := c.GetString("content")
+		title := c.GetString("title")
+		tag := c.GetString("tag")
+		categories := c.GetString("category")
+		article = entities.Article{Id:id, UserId:userId, Title:title, Categories: categories, Tags:tag, Content:content, CreatedAt:time.Now()}
+		err = models.UpdateArticle(&article)
+	}
+	if (nil == err) {
+		c.Redirect("../", 302)
+	}else {
+		beego.Error("文章创建失败")
+		c.StringError("文章创建失败")
+		c.Data["article"] = article
+		c.TplNames = "article_create.html"
+	}
+}
+
+
 func (c *ArticleController) New() {
 	user := c.GetSession("user")
-	log.Redln("*******************", user)
+
 	if (nil == user) {
 		c.Redirect("/login", 302)
 	}else {

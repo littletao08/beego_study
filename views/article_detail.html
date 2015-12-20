@@ -22,7 +22,12 @@
     </div>
     <div class="article-detail-nav-right">
         <span class="glyphicon-time" title="创建时间"></span><span class="article-detail-number">{{date .article.CreatedAt "Y-m-d H:i:s"}}</span>
-        <span class="glyphicon-pencil" title="修改"></span><span class="article-detail-number"></span>
+        {{if .user}}
+        {{if eq .user.Id .article.UserId }}
+        <a href="/articles/{{.article.Id}}/edit"><span class="glyphicon-pencil" title="修改"></span></a>
+        {{end}}
+        {{end}}
+
     </div>
 
     <hr>

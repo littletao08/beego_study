@@ -5,8 +5,8 @@ import (
 	"testing"
 	"fmt"
 	"strings"
-	"github.com/goquery"
 	"html"
+	"github.com/PuerkitoBio/goquery"
 )
 
 func TestHtml(t *testing.T) {

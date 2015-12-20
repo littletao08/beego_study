@@ -42,6 +42,12 @@ $(function () {
         $("#header-tip").showWarnTip("评论失败!");
     });
 
+
+    /*//给文章详情页修改绑定事件
+    $(".article-detail-nav-right").find(".glyphicon-pencil").click(function(){
+        alert(1);
+    });
+*/
 });
 
 function bindLikeBtnEvent(){
@@ -104,7 +110,7 @@ function initMarkdownEditor(content) {
         }
     });
 
-    $("form#articleEditorForm").find("input[name='commit']").click(function () {
+    $("form[name='article-editor-form']").find("input[name='commit']").click(function () {
         var content = $('#editor').markdownEditor('content');
         if (!$.trim(content)) {
             showContentError();

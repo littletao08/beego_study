@@ -102,6 +102,36 @@ func SaveArticle(article *entities.Article) error {
 }
 
 
+
+func UpdateArticle(article *entities.Article) error {
+
+	var err error
+	db := db.NewDB()
+	db.Begin()
+
+	sql := "update article set title = ? ,tags=?,categories=?, content=?, updated_at=now() where user_id = ? and  id = ? "
+
+	_, err = db.Raw(sql, []interface{}{article.Title, article.Tags, article.Categories, article.Content,article.UserId,article.Id}).Exec()
+
+	if nil == err {
+		var categories []entities.Category
+		if len(article.Categories) > 0 {
+			categoryNames := strings.Split(article.Categories, ",")
+			categories = entities.NewCategories(article.UserId, categoryNames)
+		}
+		BatchSaveOrUpdateCategory(db,categories)
+	}
+
+	if nil == err {
+		db.Commit()
+	}else {
+		db.Rollback()
+	}
+
+	return err
+}
+
+
 func IncrViewCount(articleId int64, userId int64, ip string) (bool, error) {
 
 	db := db.NewDB()
