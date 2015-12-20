@@ -32,7 +32,7 @@
                 <div class="article-detail-content" article-id="{{.Id}}">
                     <script>
                         var articleContent = "{{substr .Content 0 300}}";
-                        $("div[class='article-detail-content'][article-id='{{.Id}}']").css("text-align", "").text($("<div>").html(articleContent).text().trim())
+                        $("div[class='article-detail-content'][article-id='{{.Id}}']").css("text-align", "").text($("<div>").html(marked(articleContent)).text().trim())
                     </script>
                 </div>
 

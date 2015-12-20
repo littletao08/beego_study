@@ -35,7 +35,7 @@
     <div class="article-content">
         <script>
             var content = "{{.article.Content}}";
-            $("div.article-content").html(content);
+            $("div.article-content").html(marked(content));
         </script>
     </div>
     <div class="article-detail-nav-left clearfix">
