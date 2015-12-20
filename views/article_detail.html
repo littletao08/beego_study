@@ -21,7 +21,7 @@
         <span class="glyphicon-comment" title="评论数"></span><span class="article-detail-number">{{.article.CommentCount}}</span>
     </div>
     <div class="article-detail-nav-right">
-        <span class="glyphicon-time" title="创建时间"></span><span class="article-detail-number">{{date .article.CreatedAt "Y-m-d H:i:s"}}</span>
+        <span class="glyphicon-time" title="创建时间"></span><span class="article-detail-number">{{zhtime .article.CreatedAt}}</span>
         {{if .user}}
         {{if eq .user.Id .article.UserId }}
         <a href="/articles/{{.article.Id}}/edit"><span class="glyphicon-pencil" title="修改"></span></a>

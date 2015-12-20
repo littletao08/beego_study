@@ -41,7 +41,7 @@
                     <span {{if .HasLike }} class="glyphicon-heart article-like" {{else}} class="glyphicon-heart-empty article-like"  {{end}} title="点赞" article-id="{{.Id}}"></span><span class="article-detail-number">{{.LikeCount}}</span>
                     <span class="glyphicon-comment" title="评论数"></span><span class="article-detail-number">{{.CommentCount}}</span>
                     <span class="glyphicon-time" title="创建时间"></span><span
-                        class="article-detail-number">{{date $article.CreatedAt "Y-m-d H:i:s"}}</span>
+                        class="article-detail-number">{{zhtime $article.CreatedAt}}</span>
                 </div>
 
             </div>
