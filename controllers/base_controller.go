@@ -200,3 +200,8 @@ func (c *BaseController) SetDescription(description string) *BaseController {
 	c.Data["description"] = description
 	return c
 }
+
+func (c *BaseController) SetTitle(title string) *BaseController {
+	c.Data["title"] = title
+	return c
+}

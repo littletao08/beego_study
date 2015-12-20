@@ -35,6 +35,8 @@ func (a Article) ShortContent(subLength int) string {
 	text := doc.Text()
 	text = strings.Replace(text, " ", "", -1)
 	text = strings.Replace(text, "\n", "", -1)
+	text = strings.Replace(text, "#", "", -1)
+	text = strings.Replace(text, "*", "", -1)
 	subText := com.SubString(text, 0, 160)
 	return subText
 }

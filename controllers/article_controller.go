@@ -51,7 +51,7 @@ func (c *ArticleController) ArticleDetail() {
 		c.Data["article"] = article
 		c.SetKeywords(article.Categories + "," + article.Tags)
 		var subLength = models.ParameterIntValue("seo-description-length")
-		c.SetDescription(article.ShortContent(subLength))
+		c.SetDescription(article.ShortContent(subLength)).SetTitle(article.Title)
 	}
 }
 
@@ -79,7 +79,7 @@ func (c *ArticleController) EditArticle() {
 		c.Data["article"] = article
 		c.SetKeywords(article.Categories + "," + article.Tags)
 		var subLength = models.ParameterIntValue("seo-description-length")
-		c.SetDescription(article.ShortContent(subLength))
+		c.SetDescription(article.ShortContent(subLength)).SetTitle(article.Title)
 	}
 }
 

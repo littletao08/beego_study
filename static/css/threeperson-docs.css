@@ -650,6 +650,10 @@ article span{
     font-size: 15px;
 }
 
+article > h1 {
+    font-size: 3rem;
+}
+
 /***********文章详情页*********************/
 
 
