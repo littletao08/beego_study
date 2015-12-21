@@ -118,10 +118,12 @@ func (c *ArticleController) UpdateArticle() {
 		title := c.GetString("title")
 		tag := c.GetString("tag")
 		categories := c.GetString("category")
+		beego.Error("tag",tag,"categories",categories)
 		article = entities.Article{Id:id, UserId:userId, Title:title, Content:content, CreatedAt:time.Now()}
-		article.SetCategories(categories)
-		article.SetTags(tag)
-
+		prt:= &article
+		prt.SetCategories(categories)
+		prt.SetTags(tag)
+		beego.Error("tag",article.Tags,"categories",article.Categories)
 		err = models.UpdateArticle(&article)
 	}
 	if (nil == err) {
@@ -161,8 +163,9 @@ func (c *ArticleController) CreateArticle() {
 	beego.Debug("title", title, "categories", categories, "tag", tag, "content", content)
 
 	article := entities.Article{UserId:userId, Title:title, Content:content, CreatedAt:time.Now()}
-	article.SetCategories(categories)
-	article.SetTags(tag)
+	prt:= &article
+	prt.SetCategories(categories)
+	prt.SetTags(tag)
 	err := models.SaveArticle(&article)
 	if (nil == err) {
 		c.Redirect("../", 302)

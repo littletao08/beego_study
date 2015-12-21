@@ -5,6 +5,7 @@ import (
 	"github.com/gogather/com"
 	"html"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/astaxie/beego"
 )
 /**
  *文章
@@ -62,7 +63,7 @@ func (a Article) SliceCategories() []string {
 }
 
 
-func (a Article) SetCategories(categories string) {
+func (a *Article) SetCategories(categories string) {
 	if len(categories) > 0 {
 		categories = strings.ToLower(categories)
 		a.Categories = categories
@@ -70,10 +71,12 @@ func (a Article) SetCategories(categories string) {
 }
 
 
-func (a Article) SetTags(tags string) {
+func (a *Article) SetTags(tags string) {
 	if len(tags) > 0 {
+		beego.Error("in")
 		tags = strings.ToLower(tags)
 		a.Tags = tags
+		beego.Error(a.Tags)
 	}
 }
 
