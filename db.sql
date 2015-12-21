@@ -178,4 +178,7 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+#一个用户指定的类别是唯一的
+create  unique index unique_userid_name on category(user_id,name)
+
 
