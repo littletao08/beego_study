@@ -1,6 +1,7 @@
 package db
 import (
 	_ "github.com/astaxie/beego/utils/pagination"
+	"github.com/astaxie/beego"
 )
 
 type Querier struct {
@@ -58,6 +59,8 @@ func (q *Querier) where(c Condition) *Querier {
 	sql, err := c.ToSQL(q.SQLBuilder)
 	if (nil == err) {
 		q.SQLBuilder.Where(sql, c.Params)
+	}else{
+		beego.Error(err)
 	}
 	return q
 }
@@ -71,7 +74,7 @@ func (q *Querier) Eq(name string, value interface{}) *Querier {
 }
 
 func (q *Querier) Where(name string, value interface{}) *Querier {
-	return q.Eq(name, value)
+	return q.where(NewCondition(EQ, name, value))
 }
 
 func (q *Querier) Not(name string, value interface{}) *Querier {

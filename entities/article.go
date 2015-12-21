@@ -61,3 +61,21 @@ func (a Article) SliceCategories() []string {
 	return categories
 }
 
+
+func (a Article) SetCategories(categories string) {
+	if len(categories) > 0 {
+		categories = strings.ToLower(categories)
+		a.Categories = categories
+	}
+}
+
+
+func (a Article) SetTags(tags string) {
+	if len(tags) > 0 {
+		tags = strings.ToLower(tags)
+		a.Tags = tags
+	}
+}
+
+
+

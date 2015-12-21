@@ -65,9 +65,12 @@ func (c Condition) ToSQL(sqlBuilder SQLBuilder) (string, error) {
 	if len(c.Type.String()) >0 {
        return sqlBuilder.EscapeColumn(c.Column) + " " + c.Type.String() + " ?",nil
     }
+	if len(c.Column) < 1 {
+		return "",errors.New("c.Column is empty")
+	}
 	switch c.Type {
 	case SEGMENT:
-		return "(" + c.Column + ")",errors.New("segment analysis error")
+		return "(" + c.Column + ")",nil
 	case IN:
 	case NOT_IN:
 		var sql = sqlBuilder.EscapeColumn(c.Column)
@@ -82,7 +85,7 @@ func (c Condition) ToSQL(sqlBuilder SQLBuilder) (string, error) {
 			sql += "?"
 		}
 		sql += ")"
-		return sql,errors.New("not in analysis error")
+		return sql,nil
 	case BETWEEN:
 	case NOT_BETWEEN:
 		var sql = sqlBuilder.EscapeColumn(c.Column)
@@ -90,12 +93,11 @@ func (c Condition) ToSQL(sqlBuilder SQLBuilder) (string, error) {
 			sql += " not "
 		}
 		sql += " between ? and ? "
-		return sql,errors.New("not between analysis error")
+		return sql,nil
 	case NULL:
-		return sqlBuilder.EscapeColumn(c.Column) + " is null",errors.New("null analysis error");
+		return sqlBuilder.EscapeColumn(c.Column) + " is null",nil;
 	case NOT_NULL:
-		return sqlBuilder.EscapeColumn(c.Column) + " is not null",errors.New("not null analysis error");
+		return sqlBuilder.EscapeColumn(c.Column) + " is not null",nil;
 	}
-
 	return "", errors.New("sql analysis error")
 }

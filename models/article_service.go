@@ -8,6 +8,7 @@ import (
 	"beego_study/utils"
 	"bytes"
 	"strings"
+	"github.com/astaxie/beego"
 )
 
 func Articles(page int) ([]entities.Article, error) {
@@ -46,6 +47,47 @@ func AllArticles(userId int64, pagination *db.Pagination) {
 
 	pagination.SetData(newArticles)
 }
+
+
+func ArticlesGyCategory(userId int64,category string, pagination *db.Pagination) {
+	db := db.NewDB()
+	var articles []entities.Article
+	query := db.From("article")
+	if userId >0 {
+		query.Where("user_id",userId)
+	}
+
+	if len(category) > 0 {
+		category = strings.ToLower(category)
+		beego.Error("category",category)
+		query.Like("categories","%"+category+"%")
+	}
+
+	query.OrderBy("created_at desc").FillPagination(&articles, pagination)
+
+	//设置当前用户点赞标记
+	if len(pagination.Data) < 1 || userId <= 0 {
+		return
+	}
+
+	ids, err := utils.ExtractFieldValues(pagination.Data, "Id")
+	if nil != err {
+		return
+	}
+	signs := ArticleLikeSigns(userId, ids)
+	signMap := make(map[int64]bool)
+	for _, v := range signs {
+		signMap[v] = true
+	}
+	var newArticles []entities.Article
+	for _, v := range articles {
+		v.HasLike = signMap[v.Id]
+		newArticles = append(newArticles, v)
+	}
+
+	pagination.SetData(newArticles)
+}
+
 
 func LastArticle() (entities.Article, error) {
 	var err error

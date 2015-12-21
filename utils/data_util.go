@@ -1,7 +1,6 @@
 package utils
 import (
 	"reflect"
-	"fmt"
 	"errors"
 	"strconv"
 	"strings"
@@ -11,7 +10,7 @@ func ToSlice(container interface{}) []interface{} {
 	val := reflect.ValueOf(container)
 	sInd := reflect.Indirect(val)
 	if sInd.Kind() != reflect.Slice {
-		panic(fmt.Errorf("container must be slice "))
+		return []interface {}{container}
 	}
 	l := sInd.Len()
 	ret := make([]interface{}, l)
@@ -52,8 +51,8 @@ func SliceToString(a interface{}, sep string) string {
 		case string:
 			strSlice = append(strSlice, v.(string))
 			continue
-		case int,int8,int16,int32,int64:
-			strV := strconv.FormatInt(reflect.ValueOf(v).Int(),10)
+		case int, int8, int16, int32, int64:
+			strV := strconv.FormatInt(reflect.ValueOf(v).Int(), 10)
 			strSlice = append(strSlice, strV)
 			continue
 		default:

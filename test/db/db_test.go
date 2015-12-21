@@ -107,3 +107,11 @@ func parse(container interface{}) {
 
 
 }
+
+
+func TestSegment(t *testing.T){
+
+	sql := db.NewDB().From("user").Where("nick","aa").Segment("id=?",1).ToSql()
+	fmt.Println(sql)
+
+}

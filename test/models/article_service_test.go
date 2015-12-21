@@ -10,9 +10,9 @@ import (
 	"beego_study/models"
 	"html"
 	"strings"
-	"github.com/goquery"
 	"github.com/astaxie/beego"
 	"github.com/gogather/com"
+"github.com/PuerkitoBio/goquery"
 )
 
 
@@ -60,4 +60,18 @@ func TestGet(t *testing.T) {
 	text = strings.Replace(text, "\t", "", -1)
 	subText := com.SubString(text, 0, 160)
 	beego.Error(subText)
+}
+
+func TestArticlesGyCategory(t *testing.T){
+
+	pagination := new(db.Pagination)
+	pagination.PerPage=10
+	pagination.Page=1
+	models.ArticlesGyCategory(1,"bootstrap",pagination)
+
+	for _, v := range pagination.Data {
+		fmt.Println("id:",v.(entities.Article).Id,"title:",v.(entities.Article).Title)
+	}
+
+
 }

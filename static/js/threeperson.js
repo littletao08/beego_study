@@ -34,20 +34,11 @@ $(function () {
         $($(this).siblings()).removeClass("active")
         $(this).addClass("active")
     });
+
     //首页点赞
     bindLikeBtnEvent();
 
-    //首页评论
-    $(".article-item-bottom").find(".comment").click(function () {
-        $("#header-tip").showWarnTip("评论失败!");
-    });
 
-
-    /*//给文章详情页修改绑定事件
-    $(".article-detail-nav-right").find(".glyphicon-pencil").click(function(){
-        alert(1);
-    });
-*/
 });
 
 function bindLikeBtnEvent(){

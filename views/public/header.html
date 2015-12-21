@@ -119,9 +119,9 @@
         {{if .showRightBar }}
         <div class="span3 bs-docs-sidebar visible-desktop" id="container-left">
             <ul class="nav nav-list bs-docs-sidenav affix-top" id="sidebar">
-                <li class="active"><a href="/"><i class="glyphicon-chevron-right"></i> all</a></li>
+                <li {{if not .active_category}}class="active"{{end}}><a href="/articles"><i class="glyphicon-chevron-right"></i> all</a></li>
                 {{range .categories}}
-                <li><a href="#typography"><i class="glyphicon-chevron-right"></i> {{.Name}}</a></li>
+                <li {{if $.active_category}} {{if eq .Name $.active_category}} class="active" {{end}}{{end}}><a href="/categories/{{.Name}}"><i class="glyphicon-chevron-right"></i> {{.Name}}</a></li>
                 {{end}}
             </ul>
         </div>
