@@ -1,0 +1,42 @@
+{{template "public/header.html" .}}
+
+<div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
+
+    <div class="auth-form" id="login">
+        <form accept-charset="UTF-8" id="loginForm" action="/users/dopwd"
+              method="post">
+            <input type="hidden" name="openId" value="{{.cacheUser.QcOpenId}}">
+            <div class="auth-form-header">
+                <h2 class="hosted-signin-title">借您贵手输入一下密码</h2>
+            </div>
+            <div class="auth-form-body">
+
+                <label for="password">
+                    密码 <a href="/password_reset" class="hidden">(forgot password)</a>
+                </label>
+
+                <div class="controls has-error">
+                    <input class="input-block" id="password" name="password" tabindex="2" type="password"
+                           data-validation="required"
+                           data-validation-error-msg="密码不能为空">
+                </div>
+                    <span class="form-error">{{.response.Message}}</span>
+                <div class="">
+                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
+                           value="登 录">
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.43/jquery.form-validator.min.js"></script>
+<script>
+
+    $.validate({
+        modules: 'location, date, security, file',
+    });
+
+</script>
+{{template "public/footer.html" .}}

@@ -1,6 +1,7 @@
 package entities
 type User struct {
 	Id int64
+	QcOpenId string
 	Name string
 	Nick string
 	Password string

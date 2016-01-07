@@ -4,5 +4,6 @@ lastupdate.tmp
 /beego_study
 *.log
 .idea/
+*.iml
 
 

@@ -30,3 +30,35 @@ func FundUser(name string, password string) (entities.User, error) {
 
 	return user, err
 }
+
+func CreateNewUser(name string, password string) (entities.User,error) {
+	var user entities.User
+	user.Name = name
+	user.Password = password
+	orm := orm.NewOrm()
+	var err error
+	_, err = orm.Insert(&user)
+	return user, err;
+}
+
+func CreateQCUser(name string, qcOpenId string,sex string) (entities.User,error) {
+	var user entities.User
+	user.Name = name
+	user.QcOpenId = qcOpenId
+	user.Sex = 1
+
+	orm := orm.NewOrm()
+	var err error
+	_, err = orm.Insert(&user)
+	return user, err;
+}
+
+
+func FundQCUser(qcOpenId string)(entities.User,error){
+	var err error
+	var user entities.User
+	orm :=orm.NewOrm()
+	err =orm.QueryTable("user").Filter("qc_open_id",qcOpenId).One(&user,"id", "name", "nick", "password", "age", "cell", "mail", "sex", "QcOpenId","CreatedAt", "UpdatedAt")
+
+	return user, err
+}

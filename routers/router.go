@@ -11,6 +11,9 @@ func init() {
 	beego.Router("/login", &controllers.UserController{},"get:Login")
 
 	beego.Router("/users/session", &controllers.UserController{},"post:Session")
+
+	beego.Router("/users/qclogin", &controllers.UserController{},"post:QCSession")
+	beego.Router("/users/dologin", &controllers.UserController{},"post:IgnorePwdLogin")
 	beego.Router("/articles", &controllers.ArticleController{},"get:Articles")
 	beego.Router("/articles", &controllers.ArticleController{},"post:CreateArticle")
 	beego.Router("/articles/new", &controllers.ArticleController{},"get:New")

@@ -8,12 +8,13 @@ import (
 
 func main() {
 
-	/*host := "192.168.10.43"
+	host := "localhost"
 	port := "8080"
-	beego.Run(host, port)*/
 	beego.AddFuncMap("zhtime",utils.ZhTime)
-	beego.Run()
-	beego.Error("**************************")
+	beego.Run(host, port)
+
+//	beego.Run()
+//	beego.Error("**************************")
 
 }
 
