@@ -54,11 +54,11 @@ func CreateQCUser(name string, qcOpenId string,sex string) (entities.User,error)
 }
 
 
-func FundQCUser(qcOpenId string)(entities.User,error){
+func FundQCUser(qcOpenId string)(*entities.User,error){
 	var err error
 	var user entities.User
 	orm :=orm.NewOrm()
 	err =orm.QueryTable("user").Filter("qc_open_id",qcOpenId).One(&user,"id", "name", "nick", "password", "age", "cell", "mail", "sex", "QcOpenId","CreatedAt", "UpdatedAt")
 
-	return user, err
+	return &user, err
 }

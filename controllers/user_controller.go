@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"beego_study/models"
-	"beego_study/entities"
 	"strings"
 )
 
@@ -70,10 +69,12 @@ func (c *UserController) QCSession(){
 func (c *UserController) IgnorePwdLogin(){
 	openId := c.GetString("opneId")
 	pwd := c.GetString("pwd")
-	user := entities.User(c.GetSession("cacheUser"))
+	//TODO  c.CurrentUser()
+	user := c.CurrentUser()
 	//用户存在,并且请求匹配
 	if len(openId) > 0 && strings.EqualFold(openId,user.QcOpenId)  {
-		if c.GetBool("ignorePwd") {
+		ignorePwd,err := c.GetBool("ignorePwd")
+		if nil == err && ignorePwd {
 			//忽略密码登录
 			c.SetSession("user",user)
 			//清空session
