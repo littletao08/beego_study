@@ -118,19 +118,26 @@ func (c *ArticleController) UpdateArticle() {
 		title := c.GetString("title")
 		tag := c.GetString("tag")
 		categories := c.GetString("category")
-		beego.Error("tag",tag,"categories",categories)
+		beego.Error("tag", tag, "categories", categories)
 		article = entities.Article{Id:id, UserId:userId, Title:title, Content:content, CreatedAt:time.Now()}
-		prt:= &article
+		prt := &article
 		prt.SetCategories(categories)
 		prt.SetTags(tag)
-		beego.Error("tag",article.Tags,"categories",article.Categories)
-		err = models.UpdateArticle(&article)
+		beego.Error("tag", article.Tags, "categories", article.Categories)
+		exception, valid := models.ValidArticle(article)
+		if valid {
+			err = models.UpdateArticle(&article)
+		}else {
+			err = exception
+		}
+
 	}
+
 	if (nil == err) {
 		c.Redirect("../", 302)
 	}else {
-		beego.Error("文章创建失败")
-		c.StringError("文章创建失败")
+		beego.Error(err)
+		c.StringError(err.Error())
 		c.Data["article"] = article
 		c.TplNames = "article_create.html"
 	}
@@ -163,7 +170,7 @@ func (c *ArticleController) CreateArticle() {
 	beego.Debug("title", title, "categories", categories, "tag", tag, "content", content)
 
 	article := entities.Article{UserId:userId, Title:title, Content:content, CreatedAt:time.Now()}
-	prt:= &article
+	prt := &article
 	prt.SetCategories(categories)
 	prt.SetTags(tag)
 	err := models.SaveArticle(&article)

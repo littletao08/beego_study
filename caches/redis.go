@@ -90,10 +90,6 @@ func (rc *MyRedisCache) Put(key string, val interface{}, timeout int64) error {
 	if _, err = rc.do("SETEX", key, timeout, val); err != nil {
 		return err
 	}
-
-	if _, err = rc.do("HSET", rc.key, key, true); err != nil {
-		return err
-	}
 	return err
 }
 

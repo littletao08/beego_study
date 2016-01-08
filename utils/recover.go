@@ -3,7 +3,7 @@ import (
 	"github.com/gogather/com/log"
 )
 
-func Regain(err interface{}) {
+func Recover(err interface{}) {
 	if r := recover(); r != nil {
 		log.Redf("%v", err)
 	}

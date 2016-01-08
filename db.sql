@@ -179,6 +179,20 @@ CREATE TABLE `comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #一个用户指定的类别是唯一的
-create  unique index unique_userid_name on category(user_id,name)
+create  unique index unique_userid_name on category(user_id,name);
+
+#文章内容长度限制
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('article_content_max_length',10000,'文章内容最大长度',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('article_title_max_length',100,'文章标题最大长度',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('article_categories_max_length',100,'文章分类最大长度',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('article_tags_max_length',100,'文章标签最大长度',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('max_create_article_count_one_day',20,'每日创建文章最大个数',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('max_create_comment_count_one_day',100,'每日创建评论最大个数',now());
 
 

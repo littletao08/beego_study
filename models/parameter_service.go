@@ -16,6 +16,8 @@ func ParameterIntValue(key string) int {
 	intVal, _ := strconv.Atoi(value.(string))
 	return intVal
 }
+
+
 func ParameterValue(key string) (interface{}, error) {
 
 	var v interface{}

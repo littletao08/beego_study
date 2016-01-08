@@ -28,7 +28,7 @@ func ExtractFieldValues(source interface{}, field string) ([]interface{}, error)
 		return make([]interface{}, 0), errors.New("source must be slice type")
 	}
 
-	defer Regain("extract field values failure !")
+	defer Recover("extract field values failure !")
 
 	var slice = ToSlice(source)
 	var filedValues = make([]interface{}, 0)

@@ -144,7 +144,6 @@ func SaveArticle(article *entities.Article) error {
 }
 
 
-
 func UpdateArticle(article *entities.Article) error {
 
 	var err error
@@ -194,7 +193,7 @@ func IncrViewCount(articleId int64, userId int64, ip string) (bool, error) {
 
 	if articleOwnerId <= 0 {
 		db.Rollback()
-		return false, errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
+		return false, errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Error())
 	}
 
 	var sql = "update article set view_count=view_count+1  where user_id = ? and id = ? "
@@ -235,7 +234,7 @@ func IncrLikeCount(articleId int64, userId int64) (int, error) {
 
 	if articleOwnerId <= 0 {
 		db.Rollback()
-		return 0, errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Message())
+		return 0, errors.New(exception.NOT_EXIST_ARTICLE_ERROR.Error())
 	}
 
 	var sql = "update article set like_count=like_count+? where user_id = ? and id = ? "
@@ -259,5 +258,39 @@ func IncrLikeCount(articleId int64, userId int64) (int, error) {
 
 	return incrCount, err
 }
+
+
+func ValidArticle(a entities.Article) (error, bool) {
+
+	var title = a.Title
+	var category = a.Categories;
+	var tag = a.Tags;
+	var content = a.Content
+
+	var titleMaxLen = ParameterIntValue("article_title_max_length")
+	var categoryMaxLen = ParameterIntValue("article_categories_max_length")
+	var tagMaxLen = ParameterIntValue("article_tags_max_length")
+	var contentMaxLen = ParameterIntValue("article_content_max_length")
+
+	if len(title) > titleMaxLen {
+		return exception.ARTICLE_TITLE_LEN_OVERFLOW, false
+	}
+
+	if len(category) > categoryMaxLen {
+		return exception.ARTICLE_CATEGORY_LEN_OVERFLOW, false
+	}
+
+	if len(tag) > tagMaxLen {
+		return exception.ARTICLE_TAG_LEN_OVERFLOW, false
+	}
+
+	if len(content) > contentMaxLen {
+		return exception.ARTICLE_CONTENT_LEN_OVERFLOW, false
+	}
+
+	return nil, true
+
+}
+
 
 

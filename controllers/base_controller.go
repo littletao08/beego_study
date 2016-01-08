@@ -163,7 +163,7 @@ func (c *BaseController) ErrorCodeJsonError(exception exception.ErrorCode) {
 	response := new(ResponseBody)
 	response.Code = exception.Code()
 	response.Success = false
-	response.Message = exception.Message()
+	response.Message = exception.Error()
 	c.Data["json"] = response
 	c.ServeJson()
 }

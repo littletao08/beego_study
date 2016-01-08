@@ -7,10 +7,10 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"github.com/astaxie/beego"
 )
+
 /**
  *文章
  */
-
 type Article struct {
 	Id           int64
 	UserId       int64
@@ -79,6 +79,7 @@ func (a *Article) SetTags(tags string) {
 		beego.Error(a.Tags)
 	}
 }
+
 
 
 
