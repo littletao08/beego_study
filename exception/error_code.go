@@ -8,7 +8,7 @@ type ErrorModel struct {
 type ErrorCode int
 
 const (
-	INTERNAL_ERROR ErrorCode = 1
+	INTERNAL_ERROR ErrorCode = 1 + iota
 	NOT_LOGIN
 	NOT_EXIST_ARTICLE_ERROR
 	ARTICLE_TITLE_LEN_OVERFLOW
