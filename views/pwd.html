@@ -11,19 +11,28 @@
             </div>
             <div class="auth-form-body">
 
-                <label for="password">
+                <label for="pwd">
                     密码 <a href="/password_reset" class="hidden">(forgot password)</a>
                 </label>
 
                 <div class="controls has-error">
-                    <input class="input-block" id="password" name="password" tabindex="2" type="password"
+                    <input class="input-block" id="pwd" name="pwd" tabindex="2" type="password"
                            data-validation="required"
                            data-validation-error-msg="密码不能为空">
                 </div>
-                    <span class="form-error">{{.response.Message}}</span>
+                <label for="repwd">
+                    重复密码
+                </label>
+
+                <div class="controls has-error">
+                    <input class="input-block" id="repwd" name="repwd" tabindex="2" type="password"
+                           data-validation="required"
+                           data-validation-error-msg="重复密码不能为空">
+                </div>
+                    <span class="form-error">{{.response.errMessage}}</span>
                 <div class="">
                     <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
-                           value="登 录">
+                           value="提 交">
                 </div>
 
             </div>

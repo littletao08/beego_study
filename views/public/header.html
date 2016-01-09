@@ -28,8 +28,6 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.43/jquery.form-validator.min.js"></script>
 
     <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101284166" data-redirecturi="http://www.threeperson.com/" charset="utf-8"></script>
-    <script src="{{.RemoteAddr}}/static/js/qc.js"></script>
-
 </head>
 
 <body data-spy="scroll">
@@ -90,6 +88,9 @@
         <div class="nav-collapse collapse pull-right">
             <ul class="nav navbar-nav navbar-right" id="signin">
                 <span id="qqLoginBtn"></span>
+                <script type="application/javascript">
+                    QC.Login({btnId: "qqLoginBtn"});
+                </script>
             </ul>
         </div>
         <div class="nav-collapse collapse pull-right">

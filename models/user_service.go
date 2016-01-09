@@ -41,7 +41,7 @@ func CreateNewUser(name string, password string) (entities.User,error) {
 	return user, err;
 }
 
-func CreateQCUser(name string, qcOpenId string,sex string) (entities.User,error) {
+func CreateQCUser(name string, qcOpenId string,sex string) (*entities.User,error) {
 	var user entities.User
 	user.Name = name
 	user.QcOpenId = qcOpenId
@@ -50,7 +50,14 @@ func CreateQCUser(name string, qcOpenId string,sex string) (entities.User,error)
 	orm := orm.NewOrm()
 	var err error
 	_, err = orm.Insert(&user)
-	return user, err;
+	return &user, err;
+}
+
+
+func SetUserPassword(user *entities.User) error {
+	orm :=orm.NewOrm()
+	_,err := orm.Update(&user);
+	return err
 }
 
 

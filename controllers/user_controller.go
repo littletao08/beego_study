@@ -3,6 +3,7 @@ package controllers
 import (
 	"beego_study/models"
 	"strings"
+	"beego_study/entities"
 )
 
 type UserController struct {
@@ -41,27 +42,33 @@ func (c *UserController) Session() {
 	}
 }
 
+//QC  回调页面
+func (c*UserController) Redirect(){
+	c.TplNames = "redirect.html"
+}
+
 func (c *UserController) QCSession(){
 	nickname := c.GetString("nickname")
 	qcOpenId := c.GetString("qcOpenId")
 	sex := c.GetString("sex")
 	user,_ := models.FundQCUser(qcOpenId)
 	c.Data["openId"] = qcOpenId
-	//用户存在,密码为空,跳转到输入密码的页面
-	if len(user.Password) > 0  {
-		//输入密码登录
-		c.SetSession("cacheUser",user);
-		c.Data["showRightBar"] = false
-		c.TplNames = "pwd.html"
-	} else if user != nil {
-		c.SetSession("cacheUser",user);
+	//用户存在,密码为空,跳转到输入密码的页面,这一步用来保护用户账号安全的,暂时先不添加了.
+	if nil != user {
+		//c.SetSession("cacheUser",user);
 		//跳转到设置密码的页面
+		c.SetSession("user", user)
+		c.Data["user"] = user
+		c.Ctx.Redirect(302,"/")
+
 	}else{
 		var err error
 		 user,err:= models.CreateQCUser(nickname+"_"+qcOpenId,qcOpenId,sex)
 		if err != nil {
 			c.SetSession("cacheUser",user);
 			//跳转到设置密码的页面
+			c.Data["showRightBar"] = false
+			c.TplNames = "pwd.html"
 		}
 	}
 }
@@ -69,28 +76,34 @@ func (c *UserController) QCSession(){
 func (c *UserController) IgnorePwdLogin(){
 	openId := c.GetString("opneId")
 	pwd := c.GetString("pwd")
-	//TODO  c.CurrentUser()
-	user := c.CurrentUser()
+	repwd := c.GetString("repwd")
+	user := c.GetSession("cacheuUser")
+	if nil == user{
+		c.Data["showRightBar"] = false
+		c.TplNames = "login.html"
+	}
+	var u,ok = user.(entities.User)
+	if !ok {
+		c.Data["showRightBar"] = false
+		c.TplNames = "login.html"
+	}
+
 	//用户存在,并且请求匹配
-	if len(openId) > 0 && strings.EqualFold(openId,user.QcOpenId)  {
-		ignorePwd,err := c.GetBool("ignorePwd")
-		if nil == err && ignorePwd {
-			//忽略密码登录
-			c.SetSession("user",user)
-			//清空session
+	if len(openId) > 0 && strings.EqualFold(openId,u.QcOpenId)  {
+		if strings.EqualFold(pwd,repwd){
+			u.Password = pwd
+			models.SetUserPassword(u)
 			c.SetSession("cacheUser",nil)
-			c.Ctx.Redirect(302,"/")
-		}else if strings.EqualFold(pwd,user.Password) {
-			c.SetSession("user",user)
-			//清空session
-			c.SetSession("cacheUser",nil)
+			c.SetSession("user",u)
+			c.Data["user"] = user
 			c.Ctx.Redirect(302,"/")
 		}else{
-			//密码不正确
-			c.Data["openId"]=openId;
+			c.Data["errMessage"] = "密码和重复密码不一致"
+			c.TplNames = "pwd.html"
 		}
 	}else{
 		//非法登录
+		c.Ctx.Redirect(302,"/")
 	}
 
 }
