@@ -182,3 +182,6 @@ CREATE TABLE `comment` (
 create  unique index unique_userid_name on category(user_id,name)
 
 
+ALTER TABLE `user` ADD `qc_open_id` VARCHAR(50)  NULL  DEFAULT NULL comment 'QQ登录用户的唯一ID';
+
+
