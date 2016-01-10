@@ -92,7 +92,7 @@ func (c *UserController) IgnorePwdLogin(){
 	if len(openId) > 0 && strings.EqualFold(openId,u.QcOpenId)  {
 		if strings.EqualFold(pwd,repwd){
 			u.Password = pwd
-			models.SetUserPassword(u)
+			models.SetUserPassword(&u)
 			c.SetSession("cacheUser",nil)
 			c.SetSession("user",u)
 			c.Data["user"] = user
