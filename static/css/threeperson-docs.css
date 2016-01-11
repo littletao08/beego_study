@@ -60,7 +60,7 @@ section > ul li {
     padding: 30px 15px;
     color: #fff;
     text-align: center;
-    background-color: #b94a48;
+    background-color: #365837;
 }
 
 .bs-docs-jumbotron h1 {
@@ -504,6 +504,18 @@ input.focused {
 
 /* Responsive variations
 -------------------------------------------------- */
+
+.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {
+    z-index: 2;
+    color: #fff;
+    background-color: #468847;
+    border-color: #337B34;
+}
+
+a{
+    color:#468847;
+}
+
 
 /* Tablets and up */
 @media screen and (min-width: 768px) {
