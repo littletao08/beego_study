@@ -236,9 +236,6 @@ section > ul li {
     border-top-right-radius: 0;
 }
 
-.prettyprint .linenums {
-    /*margin-left: 0;*/
-}
 
 /* Tweak content of examples for optimum awesome */
 .bs-docs-example > p:last-child,
@@ -653,6 +650,7 @@ article span{
 article > h1 {
     font-size: 3rem;
 }
+
 
 /***********文章详情页*********************/
 

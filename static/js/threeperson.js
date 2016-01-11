@@ -38,6 +38,9 @@ $(function () {
     //首页点赞
     bindLikeBtnEvent();
 
+    //
+
+
 
 });
 
@@ -123,6 +126,7 @@ function initMarkdownEditor(content) {
         $(".md-editor").css("border-color", "#d8d8d8").next(".form-error").remove();
     }
 }
+
 
 
 var TipType = {SUCCESS: "alert-success", WARN: "alert-danger", ERROR: "alert-error"};
