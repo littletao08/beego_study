@@ -13,7 +13,7 @@ import (
 	"github.com/tdewolff/minify"
 	"github.com/tdewolff/minify/html"
 )
-// Controller基类继承封装
+
 type BaseController struct {
 	beego.Controller
 }
@@ -28,7 +28,7 @@ type ResponseBody struct {
 func (c *BaseController) Prepare() {
 	categories, _ := models.Categories()
 	c.Data["categories"] = categories
-	c.Data["showRightBar"] = true
+	c.Data["showLeftBar"] = true
 	var keywords, _ = models.ParameterValue("index-keywords")
 	c.Data["keywords"] = keywords
 	var description, _ = models.ParameterValue("index-description")

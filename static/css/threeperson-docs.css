@@ -583,6 +583,8 @@ a{
     }
 }
 
+
+/*************文章显示****************/
 .article-list {
     position: relative;
     padding: 45px 15px 15px;
@@ -606,9 +608,26 @@ a{
     letter-spacing: 1px;
 }
 
+@media screen and (min-width: 10px){
+    .row .span {
+        float: left;
+    }
+}
+
+.article-categories-row{
+    margin-top: 15px;
+}
+
+.article-tags-row{
+    margin-top: 8px;
+}
+
+.glyphicon-tag-img{
+    padding-top:2px ;
+}
 span.tags {
     display: inline-block;
-    margin: 5px 5px 10px 4px;
+    margin: 0 0 0 2px;
     padding: 0px 10px;
     background-color: #aab5c3;
     -webkit-border-radius: 10px;
@@ -616,13 +635,16 @@ span.tags {
     -o-border-radius: 10px;
     color: #fff;
     text-decoration: none;
-    height: 18px;
+    height: 17px;
     line-height: 18px;
 }
 
+.article-tag{
+    padding: 0 0 0 10px;
+}
 
 .article-tag span:first-child{
-    margin-right: 15px;
+    margin-right: 1px;
 }
 
 
@@ -679,11 +701,11 @@ article > h1 {
 
 }
 
-@media screen and (max-width: 768px) {
+/*@media screen and (max-width: 768px) {
     .article-detail-nav-right {
         clear: both;
     }
-}
+}*/
 
 .article-detail-nav-right .glyphicon-pencil{
     margin-left: 10px;
@@ -764,4 +786,3 @@ form .btn {
 .error-border{
     border-color: red;
 }
-

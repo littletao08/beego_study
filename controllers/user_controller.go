@@ -20,7 +20,7 @@ func (c *UserController) Users() {
 }
 
 func (c *UserController) Login() {
-	c.Data["showRightBar"] = false
+	c.Data["showLeftBar"] = false
 	c.TplNames = "login.html"
 }
 

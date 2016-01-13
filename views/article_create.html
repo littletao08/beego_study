@@ -31,6 +31,7 @@
     </div>
 </form>
 
+{{template "public/footer.html" .}}
 <script>
     $(function () {
         var content = '{{.article.Content}}';
@@ -41,4 +42,3 @@
         modules: 'location, date, security, file',
     });
 </script>
-{{template "public/footer.html" .}}

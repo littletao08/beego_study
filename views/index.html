@@ -14,31 +14,38 @@
 
                 <h4 class="media-heading"><a href="/articles/{{.Id}}">{{$article.Title}}</a></h4>
 
-                <div class="article-tag article-detail-tag">
-                    <span class="glyphicon-bookmark" title="分类"></span>
-                    {{range $index, $category := $article.SliceCategories }}
-                    <span class="tags">{{$category}}</span>
-                    {{end}}
+                <div class="row article-categories-row">
+                    <div class="span glyphicon-tag-img">
+                        <span class="glyphicon-bookmark" title="分类"></span>
+                    </div>
+                    <div class="span article-tag">
+                        {{range $index, $category := $article.SliceCategories }}
+                        <span class="tags">{{$category}}</span>
+                        {{end}}
+                    </div>
                 </div>
 
-                <div class="article-tag article-detail-tag">
-                    <span class="glyphicon-tags" title="标签"></span>
-                    {{range $index, $tag := $article.SliceTags }}
-                    <span class="tags">{{$tag}}</span>
-                    {{end}}
+                <div class="row article-tags-row">
+                    <div class="span glyphicon-tag-img">
+                        <span class="glyphicon-tags" title="标签"></span>
+                    </div>
+                    <div class="span article-tag">
+                        {{range $index, $tag := $article.SliceTags }}
+                        <span class="tags">{{$tag}}</span>
+                        {{end}}
+                    </div>
                 </div>
 
 
-                <div class="article-detail-content" article-id="{{.Id}}">
-                    <script>
-                        var articleContent = "{{substr .Content 0 300}}";
-                        $("div[class='article-detail-content'][article-id='{{.Id}}']").css("text-align", "").text($("<div>").html(marked(articleContent)).text().trim())
-                    </script>
+                <div class="hidden simple-article-content" article-id="{{.Id}}">
+                    {{substr .Content 0 300}}
                 </div>
 
                 <div class="article-detail-nav">
                     <span class="glyphicon-eye-open" title="浏览数"></span><span class="article-detail-number">{{.ViewCount}}</span>
-                    <span {{if .HasLike }} class="glyphicon-heart article-like" {{else}} class="glyphicon-heart-empty article-like"  {{end}} title="点赞" article-id="{{.Id}}"></span><span class="article-detail-number">{{.LikeCount}}</span>
+                    <span {{if .HasLike }} class="glyphicon-heart article-like" {{else}}
+                          class="glyphicon-heart-empty article-like" {{end}} title="点赞"
+                          article-id="{{.Id}}"></span><span class="article-detail-number">{{.LikeCount}}</span>
                     <span class="glyphicon-comment" title="评论数"></span><span class="article-detail-number">{{.CommentCount}}</span>
                     <span class="glyphicon-time" title="创建时间"></span><span
                         class="article-detail-number">{{zhtime $article.CreatedAt}}</span>

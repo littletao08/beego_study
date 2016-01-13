@@ -4,40 +4,42 @@
 <article>
     <h1>{{.article.Title}}</h1>
 
-    <div class="article-tag article-detail-tag">
-        <span class="glyphicon-bookmark" title="分类"></span>
-        {{range $index, $category := .article.SliceCategories }}
-        <span class="tags">{{$category}}</span>
-        {{end}}
-    </div>
-    <div class="article-tag article-detail-tag">
-        <span class="glyphicon-tags" title="标签"></span>
-        {{range $index, $tag := $.article.SliceTags }}
-        <span class="tags">{{$tag}}</span>
-        {{end}}
+    <div class="row article-categories-row">
+        <div class="span glyphicon-tag-img">
+            <span class="glyphicon-bookmark" title="分类"></span>
+        </div>
+        <div class="span article-tag">
+            {{range $index, $category := .article.SliceCategories }}
+            <span class="tags">{{$category}}</span>
+            {{end}}
+        </div>
     </div>
 
-    <div class="article-detail-nav-left">
+    <div class="row article-tags-row">
+        <div class="span glyphicon-tag-img">
+            <span class="glyphicon-tags" title="标签"></span>
+        </div>
+        <div class="span article-tag">
+            {{range $index, $tag := .article.SliceTags }}
+            <span class="tags">{{$tag}}</span>
+            {{end}}
+        </div>
+    </div>
+
+    <div class="article-detail-nav">
         <span class="glyphicon-eye-open" title="浏览数"></span><span class="article-detail-number">{{.article.ViewCount}}</span>
         <span {{if .article.HasLike }} class="glyphicon-heart article-like" {{else}} class="glyphicon-heart-empty article-like"  {{end}} title="点赞" article-id="{{.article.Id}}"></span><span class="article-detail-number">{{.article.LikeCount}}</span>
         <span class="glyphicon-comment" title="评论数"></span><span class="article-detail-number">{{.article.CommentCount}}</span>
-    </div>
-    <div class="article-detail-nav-right">
         <span class="glyphicon-time" title="创建时间"></span><span class="article-detail-number">{{zhtime .article.CreatedAt}}</span>
         {{if .user}}
         {{if eq .user.Id .article.UserId }}
-        <a href="/articles/{{.article.Id}}/edit"><span class="glyphicon-pencil" title="修改"></span></a>
+        <span><a href="/articles/{{.article.Id}}/edit"><span class="glyphicon-pencil" title="修改"></span></a></span>
         {{end}}
         {{end}}
-
     </div>
-
     <hr>
-    <div class="article-content">
-        <script>
-            var content = "{{.article.Content}}";
-            $("div.article-content").html(marked(content));
-        </script>
+    <div class="hidden full-article-content">
+        {{.article.Content}}
     </div>
     <div class="article-detail-nav-left clearfix">
         <span class="glyphicon-pencil" title="评论"></span>
@@ -56,12 +58,4 @@
         </div>
     </div>
 </article>
-<script>
-    $(window).load(function(){
-        $("div.article-content").find("pre").addClass("prettyprint linenums");
-        prettyPrint();
-    })
-</script>
 {{template "public/footer.html" .}}
-
-

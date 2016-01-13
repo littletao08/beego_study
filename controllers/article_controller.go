@@ -170,15 +170,19 @@ func (c *ArticleController) CreateArticle() {
 	beego.Debug("title", title, "categories", categories, "tag", tag, "content", content)
 
 	article := entities.Article{UserId:userId, Title:title, Content:content, CreatedAt:time.Now()}
-	prt := &article
-	prt.SetCategories(categories)
-	prt.SetTags(tag)
-	err := models.SaveArticle(&article)
+	err, valid := models.ValidArticle(article)
+	if valid {
+		prt := &article
+		prt.SetCategories(categories)
+		prt.SetTags(tag)
+		err = models.SaveArticle(&article)
+	}
+
 	if (nil == err) {
 		c.Redirect("../", 302)
 	}else {
-		beego.Error("文章创建失败")
-		c.StringError("文章创建失败")
+		beego.Error(err)
+		c.StringError(err.Error())
 		c.Data["article"] = article
 		c.TplNames = "article_create.html"
 	}

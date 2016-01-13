@@ -27,7 +27,7 @@ $(function () {
 
     //设置内容区最小告诉和左边栏的高度一致
     var sidebarHeight = $("div#container-left").height();
-    $("div#container-right").css("min-height",sidebarHeight);
+    $("div#container-right").css("min-height", sidebarHeight);
 
     //左边脸菜单css切换
     $("#sidebar li").click(function () {
@@ -38,13 +38,18 @@ $(function () {
     //首页点赞
     bindLikeBtnEvent();
 
-    //
-
+    //显示文章内容
+    showArticleContent();
 
 
 });
 
-function bindLikeBtnEvent(){
+$(window).load(function(){
+    $("div[class$='article-content']").find("pre").addClass("prettyprint linenums");
+    prettyPrint();
+})
+
+function bindLikeBtnEvent() {
     $(".article-like").click(function () {
         var $like = $(this);
         var articleId = $like.attr("article-id");
@@ -57,13 +62,13 @@ function bindLikeBtnEvent(){
                     var oldCount = Number($likeCount.html());
                     if (data.Message > 0) {
                         $likeCount.text(oldCount + 1);
-                        $like.attr("class","glyphicon-heart article-like");
+                        $like.attr("class", "glyphicon-heart article-like");
                     } else {
                         $likeCount.text(oldCount - 1);
-                        $like.attr("class","glyphicon-heart-empty article-like");
+                        $like.attr("class", "glyphicon-heart-empty article-like");
                     }
                 }
-                else if(data.Code==1000){
+                else if (data.Code == 1000) {
                     $("#header-tip").showWarnTip("您未登录");
                 }
                 else {
@@ -93,7 +98,7 @@ function initMarkdownEditor(content) {
     );
 
     //articleContent
-    $('#editor').markdownEditor("setContent",content);
+    $('#editor').markdownEditor("setContent", content);
 
     $("textarea").attr("name", "content").keyup(function () {
         var content = $('#editor').markdownEditor('content');
@@ -126,7 +131,6 @@ function initMarkdownEditor(content) {
         $(".md-editor").css("border-color", "#d8d8d8").next(".form-error").remove();
     }
 }
-
 
 
 var TipType = {SUCCESS: "alert-success", WARN: "alert-danger", ERROR: "alert-error"};
@@ -176,3 +180,20 @@ jQuery.fn.extend({
     }
 
 })
+
+
+function showArticleContent() {
+    var $articleContent = $("div[class$='article-content']:hidden");
+    if ($articleContent) {
+        $articleContent.each(function(){
+            var content = marked($(this).text());
+            if ($(this).hasClass("full-article-content")) {
+                $(this).html(content).removeClass("hidden");
+            } else {
+                content = $("<div>").html(content).text();
+                $(this).html(content).removeClass("hidden");
+            }
+
+        });
+    }
+}
