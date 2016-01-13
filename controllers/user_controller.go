@@ -4,6 +4,7 @@ import (
 	"beego_study/models"
 	"strings"
 	"beego_study/entities"
+	"log"
 )
 
 type UserController struct {
@@ -48,60 +49,68 @@ func (c*UserController) Redirect(){
 }
 
 func (c *UserController) QCSession(){
+	log.Println("QQ回调登录")
 	nickname := c.GetString("nickname")
 	qcOpenId := c.GetString("qcOpenId")
 	sex := c.GetString("sex")
 	user,_ := models.FundQCUser(qcOpenId)
 	c.Data["openId"] = qcOpenId
 	//用户存在,密码为空,跳转到输入密码的页面,这一步用来保护用户账号安全的,暂时先不添加了.
-	if nil != user {
-		//c.SetSession("cacheUser",user);
+	if nil != user && strings.EqualFold(qcOpenId,user.QcOpenId) {
 		//跳转到设置密码的页面
 		c.SetSession("user", user)
 		c.Data["user"] = user
 		c.Ctx.Redirect(302,"/")
 
 	}else{
+		log.Println("QQ回调登录,新创建用户对象")
 		var err error
 		 user,err:= models.CreateQCUser(nickname+"_"+qcOpenId,qcOpenId,sex)
-		if err != nil {
+		if err == nil {
+			log.Printf("创建的新用户name:%s",user.Name)
 			c.SetSession("cacheUser",user);
+
 			//跳转到设置密码的页面
 			c.Data["showRightBar"] = false
 			c.TplNames = "pwd.html"
+		}else{
+			c.TplNames = "login.html"
 		}
 	}
 }
 
 func (c *UserController) IgnorePwdLogin(){
+	log.Println("用户提交密码信息")
 	openId := c.GetString("opneId")
 	pwd := c.GetString("pwd")
 	repwd := c.GetString("repwd")
-	user := c.GetSession("cacheuUser")
-	if nil == user{
-		c.Data["showRightBar"] = false
-		c.TplNames = "login.html"
-	}
-	var u,ok = user.(entities.User)
+	u := c.GetSession("cacheUser")
+	var user,ok = u.(entities.User)
 	if !ok {
 		c.Data["showRightBar"] = false
 		c.TplNames = "login.html"
 	}
-
+	log.Println("获取缓存的用户对象")
+	log.Printf("参数信息openId:%s,user.OpenId:%s",openId,user.QcOpenId)
+	log.Printf("用户的姓名信息name:%s",user.Name)
 	//用户存在,并且请求匹配
-	if len(openId) > 0 && strings.EqualFold(openId,u.QcOpenId)  {
+	if len(openId) > 0 && strings.EqualFold(openId,user.QcOpenId)  {
+		log.Println("缓存的用户open ID相等")
 		if strings.EqualFold(pwd,repwd){
-			u.Password = pwd
-			models.SetUserPassword(&u)
+			log.Println("密码校验成功")
+			user.Password = pwd
+			models.SetUserPassword(&user)
 			c.SetSession("cacheUser",nil)
-			c.SetSession("user",u)
+			c.SetSession("user",user)
 			c.Data["user"] = user
 			c.Ctx.Redirect(302,"/")
 		}else{
+			log.Println("密码校验不一致")
 			c.Data["errMessage"] = "密码和重复密码不一致"
 			c.TplNames = "pwd.html"
 		}
 	}else{
+		log.Println("非法登录")
 		//非法登录
 		c.Ctx.Redirect(302,"/")
 	}

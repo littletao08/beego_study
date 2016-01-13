@@ -20,7 +20,7 @@ func init() {
 	beego.Router("/users/qclogin", &controllers.UserController{},"post:QCSession")
 
 	//如果是新用户,要设置密码
-	beego.Router("/users/dologin", &controllers.UserController{},"post:IgnorePwdLogin")
+	beego.Router("/users/dopwd", &controllers.UserController{},"post:IgnorePwdLogin")
 	beego.Router("/articles", &controllers.ArticleController{},"get:Articles")
 	beego.Router("/articles", &controllers.ArticleController{},"post:CreateArticle")
 	beego.Router("/articles/new", &controllers.ArticleController{},"get:New")

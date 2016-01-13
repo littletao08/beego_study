@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"beego_study/constants"
 	"beego_study/utils/redis"
+	"time"
 )
 
 func User(id int) (entities.User, error) {
@@ -44,8 +45,11 @@ func CreateNewUser(name string, password string) (entities.User,error) {
 func CreateQCUser(name string, qcOpenId string,sex string) (*entities.User,error) {
 	var user entities.User
 	user.Name = name
+	user.Nick = name
 	user.QcOpenId = qcOpenId
 	user.Sex = 1
+	user.CreatedAt=time.Now().Format("2006-01-02 15:04:05")
+	user.UpdatedAt=time.Now().Format("2006-01-02 15:04:05")
 
 	orm := orm.NewOrm()
 	var err error
@@ -56,7 +60,7 @@ func CreateQCUser(name string, qcOpenId string,sex string) (*entities.User,error
 
 func SetUserPassword(user *entities.User) error {
 	orm :=orm.NewOrm()
-	_,err := orm.Update(&user);
+	_,err := orm.Update(user);
 	return err
 }
 
