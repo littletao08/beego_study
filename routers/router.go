@@ -12,7 +12,6 @@ func init() {
 
 	beego.Router("/users/session", &controllers.UserController{},"post:Session")
 
-
 	//QQ 登录回调,这个页面只有js内容,会自动检测用户的登录信息并且异步把用户登录的信息发送到后台.
 	beego.Router("/users/qq_redirect", &controllers.UserController{},"get:Redirect")
 

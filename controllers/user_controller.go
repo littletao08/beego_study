@@ -5,6 +5,7 @@ import (
 	"strings"
 	"beego_study/entities"
 	"log"
+	"github.com/astaxie/beego"
 )
 
 type UserController struct {
@@ -85,7 +86,8 @@ func (c *UserController) IgnorePwdLogin(){
 	pwd := c.GetString("pwd")
 	repwd := c.GetString("repwd")
 	u := c.GetSession("cacheUser")
-	var user,ok = u.(entities.User)
+	beego.Error("**************************u:",u)
+	var user,ok = u.(*entities.User)
 	if !ok {
 		c.Data["showRightBar"] = false
 		c.TplNames = "login.html"
@@ -99,7 +101,7 @@ func (c *UserController) IgnorePwdLogin(){
 		if strings.EqualFold(pwd,repwd){
 			log.Println("密码校验成功")
 			user.Password = pwd
-			models.SetUserPassword(&user)
+			models.SetUserPassword(user)
 			c.SetSession("cacheUser",nil)
 			c.SetSession("user",user)
 			c.Data["user"] = user
