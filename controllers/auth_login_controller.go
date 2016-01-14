@@ -85,7 +85,7 @@ func (c *AuthLoginController) QQToken() {
 	defer resp.Body.Close()
 
 
-	beego.Debug(result)
+	beego.Debug(string(result))
 
 	c.TplNames = "index.html"
 }
