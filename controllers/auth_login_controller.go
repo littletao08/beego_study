@@ -14,7 +14,7 @@ var authConfig config.ConfigContainer
 
 func init() {
 
-	beego.Debug(beego.AppConfigProvider)
+	beego.Debug(beego.AppPath)
 
 	config, err := config.NewConfig(beego.AppConfigProvider, beego.AppPath + "/conf/auth_login.conf")
 	if err != nil {
