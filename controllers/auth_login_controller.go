@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego/config"
 	"github.com/astaxie/beego"
 	"bytes"
+	"strings"
 )
 
 type AuthLoginController struct {
@@ -14,9 +15,11 @@ var authConfig config.ConfigContainer
 
 func init() {
 
-	beego.Debug(beego.AppPath)
+	var appPath = beego.AppConfigPath
 
-	config, err := config.NewConfig(beego.AppConfigProvider, beego.AppPath + "/conf/auth_login.conf")
+	appPath = beego.Substr(appPath,0,strings.LastIndex(appPath,"/")+1)
+
+	config, err := config.NewConfig(beego.AppConfigProvider, appPath + "/auth_login.conf")
 	if err != nil {
 		beego.Error(config)
 		panic("auth_login.conf load fail !")
