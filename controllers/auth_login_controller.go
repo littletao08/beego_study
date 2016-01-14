@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"strings"
 	"net/http"
-"fmt"
 )
 
 type AuthLoginController struct {
