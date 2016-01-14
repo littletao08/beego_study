@@ -58,7 +58,7 @@ func (c *AuthLoginController) QQToken() {
 	params["grant_type"] = "authorization_code"
 	params["client_id"] = authConfig.String("app_id")
 	params["client_secret"] = authConfig.String("app_key")
-	params["state"] = code
+	params["code"] = code
 	params["redirect_uri"] = authConfig.String("token_redirect_uri")
 
 	var baseUrl = authConfig.String("access_token_url")
