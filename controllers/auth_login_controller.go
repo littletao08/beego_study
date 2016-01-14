@@ -1,7 +1,8 @@
 package controllers
+
 import (
-"github.com/astaxie/beego/config"
-"github.com/astaxie/beego"
+	"github.com/astaxie/beego/config"
+	"github.com/astaxie/beego"
 	"bytes"
 )
 
@@ -10,15 +11,20 @@ type AuthLoginController struct {
 }
 
 var authConfig config.ConfigContainer
+
 func init() {
-	config, err := config.NewConfig(beego.AppConfigProvider,beego.AppPath+"/conf/auth_login.conf")
+
+	beego.Debug(beego.AppConfigProvider)
+
+	config, err := config.NewConfig(beego.AppConfigProvider, beego.AppPath + "/conf/auth_login.conf")
 	if err != nil {
+		beego.Error(config)
 		panic("auth_login.conf load fail !")
 	}
-	authConfig=config
+	authConfig = config
 
 }
-func (c *AuthLoginController) QQAuth()  {
+func (c *AuthLoginController) QQAuth() {
 
 	params := make(map[string]string)
 	params["client_id"] = authConfig.String("app_id")
@@ -32,18 +38,17 @@ func (c *AuthLoginController) QQAuth()  {
 
 	reqStr := bytes.NewBufferString("?")
 
-	for key,val := range params  {
+	for key, val := range params {
 		reqStr.WriteString(key)
 		reqStr.WriteString("=")
 		reqStr.WriteString(val)
 		reqStr.WriteString("&")
 	}
-	var fullRequestStr = baseUrl+reqStr.String()
-	c.Redirect(fullRequestStr,302)
+	var fullRequestStr = baseUrl + reqStr.String()
+	c.Redirect(fullRequestStr, 302)
 }
 
-
-func (c *AuthLoginController) QQToken()  {
+func (c *AuthLoginController) QQToken() {
 
 	code := c.GetString("code")
 	params := make(map[string]string)
@@ -57,14 +62,14 @@ func (c *AuthLoginController) QQToken()  {
 
 	reqStr := bytes.NewBufferString("?")
 
-	for key,val := range params  {
+	for key, val := range params {
 		reqStr.WriteString(key)
 		reqStr.WriteString("=")
 		reqStr.WriteString(val)
 		reqStr.WriteString("&")
 	}
-	var fullRequestStr = baseUrl+reqStr.String()
-	c.Redirect(fullRequestStr,302)
+	var fullRequestStr = baseUrl + reqStr.String()
+	c.Redirect(fullRequestStr, 302)
 }
 
 
