@@ -7,6 +7,7 @@ import (
 	"strings"
 	"net/http"
 	"io/ioutil"
+	"net/url"
 )
 
 type AuthLoginController struct {
@@ -84,8 +85,22 @@ func (c *AuthLoginController) QQToken() {
 
 	defer resp.Body.Close()
 
+	if nil != err {
+		c.TplNames = "login.html"
+		return ;
+	}
 
-	beego.Debug(string(result))
+	content := string(result)
+	values , err := url.ParseQuery(content)
+	if nil != err {
+		c.TplNames = "login.html"
+		return ;
+	}
+
+	for i,v := range values {
+		beego.Debug("key:",i,"value:",v)
+	}
+
 
 	c.TplNames = "index.html"
 }
