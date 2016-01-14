@@ -739,7 +739,49 @@ article .user-head {
 }
 
 .auth-form .btn{
+    margin: 20px auto;
+    width: 100%;
+    background: rgba(46, 142, 49, 0.99);
+    /*background: #ff8161;*/
+    border-radius: 5px;
+    line-height: 30px;
+    font-size: 22px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.login-look a.sina-login {
+    margin-right: 10px;
+}
+
+.login-look a.qq-login {
+    margin-left: 10px;;
+}
+
+.login-look {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.login-look a {
+    height: 40px;
+    line-height: 40px;
+    width: 146px;
+    text-align: center;
+    font-size: 14px;
+    color: #959595;
+    border-radius: 5px;
+    background: #fff;
     margin: 5px auto;
+}
+
+.login-look a img {
+    vertical-align: middle;
+    padding-bottom: 2px;
+    margin-right: 6px;
 }
 
 /*************mac-editor****************/
@@ -790,3 +832,6 @@ form .btn {
 .error-border{
     border-color: red;
 }
+
+
+

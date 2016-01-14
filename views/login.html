@@ -28,21 +28,28 @@
                 </div>
                     <span class="form-error">{{.response.Message}}</span>
                 <div class="">
-                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
-                           value="登 录">
+                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="登 录">
                 </div>
-
+                <div class="login-look navbar-btn">
+                    <a href="#" title="微博登录" class="sina-login" type="sina" ><img src="/static/img/third_login_sina.png">微博登录</a>
+                    <a href="#" title="QQ登录" class="qq-login" type="qq" ><img src="/static/img/third_login_qq.png">QQ登录</a>
+                </div>
             </div>
         </form>
     </div>
 
 </div>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.2.43/jquery.form-validator.min.js"></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101287052" data-redirecturi="http://www.threeperson.com" charset="utf-8"></script>
+{{template "public/footer.html" .}}
 <script>
-
     $.validate({
         modules: 'location, date, security, file',
     });
 
+    $('.login-look a').on("click", function(e) {
+        var type= $(this).attr("type")
+        window.location="/oauth/"+type+"/auth";
+    });
+
 </script>
-{{template "public/footer.html" .}}
+

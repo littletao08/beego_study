@@ -17,9 +17,15 @@ func init() {
 	beego.Router("/articles/:id([0-9]", &controllers.ArticleController{},"get:ArticleDetail")
 	beego.Router("/articles/:id([0-9]/edit", &controllers.ArticleController{},"get:EditArticle")
 	beego.Router("/articles", &controllers.ArticleController{},"put:UpdateArticle")
-	beego.Router("/categories/:category", &controllers.ArticleController{},"get:ArticlesGyCategory")
-	beego.Router("/sponsors/new", &controllers.SponsorController{},"post:New")
 	beego.Router("/articles/:id([0-9]/likes",&controllers.ArticleController{},"post:Like")
+
+	beego.Router("/categories/:category", &controllers.ArticleController{},"get:ArticlesGyCategory")
+
+	beego.Router("/sponsors/new", &controllers.SponsorController{},"post:New")
+
+	beego.Router("/oauth/:type/auth", &controllers.AuthLoginController{},"get:QQAuth")
+	beego.Router("/oauth/:type/token", &controllers.AuthLoginController{},"get:QQToken")
+
 
 }
 
