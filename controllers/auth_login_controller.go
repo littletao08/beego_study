@@ -5,6 +5,8 @@ import (
 	"github.com/astaxie/beego"
 	"bytes"
 	"strings"
+	"net/http"
+"fmt"
 )
 
 type AuthLoginController struct {
@@ -72,7 +74,15 @@ func (c *AuthLoginController) QQToken() {
 		reqStr.WriteString("&")
 	}
 	var fullRequestStr = baseUrl + reqStr.String()
-	c.Redirect(fullRequestStr, 302)
+
+	resp , err := http.Get(fullRequestStr)
+	if nil != err {
+		beego.Error(err)
+	}
+
+	defer resp.Body.Close()
+
+	beego.Debug(string(resp))
 }
 
 
