@@ -31,7 +31,7 @@ func (c *AuthLoginController) QQAuth() {
 
 	params := make(map[string]string)
 	params["client_id"] = authConfig.String("app_id")
-	params["redirect_uri"] = authConfig.String("redirect_uri")
+	params["redirect_uri"] = authConfig.String("auth_redirect_uri")
 	params["response_type"] = "code"
 	var state = "111";
 	params["state"] = state
@@ -55,11 +55,11 @@ func (c *AuthLoginController) QQToken() {
 
 	code := c.GetString("code")
 	params := make(map[string]string)
-	params["grant_type"] = code
+	params["grant_type"] = "authorization_code"
 	params["client_id"] = authConfig.String("app_id")
 	params["client_secret"] = authConfig.String("app_key")
 	params["state"] = code
-	params["redirect_uri"] = authConfig.String("redirect_uri")
+	params["redirect_uri"] = authConfig.String("token_redirect_uri")
 
 	var baseUrl = authConfig.String("access_token_url")
 
