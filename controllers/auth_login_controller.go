@@ -81,7 +81,7 @@ func (c *AuthLoginController) QQToken() {
 
 	defer resp.Body.Close()
 
-	beego.Debug(string(resp))
+	beego.Debug(resp)
 }
 
 
