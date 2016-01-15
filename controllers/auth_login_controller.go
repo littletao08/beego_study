@@ -56,14 +56,14 @@ func (c *AuthLoginController) QQToken() {
 	tokenRes, err := queryToken(code)
 	beego.Debug("****************tokenRes:",tokenRes,"****************")
 	if (nil != err ) {
-		c.Redirect("login.html", 302)
+		c.Redirect("/login", 302)
 		return
 	}
 
 	accessToken := tokenRes["access_token"]
 	beego.Debug("****************accessToken:",accessToken,"****************")
 	if len(accessToken) <= 0 {
-		c.Redirect("login.html", 302)
+		c.Redirect("/login", 302)
 		return
 	}
 
@@ -77,7 +77,7 @@ func (c *AuthLoginController) QQToken() {
 
 	openId := openIdRes["openid"]
 	if len(openId) <= 0 {
-		c.Redirect("login.html", 302)
+		c.Redirect("/login", 302)
 		return
 	}
 
@@ -86,14 +86,13 @@ func (c *AuthLoginController) QQToken() {
 	beego.Debug("****************userInfoRes:",userInfoRes,"****************")
 
 	if (nil != err ) {
-		c.Redirect("login.html", 302)
+		c.Redirect("/login", 302)
 		return
 	}
 
 	beego.Error("****************",userInfoRes,"****************")
 
-
-	c.TplNames = "index.html"
+	c.Redirect("/", 302)
 }
 
 func queryToken(authCode string) (map[string]string, error) {
