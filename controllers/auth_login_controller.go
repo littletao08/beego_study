@@ -148,7 +148,7 @@ func queryOpenID(accessToken string) (map[string]string, error) {
 	}
 
 	beego.Debug("******************queryOpenID:before",content)
-	content = beego.Substr(content,strings.Index(content,"{")-1,strings.LastIndex(content,"}")+1)
+	content = beego.Substr(content,strings.Index(content,"{")-1,strings.LastIndex(content,"}"))
 	beego.Debug("******************queryOpenID:after",content)
 
 	var paramMap map[string]string
