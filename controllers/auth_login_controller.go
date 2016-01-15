@@ -160,7 +160,7 @@ func queryOpenID(accessToken string) (map[string]string, error) {
 }
 
 
-func OpenUserInfo(accessToken string,openId string) (map[string]string,error) {
+func OpenUserInfo(accessToken string,openId string) (map[string]interface{},error) {
 	var baseUrl = authConfig.String("get_user_info_url")
 	params := make(map[string]string)
 	params["access_token"] = accessToken
