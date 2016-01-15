@@ -6,6 +6,8 @@ import (
 	"strings"
 	"net/http"
 	"beego_study/utils"
+"io/ioutil"
+	"encoding/json"
 )
 
 type AuthLoginController struct {
@@ -156,9 +158,27 @@ func OpenUserInfo(accessToken string,openId string) (map[string]string,error) {
 		return nil, err
 	}
 
-	paramMap, err := utils.ExtractResponse(resp.Body)
-
+	result, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
+
+	if nil != err {
+		beego.Error(err)
+		return nil, err;
+	}
+
+	content := string(result)
+	if len(content) == 0 {
+		beego.Error(err)
+		return nil, err;
+	}
+
+	beego.Debug("******************OpenUserInfo:before",content)
+	content = beego.Substr(content,strings.Index(content,"{"),strings.LastIndex(content,"}"))
+	beego.Debug("******************OpenUserInfo:after",content)
+
+	var paramMap map[string]string
+
+	err = json.Unmarshal([]byte(content),&paramMap)
 
 	return paramMap, err
 
