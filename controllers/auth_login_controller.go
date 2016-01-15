@@ -3,11 +3,9 @@ package controllers
 import (
 	"github.com/astaxie/beego/config"
 	"github.com/astaxie/beego"
-	"bytes"
 	"strings"
 	"net/http"
-	"io/ioutil"
-	"net/url"
+	"beego_study/utils"
 )
 
 type AuthLoginController struct {
@@ -20,7 +18,7 @@ func init() {
 
 	var appPath = beego.AppConfigPath
 
-	appPath = beego.Substr(appPath,0,strings.LastIndex(appPath,"/")+1)
+	appPath = beego.Substr(appPath, 0, strings.LastIndex(appPath, "/") + 1)
 
 	config, err := config.NewConfig(beego.AppConfigProvider, appPath + "/auth_login.conf")
 	if err != nil {
@@ -42,68 +40,128 @@ func (c *AuthLoginController) QQAuth() {
 
 	var baseUrl = authConfig.String("authorize_url")
 
-	reqStr := bytes.NewBufferString("?")
+	subUrl := utils.BuildQueryString(params)
 
-	for key, val := range params {
-		reqStr.WriteString(key)
-		reqStr.WriteString("=")
-		reqStr.WriteString(val)
-		reqStr.WriteString("&")
-	}
-	var fullRequestStr = baseUrl + reqStr.String()
+	var fullRequestStr = baseUrl + subUrl
 	c.Redirect(fullRequestStr, 302)
 }
 
 func (c *AuthLoginController) QQToken() {
 
 	code := c.GetString("code")
-	params := make(map[string]string)
-	params["grant_type"] = "authorization_code"
-	params["client_id"] = authConfig.String("app_id")
-	params["client_secret"] = authConfig.String("app_key")
-	params["code"] = code
-	params["redirect_uri"] = authConfig.String("token_redirect_uri")
 
-	var baseUrl = authConfig.String("access_token_url")
-
-	reqStr := bytes.NewBufferString("?")
-
-	for key, val := range params {
-		reqStr.WriteString(key)
-		reqStr.WriteString("=")
-		reqStr.WriteString(val)
-		reqStr.WriteString("&")
-	}
-	var fullRequestStr = baseUrl + reqStr.String()
-
-	resp , err := http.Get(fullRequestStr)
-	if nil != err {
-		beego.Error(err)
+	//获取token
+	tokenRes, err := queryToken(code)
+	beego.Debug("****************tokenRes:",tokenRes,"****************")
+	if (nil != err ) {
+		c.Redirect("login.html", 302)
+		return
 	}
 
-	result, err := ioutil.ReadAll(resp.Body)
-
-	defer resp.Body.Close()
-
-	if nil != err {
-		c.TplNames = "login.html"
-		return ;
+	accessToken := tokenRes["access_token"]
+	beego.Debug("****************accessToken:",accessToken,"****************")
+	if len(accessToken) <= 0 {
+		c.Redirect("login.html", 302)
+		return
 	}
 
-	content := string(result)
-	values , err := url.ParseQuery(content)
-	if nil != err {
-		c.TplNames = "login.html"
-		return ;
+	//获取openid
+	openIdRes,err := queryOpenID(accessToken)
+	beego.Debug("****************openIdRes:",openIdRes,"****************")
+	if (nil != err ) {
+		c.Redirect("login.html", 302)
+		return
 	}
 
-	for i,v := range values {
-		beego.Debug("key:",i,"value:",v)
+	openId := openIdRes["openid"]
+	if len(openId) <= 0 {
+		c.Redirect("login.html", 302)
+		return
 	}
+
+	//获取user_info
+	userInfoRes,err := OpenUserInfo(accessToken, openId)
+	beego.Debug("****************userInfoRes:",userInfoRes,"****************")
+
+	if (nil != err ) {
+		c.Redirect("login.html", 302)
+		return
+	}
+
+	beego.Error("****************",userInfoRes,"****************")
 
 
 	c.TplNames = "index.html"
 }
 
+func queryToken(authCode string) (map[string]string, error) {
+	params := make(map[string]string)
+	params["grant_type"] = "authorization_code"
+	params["client_id"] = authConfig.String("app_id")
+	params["client_secret"] = authConfig.String("app_key")
+	params["code"] = authCode
+	params["redirect_uri"] = authConfig.String("token_redirect_uri")
+
+	var baseUrl = authConfig.String("access_token_url")
+
+	subUrl := utils.BuildQueryString(params)
+
+	var fullRequestStr = baseUrl + subUrl
+
+	resp, err := http.Get(fullRequestStr)
+	if nil != err {
+		beego.Error(err)
+		return nil, err
+	}
+
+	paramMap, err := utils.ExtractResponse(resp.Body)
+
+	defer resp.Body.Close()
+
+	return paramMap, err
+}
+
+func queryOpenID(accessToken string) (map[string]string, error) {
+
+	var baseUrl = authConfig.String("openid_url")
+	var fullRequestStr = baseUrl + "?access_token=" + accessToken
+
+	resp, err := http.Get(fullRequestStr)
+	if nil != err {
+		beego.Error(err)
+		return nil, err
+	}
+	paramMap, err := utils.ExtractResponse(resp.Body)
+
+	defer resp.Body.Close()
+
+	return paramMap, err
+}
+
+
+func OpenUserInfo(accessToken string,openId string) (map[string]string,error) {
+	var baseUrl = authConfig.String("get_user_info_url")
+	params := make(map[string]string)
+	params["access_token"] = accessToken
+	params["openid"] = openId
+	params["oauth_consumer_key"] = authConfig.String("app_id")
+
+	subUrl := utils.BuildQueryString(params)
+
+	var fullRequestStr = baseUrl + subUrl
+
+	resp, err := http.Get(fullRequestStr)
+	if nil != err {
+		beego.Error(err)
+		return nil, err
+	}
+
+	paramMap, err := utils.ExtractResponse(resp.Body)
+
+	defer resp.Body.Close()
+
+	return paramMap, err
+
+}
 
 
