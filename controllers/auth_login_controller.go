@@ -162,7 +162,7 @@ func queryOpenID(accessToken string) (map[string]string, error) {
 
 func OpenUserInfo(accessToken string,openId string) (map[string]string,error) {
 	var baseUrl = authConfig.String("get_user_info_url")
-	params := make(map[string]interface{})
+	params := make(map[string]string)
 	params["access_token"] = accessToken
 	params["openid"] = openId
 	params["oauth_consumer_key"] = authConfig.String("app_id")
@@ -193,7 +193,7 @@ func OpenUserInfo(accessToken string,openId string) (map[string]string,error) {
 
 	beego.Debug("******************OpenUserInfo",content)
 
-	var paramMap map[string]string
+	var paramMap map[string]interface{}
 
 	err = json.Unmarshal([]byte(content),&paramMap)
 
