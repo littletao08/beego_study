@@ -162,7 +162,7 @@ func queryOpenID(accessToken string) (map[string]string, error) {
 
 func OpenUserInfo(accessToken string,openId string) (map[string]string,error) {
 	var baseUrl = authConfig.String("get_user_info_url")
-	params := make(map[string]string)
+	params := make(map[string]interface{})
 	params["access_token"] = accessToken
 	params["openid"] = openId
 	params["oauth_consumer_key"] = authConfig.String("app_id")
