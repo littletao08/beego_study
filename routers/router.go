@@ -23,8 +23,8 @@ func init() {
 
 	beego.Router("/sponsors/new", &controllers.SponsorController{},"post:New")
 
-	beego.Router("/oauth/:type/auth", &controllers.AuthLoginController{},"get:QQAuth")
-	beego.Router("/oauth/:type/token", &controllers.AuthLoginController{},"get:QQToken")
+	beego.Router("/oauth/:type/auth", &controllers.AuthLoginController{},"get:QqAuth")
+	beego.Router("/oauth/:type/token", &controllers.AuthLoginController{},"get:QqToken")
 
 
 }

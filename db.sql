@@ -55,6 +55,15 @@ VALUES
 UNLOCK TABLES;
 
 
+alter table `user` add column head varchar(200) comment '头像地址' after nick;
+
+alter table `user` add column province varchar(20) comment '省份' after qq;
+
+alter table `user` add column city varchar(200) comment '头像地址' after province;
+
+alter table `user` add column open_id varchar(20) comment '第三方openid' after city;
+
+
 # Dump of table category
 # ------------------------------------------------------------
 
@@ -194,5 +203,26 @@ insert into parameter(`key`,`value`,`desc`,created_at)
 values('max_create_article_count_one_day',20,'每日创建文章最大个数',now());
 insert into parameter(`key`,`value`,`desc`,created_at)
 values('max_create_comment_count_one_day',100,'每日创建评论最大个数',now());
+
+
+CREATE TABLE `open_user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `open_id` varchar(20) DEFAULT NULL COMMENT '第三方openid',
+  `user_id` bigint(22) DEFAULT '0' COMMENT '绑定的用户编号',
+  `type` int(11) DEFAULT NULL COMMENT '1：qq;2：新浪微博',
+  `nick` varchar(50) DEFAULT NULL COMMENT '第三方昵称',
+  `head` varchar(200) DEFAULT NULL COMMENT '头像',
+  `sex` tinyint(1) DEFAULT '1' COMMENT '1：男；2：女',
+  `age` int(10) DEFAULT '0' COMMENT '年龄',
+  `province` varchar(20) DEFAULT NULL COMMENT '省份',
+  `city` varchar(20) DEFAULT NULL COMMENT '城市',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_openid_userid` (`open_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 
 

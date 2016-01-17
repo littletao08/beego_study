@@ -12,4 +12,5 @@ func InitEntity()  {
 	orm.RegisterModel(new(entities.ArticleLike))
 	orm.RegisterModel(new(entities.ArticleView))
 	orm.RegisterModel(new(entities.Tag))
+	orm.RegisterModel(new(entities.OpenUser))
 }
