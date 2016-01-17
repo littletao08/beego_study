@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"beego_study/entities"
 	"time"
+	"errors"
 )
 
 var AuthConfig config.ConfigContainer
@@ -93,7 +94,7 @@ func QueryOpenId(accessToken string) (map[string]string, error) {
 
 }
 
-func OpenUserInfo(accessToken string, openId string) (openUser *entities.OpenUser , error) {
+func OpenUserInfo(accessToken string, openId string) (*entities.OpenUser , error) {
 	var baseUrl = AuthConfig.String("get_user_info_url")
 	params := make(map[string]string)
 	params["access_token"] = accessToken
@@ -130,6 +131,10 @@ func OpenUserInfo(accessToken string, openId string) (openUser *entities.OpenUse
 
 	err = json.Unmarshal([]byte(content), &paramMap)
 
+   if len(paramMap) == 0 {
+	  return nil,errors.New("open_user_info get fail")
+   }
+
 	age,ok := paramMap["age"].(int)
 	if !ok {
 		age = 0
@@ -154,7 +159,7 @@ func OpenUserInfo(accessToken string, openId string) (openUser *entities.OpenUse
 		age = currYear-year
 	}
 
-	openUser = new(entities.OpenUser)
+	openUser := new(entities.OpenUser)
 
 	openUser.OpenId=openId
 	openUser.Nick=nick

@@ -18,7 +18,7 @@ func Oauth(openId string, openType int) (entities.OpenUser, error) {
 	return oauth, err
 }
 
-func SaveOauth(oauth entities.OpenUser) (int, error) {
+func SaveOauth(oauth entities.OpenUser) (int64, error) {
 	sql := bytes.NewBufferString("insert ignore into oauth(open_id,user_id,type,nick,sex,age,province,city,created_at) ")
 	sql.WriteString("values(?,?,?,?,?,?,?,now()) ")
 	db := db.NewDB()
@@ -26,7 +26,7 @@ func SaveOauth(oauth entities.OpenUser) (int, error) {
 	return result, err
 }
 
-func BindUserIdToOpenUser(openId string, openType int, userId int64) (int, error) {
+func BindUserIdToOpenUser(openId string, openType int, userId int64) (int64, error) {
 	sql := "update oauth set user_id = ? where open_id = ? and type = ? "
 	db := db.NewDB()
 	result, err := db.Execute(sql, []interface{}{userId, openId, openType})

@@ -5,7 +5,6 @@ import (
 	"github.com/gogather/com"
 	"html"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/astaxie/beego"
 )
 
 /**

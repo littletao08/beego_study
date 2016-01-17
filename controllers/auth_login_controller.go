@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego"
 	"beego_study/utils"
 	"beego_study/models"
-	"beego_study/entities"
 )
 
 type AuthLoginController struct {
@@ -67,14 +66,10 @@ func (c *AuthLoginController) QqToken() {
 	openUser, err := models.OpenUserInfo(accessToken, openId)
 	beego.Debug("****************userInfoRes:", openUser, "****************")
 
-	if (nil != err || len(openUser) == 0 ) {
+	if (nil != err ) {
 		c.Redirect("/login", 302)
 		return
 	}
-
-	oauth := new(entities.OpenUser)
-	oauth.OpenId = openId
-	oauth.Age =
 
 	beego.Error("****************", openUser, "****************")
 
