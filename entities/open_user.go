@@ -5,7 +5,7 @@ const (
 	OPEN_USER_TYPE_SINA=2
 )
 type OpenUser struct {
-	id int64
+	Id int64
 	OpenId string
 	UserId int64
 	Type int
