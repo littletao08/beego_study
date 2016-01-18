@@ -24,7 +24,7 @@ func TestSaveOrUpdateOpenUser(t *testing.T) {
 	openUser.Province="province"
 	openUser.Sex=2
 	openUser.Type=entities.OPEN_USER_TYPE_QQ
-	models.SaveOrUpdateOpenUser(&openUser)
+	models.SaveOrUpdateOpenUser(openUser)
 }
 
 

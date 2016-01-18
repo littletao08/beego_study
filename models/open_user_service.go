@@ -20,13 +20,13 @@ func OpenUser(openId string, openType int) (*entities.OpenUser, error) {
 
 
 func SaveOrUpdateOpenUser(openUser *entities.OpenUser) (error) {
-	sql := bytes.NewBufferString("insert ignore into open_user(open_id,user_id,type,nick,sex,age,province,city,created_at) ")
-	sql.WriteString("values(?,?,?,?,?,?,?,now()) ")
-	sql.WriteString("on duplicate key update nick =?,sex=?,province=?,city=?")
+	sql := bytes.NewBufferString("insert ignore into open_user(open_id,user_id,type,nick,head,sex,age,province,city,created_at) ")
+	sql.WriteString("values(?,?,?,?,?,?,?,?,?,now()) ")
+	sql.WriteString("on duplicate key update nick =?,head=?,sex=?,province=?,city=?")
 	db := db.NewDB()
 	params:=[]interface{}{openUser.OpenId, openUser.UserId, openUser.Type, openUser.Nick}
-	params=append(params, openUser.Sex, openUser.Age, openUser.Province, openUser.City)
-	params=append(params,openUser.Nick,openUser.Sex,openUser.Province,openUser.City)
+	params=append(params,openUser.Head,openUser.Sex, openUser.Age, openUser.Province, openUser.City)
+	params=append(params,openUser.Nick,openUser.Head,openUser.Sex,openUser.Province,openUser.City)
 	_ , err := db.Execute(sql.String(), params)
 	return err
 }
