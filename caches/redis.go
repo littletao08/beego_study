@@ -14,7 +14,6 @@ var (
 )
 
 type MyRedisCache struct {
-	cache.Cache
 	p        *redis.Pool // redis connection pool
 	conninfo string
 	dbNum    int
