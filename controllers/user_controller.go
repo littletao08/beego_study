@@ -9,19 +9,19 @@ type UserController struct {
 }
 
 func (c *UserController) Users() {
-	userId, _ := c.GetInt(":id");
+	userId, _ := c.GetInt64(":id");
 	var user, err = models.User(userId);
 	if err != nil {
 		c.Data["json"] = nil;
 	}else {
 		c.Data["json"] = user;
 	}
-	c.ServeJson()
+	c.ServeJSON()
 }
 
 func (c *UserController) Login() {
 	c.Data["showLeftBar"] = false
-	c.TplNames = "login.html"
+	c.TplName = "login.html"
 }
 
 func (c *UserController) Session() {
@@ -36,6 +36,6 @@ func (c *UserController) Session() {
 	}else {
 		c.StringError("用户名或者密码错误")
 		c.Data["showRightBar"] = false
-		c.TplNames = "login.html"
+		c.TplName = "login.html"
 	}
 }

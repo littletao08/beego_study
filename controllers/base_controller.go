@@ -165,7 +165,7 @@ func (c *BaseController) ErrorCodeJsonError(exception exception.ErrorCode) {
 	response.Success = false
 	response.Message = exception.Error()
 	c.Data["json"] = response
-	c.ServeJson()
+	c.ServeJSON()
 }
 
 func (c *BaseController) JsonError(message interface{}) {
@@ -174,7 +174,7 @@ func (c *BaseController) JsonError(message interface{}) {
 	response.Success = false
 	response.Message = message
 	c.Data["json"] = response
-	c.ServeJson()
+	c.ServeJSON()
 }
 
 func (c *BaseController) JsonSuccess(message interface{}) {
@@ -183,7 +183,7 @@ func (c *BaseController) JsonSuccess(message interface{}) {
 	response.Success = true
 	response.Message = message
 	c.Data["json"] = response
-	c.ServeJson()
+	c.ServeJSON()
 }
 
 

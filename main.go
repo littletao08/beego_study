@@ -3,7 +3,7 @@ package main
 import (
 	_"beego_study/routers"
 	"github.com/astaxie/beego"
-"beego_study/utils"
+	"beego_study/utils"
 )
 
 func main() {

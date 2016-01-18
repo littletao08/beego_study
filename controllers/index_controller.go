@@ -12,6 +12,6 @@ func (c *IndexController) Index() {
 	userId := c.UserId()
 	models.AllArticles(userId, pagination)
 	c.Data["pagination"] = pagination
-	c.TplNames = "index.html"
+	c.TplName = "index.html"
 
 }

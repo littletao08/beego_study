@@ -8,26 +8,31 @@ import (
 )
 
 
-func Oauth(openId string, openType int) (entities.OpenUser, error) {
+func OpenUser(openId string, openType int) (*entities.OpenUser, error) {
 	var err error
-	var oauth entities.OpenUser
+	var openUser entities.OpenUser
 
 	orm := orm.NewOrm()
-	err = orm.QueryTable("oauth").Filter("open_id", openId).Filter("type", openType).One(&oauth, "open_id", "user_id", "nick", "sex", "age")
+	err = orm.QueryTable("open_user").Filter("open_id", openId).Filter("type", openType).One(&openUser)
 
-	return oauth, err
+	return &openUser, err
 }
 
-func SaveOauth(oauth entities.OpenUser) (int64, error) {
-	sql := bytes.NewBufferString("insert ignore into oauth(open_id,user_id,type,nick,sex,age,province,city,created_at) ")
+
+func SaveOrUpdateOpenUser(openUser *entities.OpenUser) (error) {
+	sql := bytes.NewBufferString("insert ignore into open_user(open_id,user_id,type,nick,sex,age,province,city,created_at) ")
 	sql.WriteString("values(?,?,?,?,?,?,?,now()) ")
+	sql.WriteString("on duplicate key update nick =?,sex=?,province=?,city=?")
 	db := db.NewDB()
-	result, err := db.Execute(sql.String(), []interface{}{oauth.OpenId, oauth.UserId, oauth.Type, oauth.Nick, oauth.Sex, oauth.Age, oauth.Province, oauth.City})
-	return result, err
+	params:=[]interface{}{openUser.OpenId, openUser.UserId, openUser.Type, openUser.Nick}
+	params=append(params, openUser.Sex, openUser.Age, openUser.Province, openUser.City)
+	params=append(params,openUser.Nick,openUser.Sex,openUser.Province,openUser.City)
+	_ , err := db.Execute(sql.String(), params)
+	return err
 }
 
 func BindUserIdToOpenUser(openId string, openType int, userId int64) (int64, error) {
-	sql := "update oauth set user_id = ? where open_id = ? and type = ? "
+	sql := "update open_user set user_id = ? where open_id = ? and type = ? "
 	db := db.NewDB()
 	result, err := db.Execute(sql, []interface{}{userId, openId, openType})
 	return result, err

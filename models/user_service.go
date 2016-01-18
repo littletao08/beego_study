@@ -6,7 +6,7 @@ import (
 	"beego_study/utils/redis"
 )
 
-func User(id int) (entities.User, error) {
+func User(id int64) (entities.User, error) {
 	var err error
 	var user entities.User
 	var userKey = constants.USER_KEY + string(id);

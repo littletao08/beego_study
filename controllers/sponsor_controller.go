@@ -8,5 +8,5 @@ type SponsorController struct {
 func (c *SponsorController) New() {
 	var order = models.Pay(float32(1))
 	c.Data["json"] = order
-	c.ServeJson()
+	c.ServeJSON()
 }

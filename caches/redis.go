@@ -14,6 +14,7 @@ var (
 )
 
 type MyRedisCache struct {
+	cache.Cache
 	p        *redis.Pool // redis connection pool
 	conninfo string
 	dbNum    int
@@ -21,8 +22,10 @@ type MyRedisCache struct {
 	password string
 }
 
+
+
 // create new redis cache with default collection name.
-func NewRedisCache() *MyRedisCache {
+func NewRedisCache() cache.Cache {
 	return &MyRedisCache{key: DefaultKey}
 }
 
@@ -85,9 +88,9 @@ func (rc *MyRedisCache) GetMulti(keys []string) []interface{} {
 }
 
 // put cache to redis.
-func (rc *MyRedisCache) Put(key string, val interface{}, timeout int64) error {
+func (rc *MyRedisCache) Put(key string, val interface{}, timeout time.Duration) error {
 	var err error
-	if _, err = rc.do("SETEX", key, timeout, val); err != nil {
+	if _, err = rc.do("SETEX", key, timeout/time.Second, val); err != nil {
 		return err
 	}
 	return err
@@ -216,6 +219,6 @@ func (rc *MyRedisCache) connectInit() {
 }
 
 func init() {
-	cache.Register("redis", NewRedisCache())
+	cache.Register("redis", NewRedisCache)
 }
 

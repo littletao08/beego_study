@@ -6,21 +6,25 @@
         <form accept-charset="UTF-8" id="loginForm" action="/users/session"
               method="post">
             <div class="auth-form-header">
-                <h2 class="hosted-signin-title">欢迎登录</h2>
+                <h2 class="hosted-signin-title">创建threeperson账号</h2>
             </div>
             <div class="auth-form-body">
-                <label for="login_field">
-                    用户名或者邮箱
+                <label for="login_name">
+                    用户名
                 </label>
                 <div class="controls has-error">
                     <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
-                           id="login_field" name="name" tabindex="1" type="text" data-validation="required"
+                           id="login_name" name="name" tabindex="1" maxlength="6" type="text" data-validation="required"
                            data-validation-error-msg="用户名不能为空">
                 </div>
-                <label for="password">
-                    密码 <a href="/password_reset" class="hidden">(forgot password)</a>
+                <label for="login_email">
+                    邮箱
                 </label>
-
+                <div class="controls has-error">
+                    <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
+                           id="login_email" name="name" tabindex="1" type="text" data-validation="required"
+                           data-validation-error-msg="用户名不能为空">
+                </div>
                 <div class="controls has-error">
                     <input class="input-block" id="password" name="password" tabindex="2" type="password"
                            data-validation="required"
@@ -28,11 +32,7 @@
                 </div>
                     <span class="form-error">{{.response.Message}}</span>
                 <div class="">
-                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="登 录">
-                </div>
-                <div class="login-look navbar-btn">
-                    <a href="#" title="微博登录" class="sina-login" type="sina" ><img src="/static/img/third_login_sina.png">微博登录</a>
-                    <a href="#" title="QQ登录" class="qq-login" type="qq" ><img src="/static/img/third_login_qq.png">QQ登录</a>
+                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="注 册">
                 </div>
             </div>
         </form>
@@ -48,7 +48,7 @@
 
     $('.login-look a').on("click", function(e) {
         var type= $(this).attr("type")
-        window.location="/open_users/"+type+"/auth";
+        window.location="/oauth/"+type+"/auth";
     });
 
 </script>

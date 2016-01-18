@@ -15,5 +15,10 @@ type OpenUser struct {
 	Age int
 	Province string
     City string
+	AccessToken string `orm:"-"`
 
+}
+
+func (c OpenUser) HasBindUser() bool {
+	return c.UserId > 0
 }

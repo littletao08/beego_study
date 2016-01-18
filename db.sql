@@ -219,7 +219,7 @@ CREATE TABLE `open_user` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_openid_userid` (`open_id`,`user_id`)
+  UNIQUE KEY `unique_openid_type` (`open_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

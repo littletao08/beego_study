@@ -13,14 +13,14 @@ import (
 	"errors"
 )
 
-var AuthConfig config.ConfigContainer
+var AuthConfig config.Configer
 
 func init() {
 
 	var appPath = beego.AppConfigPath
 
 	appPath = beego.Substr(appPath, 0, strings.LastIndex(appPath, "/") + 1)
-
+	beego.Debug("appPath:", appPath)
 	config, err := config.NewConfig(beego.AppConfigProvider, appPath + "/auth_login.conf")
 	if err != nil {
 		beego.Error(config)
@@ -94,7 +94,7 @@ func QueryOpenId(accessToken string) (map[string]string, error) {
 
 }
 
-func OpenUserInfo(accessToken string, openId string) (*entities.OpenUser , error) {
+func OpenUserInfo(accessToken string, openId string) (*entities.OpenUser, error) {
 	var baseUrl = AuthConfig.String("get_user_info_url")
 	params := make(map[string]string)
 	params["access_token"] = accessToken
@@ -131,20 +131,20 @@ func OpenUserInfo(accessToken string, openId string) (*entities.OpenUser , error
 
 	err = json.Unmarshal([]byte(content), &paramMap)
 
-   if len(paramMap) == 0 {
-	  return nil,errors.New("open_user_info get fail")
-   }
+	if len(paramMap) == 0 {
+		return nil, errors.New("open_user_info get fail")
+	}
 
-	age,ok := paramMap["age"].(int)
+	age, ok := paramMap["age"].(int)
 	if !ok {
 		age = 0
 	}
-	city,_ := paramMap["city"].(string)
-	province,_:= paramMap["province"].(string)
-	nick,_:= paramMap["nickname"].(string)
-	gender,_:=paramMap["gender"].(string)
-	head ,_:=paramMap["figureurl_qq_1"].(string)
-	year,ok := paramMap["year"].(int)
+	city, _ := paramMap["city"].(string)
+	province, _ := paramMap["province"].(string)
+	nick, _ := paramMap["nickname"].(string)
+	gender, _ := paramMap["gender"].(string)
+	head, _ := paramMap["figureurl_qq_1"].(string)
+	year, ok := paramMap["year"].(int)
 	if !ok {
 		year = 0
 	}
@@ -156,19 +156,19 @@ func OpenUserInfo(accessToken string, openId string) (*entities.OpenUser , error
 
 	if year > 0 {
 		currYear := time.Now().Year()
-		age = currYear-year
+		age = currYear - year
 	}
 
 	openUser := new(entities.OpenUser)
 
-	openUser.OpenId=openId
-	openUser.Nick=nick
-	openUser.Age=age
-	openUser.City= city
-	openUser.Province=province
-	openUser.Sex=sex
-	openUser.Type=entities.OPEN_USER_TYPE_QQ
-    openUser.Head = head
+	openUser.OpenId = openId
+	openUser.Nick = nick
+	openUser.Age = age
+	openUser.City = city
+	openUser.Province = province
+	openUser.Sex = sex
+	openUser.Type = entities.OPEN_USER_TYPE_QQ
+	openUser.Head = head
 
 	return openUser, err
 }

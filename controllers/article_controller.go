@@ -17,7 +17,7 @@ func (c *ArticleController) Articles() {
 	userId := c.UserId()
 	models.AllArticles(userId, pagination)
 	c.Data["pagination"] = pagination
-	c.TplNames = "index.html"
+	c.TplName = "index.html"
 
 }
 
@@ -35,7 +35,7 @@ func (c *ArticleController) ArticlesGyCategory() {
 	models.ArticlesGyCategory(userId, category, pagination)
 	c.Data["pagination"] = pagination
 
-	c.TplNames = "index.html"
+	c.TplName = "index.html"
 }
 
 func (c *ArticleController) ArticleDetail() {
@@ -43,7 +43,7 @@ func (c *ArticleController) ArticleDetail() {
 	ip := c.Ip()
 	userId := c.UserId()
 	beego.Error("id", id)
-	c.TplNames = "article_detail.html"
+	c.TplName = "article_detail.html"
 
 	if id <= 0 {
 		c.StringError("文章不存在")
@@ -77,7 +77,7 @@ func (c *ArticleController) ArticleDetail() {
 func (c *ArticleController) EditArticle() {
 	id, _ := c.GetInt64(":id")
 	userId := c.UserId()
-	c.TplNames = "article_edit.html"
+	c.TplName = "article_edit.html"
 
 	if id <= 0 {
 		c.StringError("文章不存在")
@@ -139,7 +139,7 @@ func (c *ArticleController) UpdateArticle() {
 		beego.Error(err)
 		c.StringError(err.Error())
 		c.Data["article"] = article
-		c.TplNames = "article_create.html"
+		c.TplName = "article_create.html"
 	}
 }
 
@@ -150,7 +150,7 @@ func (c *ArticleController) New() {
 	if (nil == user) {
 		c.Redirect("/login", 302)
 	}else {
-		c.TplNames = "article_create.html"
+		c.TplName = "article_create.html"
 	}
 }
 
@@ -184,7 +184,7 @@ func (c *ArticleController) CreateArticle() {
 		beego.Error(err)
 		c.StringError(err.Error())
 		c.Data["article"] = article
-		c.TplNames = "article_create.html"
+		c.TplName = "article_create.html"
 	}
 
 }

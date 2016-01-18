@@ -1,21 +1,19 @@
 package models_test
+
 import (
 	"testing"
 	"time"
 	"beego_study/entities"
 	"fmt"
-	_"beego_study/test/initials"
-	_"beego_study/initials"
+	_ "beego_study/test/initials"
 	"beego_study/db"
 	"beego_study/models"
 	"html"
 	"strings"
 	"github.com/astaxie/beego"
 	"github.com/gogather/com"
-"github.com/PuerkitoBio/goquery"
+	"github.com/PuerkitoBio/goquery"
 )
-
-
 
 func TestSave(t *testing.T) {
 	article := entities.Article{UserId:1, Title:"title", Tags:"go,reis", Categories:"go3,go4", Content:"content", CreatedAt:time.Now()}
@@ -55,23 +53,22 @@ func TestGet(t *testing.T) {
 	reader := strings.NewReader(content)
 	doc, _ := goquery.NewDocumentFromReader(reader)
 	text := doc.Text()
-	text = strings.Replace(text," ","",-1)
+	text = strings.Replace(text, " ", "", -1)
 	text = strings.Replace(text, "\n", "", -1)
 	text = strings.Replace(text, "\t", "", -1)
 	subText := com.SubString(text, 0, 160)
 	beego.Error(subText)
 }
 
-func TestArticlesGyCategory(t *testing.T){
+func TestArticlesGyCategory(t *testing.T) {
 
 	pagination := new(db.Pagination)
-	pagination.PerPage=10
-	pagination.Page=1
-	models.ArticlesGyCategory(1,"bootstrap",pagination)
+	pagination.PerPage = 10
+	pagination.Page = 1
+	models.ArticlesGyCategory(1, "bootstrap", pagination)
 
 	for _, v := range pagination.Data {
-		fmt.Println("id:",v.(entities.Article).Id,"title:",v.(entities.Article).Title)
+		fmt.Println("id:", v.(entities.Article).Id, "title:", v.(entities.Article).Title)
 	}
-
 
 }
