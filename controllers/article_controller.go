@@ -85,7 +85,7 @@ func (c *ArticleController) EditArticle() {
 	}
 
 	if (userId == 0) {
-		c.Redirect("/login", 302)
+		c.Redirect("/users/login", 302)
 		return
 	}
 
@@ -148,7 +148,7 @@ func (c *ArticleController) New() {
 	user := c.GetSession("user")
 
 	if (nil == user) {
-		c.Redirect("/login", 302)
+		c.Redirect("/users/login", 302)
 	}else {
 		c.TplName = "article_create.html"
 	}
@@ -158,7 +158,7 @@ func (c *ArticleController) CreateArticle() {
 
 	user := c.GetSession("user")
 	if (nil == user) {
-		c.Redirect("/login", 200)
+		c.Redirect("/users/login", 200)
 	}
 
 	userId := c.UserId()

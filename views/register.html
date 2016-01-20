@@ -2,53 +2,124 @@
 
 <div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
 
-    <div class="auth-form" id="login">
-        <form accept-charset="UTF-8" id="loginForm" action="/users/session"
+    <div class="auth-form" id="register">
+        <form accept-charset="UTF-8" id="registerForm" action="/users"
               method="post">
             <div class="auth-form-header">
                 <h2 class="hosted-signin-title">创建threeperson账号</h2>
             </div>
             <div class="auth-form-body">
-                <label for="login_name">
+                <label for="register_name">
                     用户名
                 </label>
+
                 <div class="controls has-error">
-                    <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
-                           id="login_name" name="name" tabindex="1" maxlength="6" type="text" data-validation="required"
-                           data-validation-error-msg="用户名不能为空">
+                    <input autocapitalize="off" autocorrect="off"
+                           autofocus="autofocus" class="form-control input-block"
+                           id="register_name" name="name" tabindex="1"
+                           type="text"
+                           data-validation="name"
+                           placeholder="4-20位字符,支持汉字,字母,数字"
+                           value="{{.name}}">
                 </div>
-                <label for="login_email">
+                <!--data-validation="length alphanumeric"
+                           data-validation-length="4-20"
+                           data-validation-error-msg="用户名长度只能在4-20位字符之间"-->
+                <label for="register_email">
                     邮箱
                 </label>
+
                 <div class="controls has-error">
                     <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
-                           id="login_email" name="name" tabindex="1" type="text" data-validation="required"
-                           data-validation-error-msg="用户名不能为空">
+                           id="register_email" name="mail" tabindex="1" type="text"
+                           data-validation="mail"
+                           value="{{.mail}}"
+                            >
                 </div>
+                <label for="register_password">
+                    密码
+                </label>
+
                 <div class="controls has-error">
-                    <input class="input-block" id="password" name="password" tabindex="2" type="password"
-                           data-validation="required"
-                           data-validation-error-msg="密码不能为空">
+                    <input class="input-block" id="register_password" name="password" tabindex="2" type="password"
+                           data-validation="length alphanumeric"
+                           data-validation-length="6-12"
+                           placeholder="密码长度只能在6-20位字符之间"
+                           data-validation-error-msg="密码长度只能在6-20位字符之间">
                 </div>
-                    <span class="form-error">{{.response.Message}}</span>
+                <span class="form-error">{{.response.Message}}</span>
+
                 <div class="">
-                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="注 册">
+                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
+                           value="注 册">
                 </div>
             </div>
         </form>
     </div>
 
 </div>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101287052" data-redirecturi="http://www.threeperson.com" charset="utf-8"></script>
 {{template "public/footer.html" .}}
 <script>
+
+    $.formUtils.addValidator(
+            {
+                name: 'name',
+                validatorFunction: function (value, $el, config, language, $form) {
+
+                    /******校验用户名长度*********/
+                    var result = $.formUtils.numericRangeCheck(value.length,'4-20')
+                    if (result[0]!="ok"){
+                        this.errorMessage="用户名长度只能在4-20位字符之间"
+                        return false;
+                    }
+
+                    var reg=/^[0-9-a-zA-Z\u4E00-\u9FA5_]*$/g;
+
+                    if(!reg.test(value)){
+                        this.errorMessage="用户名只支持汉字,字母,数字,\"-\",\"_\"组合"
+                        return false;
+                    }
+
+                    /******校验用户名特殊字符*******/
+
+                    /******校验用户名是否存在******/
+                    var result = $.ajax({
+                        url: "/users/check_user_name",
+                        type: "POST",
+                        data: {name: value},
+                        async: false,
+                        success: function (result) {
+                            return result.Success
+                        }
+                    });
+
+                    result = JSON.parse(result.responseText);
+                    this.errorMessage=result.Message
+                    return result.Success;
+                },
+            }
+    );
+
+
+    $.formUtils.addValidator(
+            {
+                name: 'mail',
+                validatorFunction: function (value, $el, config, language, $form) {
+                    var result= $.ajax({
+                        url: "/users/check_user_mail",
+                        type: "POST",
+                        data: {mail: value},
+                        async: false
+                    })
+                    result = JSON.parse(result.responseText);
+                    this.errorMessage=result.Message
+                    return result.Success;
+                }
+            }
+    );
+
     $.validate({
         modules: 'location, date, security, file',
-    });
-
-    $('.login-look a').on("click", function(e) {
-        var type= $(this).attr("type")
-        window.location="/oauth/"+type+"/auth";
     });
 
 </script>

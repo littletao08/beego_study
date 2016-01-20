@@ -12,7 +12,6 @@ func SaveOrUpdate(articleLike entities.ArticleLike, db db.DB) error {
 	sql.WriteString("on duplicate key update valid =?,updated_at=now() ")
 	_, err := db.Execute(sql.String(), []interface{}{articleLike.UserId, articleLike.ArticleId, articleLike.Valid, articleLike.Valid})
 	return err
-
 }
 
 

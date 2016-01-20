@@ -16,7 +16,6 @@ func Articles(page int) ([]entities.Article, error) {
 	var articles []entities.Article
 	db := db.NewDB()
 	_, err = db.QueryTable("article").All(&articles)
-
 	return articles, err
 }
 

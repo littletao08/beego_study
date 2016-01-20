@@ -12,7 +12,6 @@ type OpenUserController struct {
 	BaseController
 }
 
-
 func (c *OpenUserController) QqAuth() {
 	params := make(map[string]string)
 	params["client_id"] = models.AuthConfig.String("app_id")
@@ -31,16 +30,10 @@ func (c *OpenUserController) QqAuth() {
 }
 
 func (c *OpenUserController) NewOrBindUser()  {
-	c.TplName="register_or_bind_user.html"
+	c.Data["showLeftBar"] = false
+	c.TplName="register.html"
 }
 
-func (c *OpenUserController) CreateOpenUser() {
-
-}
-
-func (c *OpenUserController) UpdateOpenUser()  {
-
-}
 
 func (c *OpenUserController) QqToken() {
 
@@ -99,10 +92,10 @@ func (c *OpenUserController) QqToken() {
     if openUser.HasBindUser() {
 		userId := openUser.UserId
 		user,_ := models.User(userId)
-		c.SetSession("user", user)
+		c.SetCurrSession("user", user)
 	}else {
 		c.SetSession("openUser",openUser)
-		c.Redirect("/open_users/new", 302)
+		c.Redirect("/users/register", 302)
 	}
 
 	c.Redirect("/", 302)

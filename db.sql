@@ -203,6 +203,14 @@ insert into parameter(`key`,`value`,`desc`,created_at)
 values('max_create_article_count_one_day',20,'每日创建文章最大个数',now());
 insert into parameter(`key`,`value`,`desc`,created_at)
 values('max_create_comment_count_one_day',100,'每日创建评论最大个数',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('user_name_min_length',4,'用户名最小字符数',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('user_name_max_length',20,'用户名最大字符数',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('user_pass_min_length',6,'用户密码最小字符数',now());
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('user_pass_max_length',12,'用户密码最大字符数',now());
 
 
 CREATE TABLE `open_user` (

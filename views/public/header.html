@@ -55,14 +55,26 @@
         </div>
         <div class="nav-collapse collapse">
             <ul class="nav navbar-nav navbar-right" class="signin">
-                <span>{{.user.Nick}}</span>
+                <span>{{.user.Name}}</span>
+            </ul>
+        </div>
+
+        <div class="nav-collapse collapse">
+            <ul class="nav navbar-nav navbar-right" class="signin">
+                <li><a href="/users/logout">退出</a></li>
             </ul>
         </div>
 
         {{else}}
         <div class="nav-collapse collapse pull-right">
             <ul class="nav navbar-nav navbar-right" class="signin">
-                <span>{{.user.Nick}}</span>
+                <li><a href="/users/logout">退出</a></li>
+            </ul>
+        </div>
+
+        <div class="nav-collapse collapse pull-right">
+            <ul class="nav navbar-nav navbar-right" class="signin">
+                <span>{{.user.Name}}</span>
             </ul>
         </div>
         <div class="nav-collapse collapse pull-right">
@@ -80,13 +92,23 @@
         </div>
         <div class="nav-collapse collapse">
             <ul class="nav navbar-nav navbar-right" class="signin">
-                <li><a href="/login">sign in</a></li>
+                <li><a href="/users">注册</a></li>
+            </ul>
+        </div>
+        <div class="nav-collapse collapse">
+            <ul class="nav navbar-nav navbar-right" class="signin">
+                <li><a href="/users/login">登录</a></li>
             </ul>
         </div>
         {{else}}
         <div class="nav-collapse collapse pull-right">
             <ul class="nav navbar-nav navbar-right" class="signin">
-                <li><a href="/login">sign in</a></li>
+                <li><a href="/users/login">登录</a></li>
+            </ul>
+        </div>
+        <div class="nav-collapse collapse pull-right">
+            <ul class="nav navbar-nav navbar-right" class="signin">
+                <li><a href="/users">注册</a></li>
             </ul>
         </div>
         <div class="nav-collapse collapse pull-right">

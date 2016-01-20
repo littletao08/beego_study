@@ -11,6 +11,7 @@ import (
 	"beego_study/entities"
 	"time"
 	"errors"
+"strconv"
 )
 
 var AuthConfig config.Configer
@@ -135,28 +136,24 @@ func OpenUserInfo(accessToken string, openId string) (*entities.OpenUser, error)
 		return nil, errors.New("open_user_info get fail")
 	}
 
-	age, ok := paramMap["age"].(int)
-	if !ok {
-		age = 0
-	}
+
 	city, _ := paramMap["city"].(string)
 	province, _ := paramMap["province"].(string)
 	nick, _ := paramMap["nickname"].(string)
 	gender, _ := paramMap["gender"].(string)
 	head, _ := paramMap["figureurl_qq_1"].(string)
-	year, ok := paramMap["year"].(int)
-	if !ok {
-		year = 0
-	}
-
+	year,_ := paramMap["year"].(string)
 	sex := 1
 	if "女" == gender {
 		sex = 2
 	}
-
-	if year > 0 {
-		currYear := time.Now().Year()
-		age = currYear - year
+	age := 0
+	if len(year) > 0 {
+		yearInt, err := strconv.Atoi(year)
+		if nil != err {
+			currYear := time.Now().Year()
+			age = currYear - yearInt+1
+		}
 	}
 
 	openUser := new(entities.OpenUser)

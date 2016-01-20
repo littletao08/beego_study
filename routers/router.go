@@ -8,9 +8,14 @@ import (
 func init() {
 	beego.Router("", &controllers.IndexController{},"get:Index")
 
-	beego.Router("/login", &controllers.UserController{},"get:Login")
-
+	beego.Router("/users/login", &controllers.UserController{},"get:Login")
+	beego.Router("/users/logout", &controllers.UserController{},"get:Logout")
 	beego.Router("/users/session", &controllers.UserController{},"post:Session")
+	beego.Router("/users", &controllers.UserController{},"get:Register")
+	beego.Router("/users", &controllers.UserController{},"post:CreateUser")
+	beego.Router("/users/check_user_name", &controllers.UserController{},"post:CheckUserName")
+	beego.Router("/users/check_user_mail", &controllers.UserController{},"post:CheckUserMail")
+
 	beego.Router("/articles", &controllers.ArticleController{},"get:Articles")
 	beego.Router("/articles", &controllers.ArticleController{},"post:CreateArticle")
 	beego.Router("/articles/new", &controllers.ArticleController{},"get:New")
@@ -25,13 +30,6 @@ func init() {
 
 	beego.Router("/open_users/:type/auth", &controllers.OpenUserController{},"get:QqAuth")
 	beego.Router("/open_users/:type/token", &controllers.OpenUserController{},"get:QqToken")
-	beego.Router("/open_users/new", &controllers.OpenUserController{},"get:NewOrBindUser")
-	beego.Router("/open_users", &controllers.OpenUserController{},"post:CreateOpenUser")
-	beego.Router("/open_users", &controllers.OpenUserController{},"put:UpdateOpenUser")
-
-
-
-
 }
 
 

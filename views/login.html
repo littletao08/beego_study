@@ -9,24 +9,27 @@
                 <h2 class="hosted-signin-title">欢迎登录</h2>
             </div>
             <div class="auth-form-body">
-                <label for="login_field">
-                    用户名或者邮箱
+                <label for="login_name">
+                    用户名/邮箱
                 </label>
                 <div class="controls has-error">
-                    <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
-                           id="login_field" name="name" tabindex="1" type="text" data-validation="required"
-                           data-validation-error-msg="用户名不能为空">
+                    <input class="form-control input-block"
+                           id="login_name" name="name" tabindex="1"
+                           type="text"
+                           data-validation="length"
+                           data-validation-length="4-20"
+                           data-validation-error-msg="用户名长度只能在4-20位字符之间">
                 </div>
-                <label for="password">
-                    密码 <a href="/password_reset" class="hidden">(forgot password)</a>
+                <label for="login_password">
+                    密码
                 </label>
-
                 <div class="controls has-error">
-                    <input class="input-block" id="password" name="password" tabindex="2" type="password"
-                           data-validation="required"
-                           data-validation-error-msg="密码不能为空">
+                    <input id="login_password" class="input-block" id="password" name="password" tabindex="2" type="password"
+                           data-validation="length alphanumeric"
+                           data-validation-length="6-12"
+                           data-validation-error-msg="密码长度只能在6-20位字符之间">
                 </div>
-                    <span class="form-error">{{.response.Message}}</span>
+                <span class="form-error">{{.response.Message}}</span>
                 <div class="">
                     <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="登 录">
                 </div>

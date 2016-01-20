@@ -2,7 +2,7 @@
 
 <div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
 
-    <div class="auth-form" id="login">
+    <div class="auth-form" id="register">
         <form accept-charset="UTF-8" id="loginForm" action="/users/session"
               method="post">
             <div class="auth-form-header">
@@ -13,22 +13,32 @@
                     用户名
                 </label>
                 <div class="controls has-error">
-                    <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
-                           id="login_name" name="name" tabindex="1" maxlength="6" type="text" data-validation="required"
-                           data-validation-error-msg="用户名不能为空">
+                    <input autocapitalize="off" autocorrect="off"
+                           autofocus="autofocus" class="form-control input-block"
+                           id="login_name" name="name" tabindex="1"
+                           type="text"
+                           placeholder="4-20位字符,支持汉字,字母,数字"
+                           data-validation="length alphanumeric"
+                           data-validation-length="4-20"
+                           data-validation-error-msg="用户名长度只能在4-20位字符之间">
                 </div>
                 <label for="login_email">
                     邮箱
                 </label>
                 <div class="controls has-error">
                     <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
-                           id="login_email" name="name" tabindex="1" type="text" data-validation="required"
-                           data-validation-error-msg="用户名不能为空">
+                           id="login_email" name="mail" tabindex="1" type="text" data-validation="email"
+                           data-validation-error-msg="邮箱地址错误">
                 </div>
+                <label for="login_email">
+                    密码
+                </label>
                 <div class="controls has-error">
                     <input class="input-block" id="password" name="password" tabindex="2" type="password"
-                           data-validation="required"
-                           data-validation-error-msg="密码不能为空">
+                           data-validation="length alphanumeric"
+                           data-validation-length="6-12"
+                           placeholder="密码长度只能在6-20位字符之间"
+                           data-validation-error-msg="密码长度只能在6-20位字符之间">
                 </div>
                     <span class="form-error">{{.response.Message}}</span>
                 <div class="">
@@ -42,14 +52,9 @@
 <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101287052" data-redirecturi="http://www.threeperson.com" charset="utf-8"></script>
 {{template "public/footer.html" .}}
 <script>
-    $.validate({
-        modules: 'location, date, security, file',
-    });
 
-    $('.login-look a').on("click", function(e) {
-        var type= $(this).attr("type")
-        window.location="/oauth/"+type+"/auth";
-    });
+    // Initiate form validation
+    $.validate();
 
 </script>
 

@@ -130,6 +130,23 @@ func (c *BaseController) CurrentUser() *entities.User {
 	return &u
 }
 
+func (c *BaseController) CurrentOpenUser() *entities.OpenUser {
+	openUser := c.GetSession("open_user")
+	if nil == openUser {
+		return nil
+	}
+	var u, ok = openUser.(entities.OpenUser)
+	if !ok {
+		return nil
+	}
+	return &u
+}
+
+func (c *BaseController) SetCurrSession(sessionKey string,value interface{})  {
+	c.SetSession(sessionKey, value)
+}
+
+
 func (c *BaseController) UserId() int64 {
 	user := c.CurrentUser()
 	if nil == user {
@@ -167,6 +184,7 @@ func (c *BaseController) ErrorCodeJsonError(exception exception.ErrorCode) {
 	c.Data["json"] = response
 	c.ServeJSON()
 }
+
 
 func (c *BaseController) JsonError(message interface{}) {
 	response := new(ResponseBody)
