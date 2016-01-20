@@ -26,7 +26,10 @@ type ResponseBody struct {
 }
 
 func (c *BaseController) Prepare() {
-	categories, _ := models.Categories()
+
+	userId := c.CurrentUserId()
+	beego.Error("userId:",userId)
+	categories, _ := models.UserCategories(userId)
 	c.Data["categories"] = categories
 	c.Data["showLeftBar"] = true
 	var keywords, _ = models.ParameterValue("index-keywords")
@@ -54,7 +57,6 @@ func (c *BaseController) Prepare() {
 	user := c.CurrentUser()
 	if nil != user {
 		c.Data["user"] = user
-		beego.Error(user)
 	}
 
 	beego.Info("request-params:", args)
@@ -147,7 +149,7 @@ func (c *BaseController) SetCurrSession(sessionKey string,value interface{})  {
 }
 
 
-func (c *BaseController) UserId() int64 {
+func (c *BaseController) CurrentUserId() int64 {
 	user := c.CurrentUser()
 	if nil == user {
 		return 0

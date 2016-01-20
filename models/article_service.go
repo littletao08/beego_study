@@ -1,4 +1,5 @@
 package models
+
 import (
 	"beego_study/entities"
 	"beego_study/db"
@@ -22,44 +23,10 @@ func Articles(page int) ([]entities.Article, error) {
 func AllArticles(userId int64, pagination *db.Pagination) {
 	db := db.NewDB()
 	var articles []entities.Article
-	db.From("article").OrderBy("created_at desc").FillPagination(&articles, pagination)
-
-	//设置当前用户点赞标记
-	if len(pagination.Data) < 1 || userId <= 0 {
-		return
-	}
-
-	ids, err := utils.ExtractFieldValues(pagination.Data, "Id")
-	if nil != err {
-		return
-	}
-	signs := ArticleLikeSigns(userId, ids)
-	signMap := make(map[int64]bool)
-	for _, v := range signs {
-		signMap[v] = true
-	}
-	var newArticles []entities.Article
-	for _, v := range articles {
-		v.HasLike = signMap[v.Id]
-		newArticles = append(newArticles, v)
-	}
-
-	pagination.SetData(newArticles)
-}
-
-
-func ArticlesGyCategory(userId int64,category string, pagination *db.Pagination) {
-	db := db.NewDB()
-	var articles []entities.Article
 	query := db.From("article")
-	if userId >0 {
-		query.Where("user_id",userId)
-	}
 
-	if len(category) > 0 {
-		category = strings.ToLower(category)
-		beego.Error("category",category)
-		query.Like("categories","%"+category+"%")
+	if userId > 0 {
+		query.Where("user_id",userId)
 	}
 
 	query.OrderBy("created_at desc").FillPagination(&articles, pagination)
@@ -73,20 +40,62 @@ func ArticlesGyCategory(userId int64,category string, pagination *db.Pagination)
 	if nil != err {
 		return
 	}
-	signs := ArticleLikeSigns(userId, ids)
-	signMap := make(map[int64]bool)
-	for _, v := range signs {
-		signMap[v] = true
-	}
-	var newArticles []entities.Article
-	for _, v := range articles {
-		v.HasLike = signMap[v.Id]
-		newArticles = append(newArticles, v)
-	}
 
-	pagination.SetData(newArticles)
+	if userId > 0 {
+		signs := ArticleLikeLogs(userId, ids)
+		signMap := make(map[int64]bool)
+		for _, v := range signs {
+			signMap[v] = true
+		}
+		var newArticles []entities.Article
+		for _, v := range articles {
+			v.HasLike = signMap[v.Id]
+			newArticles = append(newArticles, v)
+		}
+		pagination.SetData(newArticles)
+	}
 }
 
+func ArticlesGyCategory(userId int64, category string, pagination *db.Pagination) {
+	db := db.NewDB()
+	var articles []entities.Article
+	query := db.From("article")
+	if userId > 0 {
+		query.Where("user_id", userId)
+	}
+
+	if len(category) > 0 {
+		category = strings.ToLower(category)
+		beego.Error("category", category)
+		query.Like("categories", "%" + category + "%")
+	}
+
+	query.OrderBy("created_at desc").FillPagination(&articles, pagination)
+
+	//设置当前用户点赞标记
+	if len(pagination.Data) < 1 || userId <= 0 {
+		return
+	}
+
+	ids, err := utils.ExtractFieldValues(pagination.Data, "Id")
+	if nil != err {
+		return
+	}
+	if userId > 0 {
+		signs := ArticleLikeLogs(userId, ids)
+		signMap := make(map[int64]bool)
+		for _, v := range signs {
+			signMap[v] = true
+		}
+		var newArticles []entities.Article
+		for _, v := range articles {
+			v.HasLike = signMap[v.Id]
+			newArticles = append(newArticles, v)
+		}
+
+		pagination.SetData(newArticles)
+	}
+}
 
 func LastArticle() (entities.Article, error) {
 	var err error
@@ -130,7 +139,7 @@ func SaveArticle(article *entities.Article) error {
 			categoryNames := strings.Split(article.Categories, ",")
 			categories = entities.NewCategories(article.UserId, categoryNames)
 		}
-		BatchSaveOrUpdateCategory(db,categories)
+		BatchSaveOrUpdateCategory(db, categories)
 	}
 
 	if nil == err {
@@ -141,7 +150,6 @@ func SaveArticle(article *entities.Article) error {
 
 	return err
 }
-
 
 func UpdateArticle(article *entities.Article) error {
 
@@ -151,7 +159,7 @@ func UpdateArticle(article *entities.Article) error {
 
 	sql := "update article set title = ? ,tags=?,categories=?, content=?, updated_at=now() where user_id = ? and  id = ? "
 
-	_, err = db.Raw(sql, []interface{}{article.Title, article.Tags, article.Categories, article.Content,article.UserId,article.Id}).Exec()
+	_, err = db.Raw(sql, []interface{}{article.Title, article.Tags, article.Categories, article.Content, article.UserId, article.Id}).Exec()
 
 	if nil == err {
 		var categories []entities.Category
@@ -159,7 +167,7 @@ func UpdateArticle(article *entities.Article) error {
 			categoryNames := strings.Split(article.Categories, ",")
 			categories = entities.NewCategories(article.UserId, categoryNames)
 		}
-		BatchSaveOrUpdateCategory(db,categories)
+		BatchSaveOrUpdateCategory(db, categories)
 	}
 
 	if nil == err {
@@ -170,7 +178,6 @@ func UpdateArticle(article *entities.Article) error {
 
 	return err
 }
-
 
 func IncrViewCount(articleId int64, userId int64, ip string) (bool, error) {
 
@@ -211,7 +218,6 @@ func IncrViewCount(articleId int64, userId int64, ip string) (bool, error) {
 
 	return nil == err, err
 }
-
 
 func IncrLikeCount(articleId int64, userId int64) (int, error) {
 	db := db.NewDB()
@@ -257,7 +263,6 @@ func IncrLikeCount(articleId int64, userId int64) (int, error) {
 
 	return incrCount, err
 }
-
 
 func ValidArticle(a entities.Article) (error, bool) {
 

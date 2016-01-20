@@ -14,7 +14,7 @@ type ArticleController struct {
 }
 func (c *ArticleController) Articles() {
 	pagination := c.NewPagination()
-	userId := c.UserId()
+	userId := c.CurrentUserId()
 	models.AllArticles(userId, pagination)
 	c.Data["pagination"] = pagination
 	c.TplName = "index.html"
@@ -28,7 +28,7 @@ func (c *ArticleController) ArticlesGyCategory() {
 	if len(category) > 0 {
 		c.Data["active_category"] = category
 	}
-	userId := c.UserId()
+	userId := c.CurrentUserId()
 
 	pagination := c.NewPagination()
 
@@ -41,7 +41,7 @@ func (c *ArticleController) ArticlesGyCategory() {
 func (c *ArticleController) ArticleDetail() {
 	id, _ := c.GetInt64(":id")
 	ip := c.Ip()
-	userId := c.UserId()
+	userId := c.CurrentUserId()
 	beego.Error("id", id)
 	c.TplName = "article_detail.html"
 
@@ -76,7 +76,7 @@ func (c *ArticleController) ArticleDetail() {
 
 func (c *ArticleController) EditArticle() {
 	id, _ := c.GetInt64(":id")
-	userId := c.UserId()
+	userId := c.CurrentUserId()
 	c.TplName = "article_edit.html"
 
 	if id <= 0 {
@@ -113,7 +113,7 @@ func (c *ArticleController) UpdateArticle() {
 
 	var article entities.Article
 	if nil == err {
-		userId := c.UserId()
+		userId := c.CurrentUserId()
 		content := c.GetString("content")
 		title := c.GetString("title")
 		tag := c.GetString("tag")
@@ -161,7 +161,7 @@ func (c *ArticleController) CreateArticle() {
 		c.Redirect("/users/login", 200)
 	}
 
-	userId := c.UserId()
+	userId := c.CurrentUserId()
 	content := c.GetString("content")
 	title := c.GetString("title")
 	tag := c.GetString("tag")
@@ -198,7 +198,7 @@ func (c *ArticleController) Like() {
 		c.ErrorCodeJsonError(exception.NOT_EXIST_ARTICLE_ERROR)
 		return
 	}
-	userId := c.UserId()
+	userId := c.CurrentUserId()
 
 	if userId < 1 {
 		c.ErrorCodeJsonError(exception.NOT_LOGIN)
