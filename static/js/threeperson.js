@@ -197,3 +197,59 @@ function showArticleContent() {
         });
     }
 }
+
+function registerFormValid(){
+    $.formUtils.addValidator(
+        {
+            name: 'name',
+            validatorFunction: function (value, $el, config, language, $form) {
+                /******校验用户名长度*********/
+                var result = $.formUtils.numericRangeCheck(value.length,'4-20')
+                if (result[0]!="ok"){
+                    this.errorMessage="用户名长度只能在4-20位字符之间"
+                    return false;
+                }
+
+                /******校验用户名特殊字符*******/
+                var reg=/^[0-9-a-zA-Z\u4E00-\u9FA5_]*$/g;
+
+                if(!reg.test(value)){
+                    this.errorMessage="用户名只支持汉字,字母,数字,\"-\",\"_\"组合"
+                    return false;
+                }
+
+                /******校验用户名是否存在******/
+                var result = $.ajax({
+                    url: "/users/check_user_name",
+                    type: "POST",
+                    data: {name: value},
+                    async: false,
+                    success: function (result) {
+                        return result.Success
+                    }
+                });
+
+                result = JSON.parse(result.responseText);
+                this.errorMessage=result.Message
+                return result.Success;
+            },
+        }
+    );
+
+    $.formUtils.addValidator(
+        {
+            name: 'mail',
+            validatorFunction: function (value, $el, config, language, $form) {
+                var result= $.ajax({
+                    url: "/users/check_user_mail",
+                    type: "POST",
+                    data: {mail: value},
+                    async: false
+                })
+                result = JSON.parse(result.responseText);
+                this.errorMessage=result.Message
+                return result.Success;
+            }
+        }
+    );
+}

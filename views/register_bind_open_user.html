@@ -3,58 +3,64 @@
 <div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
 
     <div class="auth-form" id="register">
-        <form accept-charset="UTF-8" id="loginForm" action="/users/session"
+        <form accept-charset="UTF-8" id="registerForm" action="/users"
               method="post">
             <div class="auth-form-header">
                 <h2 class="hosted-signin-title">创建threeperson账号</h2>
             </div>
             <div class="auth-form-body">
-                <label for="login_name">
+                <label for="register_name">
                     用户名
                 </label>
+
                 <div class="controls has-error">
                     <input autocapitalize="off" autocorrect="off"
                            autofocus="autofocus" class="form-control input-block"
-                           id="login_name" name="name" tabindex="1"
+                           id="register_name" name="name" tabindex="1"
                            type="text"
+                           data-validation="name"
                            placeholder="4-20位字符,支持汉字,字母,数字"
-                           data-validation="length alphanumeric"
-                           data-validation-length="4-20"
-                           data-validation-error-msg="用户名长度只能在4-20位字符之间">
+                           value="{{.name}}">
                 </div>
-                <label for="login_email">
+                <input type="hidden" name="registerType" value="1">
+                <label for="register_email">
                     邮箱
                 </label>
+
                 <div class="controls has-error">
                     <input autocapitalize="off" autocorrect="off" autofocus="autofocus" class="input-block"
-                           id="login_email" name="mail" tabindex="1" type="text" data-validation="email"
-                           data-validation-error-msg="邮箱地址错误">
+                           id="register_email" name="mail" tabindex="1" type="text"
+                           data-validation="mail"
+                           value="{{.mail}}"
+                            >
                 </div>
-                <label for="login_email">
+                <label for="register_password">
                     密码
                 </label>
+
                 <div class="controls has-error">
-                    <input class="input-block" id="password" name="password" tabindex="2" type="password"
+                    <input class="input-block" id="register_password" name="password" tabindex="2" type="password"
                            data-validation="length alphanumeric"
                            data-validation-length="6-12"
                            placeholder="密码长度只能在6-20位字符之间"
                            data-validation-error-msg="密码长度只能在6-20位字符之间">
                 </div>
-                    <span class="form-error">{{.response.Message}}</span>
+                <span class="form-error">{{.response.Message}}</span>
+
                 <div class="">
-                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="注 册">
+                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
+                           value="注 册">
                 </div>
             </div>
         </form>
     </div>
 
 </div>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101287052" data-redirecturi="http://www.threeperson.com" charset="utf-8"></script>
 {{template "public/footer.html" .}}
 <script>
-
-    // Initiate form validation
-    $.validate();
-
+    registerFormValid();
+    $.validate({
+        modules: 'location, date, security, file',
+    });
 </script>
 

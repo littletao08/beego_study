@@ -39,18 +39,19 @@ func (c *OpenUserController) QqToken() {
 
 	code := c.GetString("code")
 
+	var loginPageUrl = "/users/login"
 	//获取token
 	tokenRes, err := models.QueryToken(code)
 	beego.Debug("****************tokenRes:", tokenRes, "****************")
 	if (nil != err ) {
-		c.Redirect("/login", 302)
+		c.Redirect(loginPageUrl, 302)
 		return
 	}
 
 	accessToken := tokenRes["access_token"]
 	beego.Debug("****************accessToken:", accessToken, "****************")
 	if len(accessToken) <= 0 {
-		c.Redirect("/login", 302)
+		c.Redirect(loginPageUrl, 302)
 		return
 	}
 
@@ -66,7 +67,7 @@ func (c *OpenUserController) QqToken() {
 	openId := openIdRes["openid"]
 	if len(openId) <= 0 {
 		beego.Error(errors.New("openid["+openId+"] error"))
-		c.Redirect("/login", 302)
+		c.Redirect(loginPageUrl, 302)
 		return
 	}
 
@@ -76,14 +77,14 @@ func (c *OpenUserController) QqToken() {
 
 	if (nil != err ) {
 		beego.Error(err)
-		c.Redirect("/login", 302)
+		c.Redirect(loginPageUrl, 302)
 		return
 	}
 
 	err = models.SaveOrUpdateOpenUser(openUser)
 	if nil != err {
 		beego.Error(err)
-		c.Redirect("/login", 302)
+		c.Redirect(loginPageUrl, 302)
 		return
 	}
 
@@ -95,7 +96,7 @@ func (c *OpenUserController) QqToken() {
 		c.SetCurrSession("user", user)
 	}else {
 		c.SetSession("openUser",openUser)
-		c.Redirect("/users/register", 302)
+		c.Redirect("/users/oauth_register", 302)
 	}
 
 	c.Redirect("/", 302)

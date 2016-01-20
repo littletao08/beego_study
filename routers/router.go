@@ -9,9 +9,13 @@ func init() {
 	beego.Router("", &controllers.IndexController{},"get:Index")
 
 	beego.Router("/users/login", &controllers.UserController{},"get:Login")
+	beego.Router("/users/oauth_login", &controllers.UserController{},"get:OauthLogin")
 	beego.Router("/users/logout", &controllers.UserController{},"get:Logout")
 	beego.Router("/users/session", &controllers.UserController{},"post:Session")
-	beego.Router("/users", &controllers.UserController{},"get:Register")
+	beego.Router("/users/oauth_session", &controllers.UserController{},"post:OauthSession")
+	beego.Router("/users/register", &controllers.UserController{},"get:Register")
+	beego.Router("/users/oauth_register", &controllers.UserController{},"get:OauthRegister")
+
 	beego.Router("/users", &controllers.UserController{},"post:CreateUser")
 	beego.Router("/users/check_user_name", &controllers.UserController{},"post:CheckUserName")
 	beego.Router("/users/check_user_mail", &controllers.UserController{},"post:CheckUserMail")

@@ -1,0 +1,48 @@
+{{template "public/header.html" .}}
+
+<div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
+
+    <div class="auth-form" id="login">
+        <form accept-charset="UTF-8" id="loginForm" action="/users/oauth_session"
+              method="post">
+            <div class="auth-form-header">
+                <h2 class="hosted-signin-title">欢迎绑定快捷登录账号</h2>
+            </div>
+            <div class="auth-form-body">
+                <label for="login_name">
+                    用户名/邮箱
+                </label>
+                <div class="controls has-error">
+                    <input class="form-control input-block"
+                           id="login_name" name="name" tabindex="1"
+                           type="text"
+                           data-validation="length"
+                           data-validation-length="4-20"
+                           data-validation-error-msg="用户名长度只能在4-20位字符之间">
+                </div>
+                <label for="login_password">
+                    密码
+                </label>
+                <div class="controls has-error">
+                    <input id="login_password" class="input-block" id="password" name="password" tabindex="2" type="password"
+                           data-validation="length alphanumeric"
+                           data-validation-length="6-12"
+                           data-validation-error-msg="密码长度只能在6-20位字符之间">
+                </div>
+                <span class="form-error">{{.response.Message}}</span>
+                <div class="">
+                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="绑 定">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101287052" data-redirecturi="http://www.threeperson.com" charset="utf-8"></script>
+{{template "public/footer.html" .}}
+<script>
+    $.validate({
+        modules: 'location, date, security, file',
+    });
+</script>
+
