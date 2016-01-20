@@ -73,7 +73,7 @@ func (c *OpenUserController) QqToken() {
 
 	//获取user_info
 	openUser, err := models.OpenUserInfo(accessToken, openId)
-	beego.Debug("****************userInfoRes:", openUser, "****************")
+	beego.Debug("err:",err,"userInfoRes:", openUser)
 
 	if (nil != err ) {
 		beego.Error(err)
@@ -97,6 +97,7 @@ func (c *OpenUserController) QqToken() {
 	}else {
 		c.SetSession("openUser",openUser)
 		c.Redirect("/users/oauth_register", 302)
+		return
 	}
 
 	c.Redirect("/", 302)
