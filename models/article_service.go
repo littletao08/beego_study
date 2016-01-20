@@ -105,7 +105,7 @@ func LastArticle() (entities.Article, error) {
 	return article, err
 }
 
-func ArticleByIdAndUserId(userId int64, articleId int64) (*entities.Article, error) {
+func ArticleByIdAndUserId(articleId int64,userId int64) (*entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()

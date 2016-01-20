@@ -47,6 +47,7 @@ func (c *ArticleController) ArticleDetail() {
 
 	if id <= 0 {
 		c.StringError("文章不存在")
+		c.Ctx.Redirect(302, "/")
 		return
 	}
 
@@ -79,17 +80,18 @@ func (c *ArticleController) EditArticle() {
 	userId := c.CurrentUserId()
 	c.TplName = "article_edit.html"
 
+	beego.Error("id:",id)
 	if id <= 0 {
 		c.StringError("文章不存在")
 		return
 	}
 
-	if (userId == 0) {
+	if (userId <= 0) {
 		c.Redirect("/users/login", 302)
 		return
 	}
 
-	article, error := models.ArticleById(id)
+	article, error := models.ArticleByIdAndUserId(id,userId)
 
 	if nil != error {
 		c.StringError("文章不存在")
@@ -104,12 +106,14 @@ func (c *ArticleController) EditArticle() {
 
 
 func (c *ArticleController) UpdateArticle() {
+
 	user := c.GetSession("user")
 	if (nil == user) {
-		c.Redirect("/login", 200)
+		c.Redirect("/users/login", 200)
 	}
 
 	id, err := c.GetInt64("id")
+	beego.Error("id:",id)
 
 	var article entities.Article
 	if nil == err {

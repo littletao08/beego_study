@@ -28,7 +28,6 @@ type ResponseBody struct {
 func (c *BaseController) Prepare() {
 
 	userId := c.CurrentUserId()
-	beego.Error("userId:",userId)
 	categories, _ := models.UserCategories(userId)
 	c.Data["categories"] = categories
 	c.Data["showLeftBar"] = true
