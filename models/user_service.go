@@ -20,7 +20,7 @@ func User(id int64) (entities.User, error) {
 		return user, nil;
 	}*/
 	orm := orm.NewOrm()
-	err = orm.QueryTable("user").Filter("id", id).One(&user, "id", "nick", "age", "cell", "mail", "sex", "CreatedAt", "UpdatedAt")
+	err = orm.QueryTable("user").Filter("id", id).One(&user, "id","name", "nick", "age", "cell", "mail", "sex", "CreatedAt", "UpdatedAt")
 	/*if err == nil {
 		redis_util.Set(userKey, user, 1000)
 	}*/
