@@ -691,6 +691,10 @@ article > h1 {
 
 /***********文章详情页*********************/
 
+.article-detail{
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
 .article-detail-nav-left {
     float: left;
