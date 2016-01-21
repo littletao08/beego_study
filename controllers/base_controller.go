@@ -132,15 +132,15 @@ func (c *BaseController) CurrentUser() *entities.User {
 }
 
 func (c *BaseController) CurrentOpenUser() *entities.OpenUser {
-	openUser := c.GetSession("open_user")
+	openUser := c.GetSession("openUser")
 	if nil == openUser {
 		return nil
 	}
-	var u, ok = openUser.(entities.OpenUser)
+	var u, ok = openUser.(*entities.OpenUser)
 	if !ok {
 		return nil
 	}
-	return &u
+	return u
 }
 
 func (c *BaseController) SetCurrSession(sessionKey string,value interface{})  {
