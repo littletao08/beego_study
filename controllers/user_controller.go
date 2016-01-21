@@ -9,10 +9,10 @@ import (
 
 const
 (
-	//普通注册
-	COMMON_REGISTER=0
-	//第三方授权注册
-	OAUTH_REGISTER=1
+
+	COMMON_REGISTER=0 //普通注册
+
+	OAUTH_REGISTER=1  //第三方授权注册
 )
 
 type UserController struct {
@@ -59,6 +59,7 @@ func (c *UserController) Register() {
 func (c *UserController) OauthRegister() {
 	c.Data["showLeftBar"] = false
 	openUser := c.CurrentOpenUser()
+	beego.Debug("openUser:",openUser)
 	if nil == openUser || openUser.UserId > 0 {
 		c.Ctx.Redirect(302, "/")
 		return

@@ -89,6 +89,7 @@ func (c *OpenUserController) QqToken() {
 	}
 
 	openUser,_ =models.OpenUser(openId,entities.OPEN_USER_TYPE_QQ)
+	beego.Debug("openUser:",openUser)
 	//绑定了账号则跳转到首页,否则跳转到注册或绑卡页面
     if openUser.HasBindUser() {
 		userId := openUser.UserId
