@@ -39,7 +39,7 @@ func (c *UserController) OauthLogin() {
 	c.Data["showLeftBar"] = false
 	openUser := c.CurrentOpenUser()
 	beego.Debug("openUser:",openUser)
-	if nil == openUser || openUser.UserId == 0 {
+	if nil == openUser || openUser.UserId != 0 {
 		c.Ctx.Redirect(302, "/")
 		return
 	}
