@@ -20,6 +20,8 @@ func init() {
 	beego.Router("/users/check_user_name", &controllers.UserController{},"post:CheckUserName")
 	beego.Router("/users/check_user_mail", &controllers.UserController{},"post:CheckUserMail")
 
+	beego.Router("/users/mob_register",&controllers.SmsController{},"post:Send")
+
 	beego.Router("/articles", &controllers.ArticleController{},"get:Articles")
 	beego.Router("/articles", &controllers.ArticleController{},"post:CreateArticle")
 	beego.Router("/articles/new", &controllers.ArticleController{},"get:New")
