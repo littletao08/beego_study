@@ -735,6 +735,8 @@ article .user-head {
 .auth-form {
     max-width: 400px;
     margin: 60px auto;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .auth-form .btn{
