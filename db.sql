@@ -215,7 +215,7 @@ values('user_pass_max_length',12,'用户密码最大字符数',now());
 
 CREATE TABLE `open_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `open_id` varchar(20) DEFAULT NULL COMMENT '第三方openid',
+  `open_id` varchar(100) DEFAULT NULL COMMENT '第三方openid',
   `user_id` bigint(22) DEFAULT '0' COMMENT '绑定的用户编号',
   `type` int(11) DEFAULT NULL COMMENT '1：qq;2：新浪微博',
   `nick` varchar(50) DEFAULT NULL COMMENT '第三方昵称',
