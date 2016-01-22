@@ -19,6 +19,8 @@ func init() {
 	beego.Router("/users", &controllers.UserController{},"post:CreateUser")
 	beego.Router("/users/check_user_name", &controllers.UserController{},"post:CheckUserName")
 	beego.Router("/users/check_user_mail", &controllers.UserController{},"post:CheckUserMail")
+	beego.Router("/users/check_user_mobile", &controllers.UserController{},"post:CheckUserMobile")
+
 
 	beego.Router("/users/mob_register",&controllers.SmsController{},"post:Send")
 
@@ -36,6 +38,7 @@ func init() {
 
 	beego.Router("/open_users/:type/auth", &controllers.OpenUserController{},"get:QqAuth")
 	beego.Router("/open_users/:type/token", &controllers.OpenUserController{},"get:QqToken")
+	beego.Router("/open_users/mobile/mob_reg", &controllers.SmsController{},"get:MobRegister")
 }
 
 

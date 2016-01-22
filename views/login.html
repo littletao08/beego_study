@@ -34,8 +34,9 @@
                     <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="登 录">
                 </div>
                 <div class="login-look navbar-btn">
-                    <a href="#" title="微博登录" class="sina-login" type="sina" ><img src="/static/img/third_login_sina.png">微博登录</a>
-                    <a href="#" title="QQ登录" class="qq-login" type="qq" ><img src="/static/img/third_login_qq.png">QQ登录</a>
+                    <a href="#" title="微博登录" class="sina-login" type="sina" addr="sina/auth" ><img src="/static/img/third_login_sina.png">微博登录</a>
+                    <a href="#" title="QQ登录" class="qq-login" type="qq" addr="qq/auth" ><img src="/static/img/third_login_qq.png">QQ登录</a>
+                    <a href="#" title="手机号注册" class="margin-left-10" type="mobile" addr="mobile/mob_reg" ><img src="/static/img/register-mobile.png">手机号注册</a>
                 </div>
             </div>
         </form>
@@ -48,10 +49,9 @@
     $.validate({
         modules: 'location, date, security, file',
     });
-
-    $('.login-look a').on("click", function(e) {
-        var type= $(this).attr("type")
-        window.location="/open_users/"+type+"/auth";
+    $(document).on("click", ".login-look a",function(e) {
+        e.defaultPrevented
+        window.location="/open_users/"+$(this).attr("addr");
     });
 
 </script>

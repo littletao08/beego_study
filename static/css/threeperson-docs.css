@@ -750,6 +750,21 @@ article .user-head {
     cursor: pointer;
 }
 
+.auth-form .sms-btn{
+    margin-left: 5%;
+    width: 30%;
+    background: rgba(46, 142, 49, 0.99);
+    border-width: 0px;
+    border-radius: 5px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+.login-look .margin-left-10{
+    margin-left: 10px;
+}
 .login-look a.sina-login {
     margin-right: 10px;
 }
@@ -790,6 +805,8 @@ article .user-head {
 .article-editor-form .control-group:first-child{
     margin-top:0px;
 }
+
+
 
 button.btn, input[type="submit"].btn {
 }

@@ -16,9 +16,10 @@ import (
 )
 
 type SmsResponse struct {
-	SmsId      int32  `json:smsId`
+	SmsId      int32  `json:"smsId"`
 	ResMessage string `json:"error"`
-	Code       int32  `json:code`
+	Code       int32  `json:"code"`
+	Success    bool `json:"success"`
 }
 
 type SmsRequest struct {
@@ -85,5 +86,6 @@ func Send(request *SmsRequest) (*SmsResponse) {
 		beego.Error("短信内容解析失败")
 		return nil
 	}
+	log.Printf("短信验证码发送结果:%v+ \n", smsResponse)
 	return smsResponse
 }

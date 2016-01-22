@@ -252,4 +252,60 @@ function registerFormValid(){
             }
         }
     );
+
+    $.formUtils.addValidator(
+        {
+            name: 'mobile',
+            validatorFunction: function (value, $el, config, language, $form) {
+                if(!(/^1[3|4|5|7|8]\d{9}$/.test(value))){
+                    this.errorMessage="请输入合法的手机号"
+                    return false;
+                }
+                var result= $.ajax({
+                    url: "/users/check_user_mobile",
+                    type: "POST",
+                    data: {mobile: value},
+                    async: false
+                })
+                result = JSON.parse(result.responseText);
+                this.errorMessage=result.Message
+                return result.Success;
+            }
+        }
+    );
 }
+
+$(function(){
+
+    $(document).on("click","#sendCode",function(e){
+        e.defaultPrevented
+        var mobile = $("#mobile").val()
+        if((/^1[3|4|5|7|8]\d{9}$/.test(mobile))){
+            var result= $.ajax({
+                url: "/users/mob_register",
+                type: "POST",
+                data: {mobile: mobile},
+                async: false
+            })
+            result = JSON.parse(result.responseText);
+            //验证码发送成功
+            if (result.success) {
+                $("#sendCode").disable(false);
+                var seconds = 0;
+                setInterval(function(){
+                    seconds += 1;
+                    $("#sendCode").html((60-seconds)+"后重复获取");
+                    if(seconds == 60){
+                        $("#sendCode").disable(true);
+                        $("#sendCode").html("获取验证码");
+                    }
+                },1000);
+            }else{
+                alert(result.error)
+            }
+        }else{
+            alert("请输入合法的手机号")
+        }
+
+    })
+})

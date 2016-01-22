@@ -1,0 +1,74 @@
+{{template "public/header.html" .}}
+
+<div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
+
+    <div class="auth-form" id="register">
+        <form accept-charset="UTF-8" id="registerForm" action="/users"
+              method="post">
+            <div class="auth-form-header">
+                <h2 class="hosted-signin-title">创建threeperson账号</h2>
+            </div>
+            <div class="auth-form-body">
+                <label for="mobile">
+                    手机号
+                </label>
+
+                <div class="controls has-error">
+                    <input autocapitalize="off" autocorrect="off"
+                           class="form-control input-block"
+                           id="mobile" name="mobile" tabindex="1"
+                           type="text"
+                           data-validation="mobile"
+                           placeholder="请输入11位手机号码"
+                           value="{{.mobile}}">
+                </div>
+                <input type="hidden" name="registerType" value="1">
+                <label for="smsCode">
+                    验证码
+                </label>
+
+                <div class="controls has-error">
+                    <input  style="width: 65%" id="smsCode" name="smsCode" tabindex="1" type="text" />
+                    <button id="sendCode" class="sms-btn" style="margin-left:5%;width: 30%" name="senBtn" tabindex="1">获取验证码</button>
+                </div>
+                <label for="register_password">
+                    密码
+                </label>
+
+                <div class="controls has-error">
+                    <input class="input-block" id="register_password" name="password" tabindex="2" type="password"
+                           data-validation="length alphanumeric"
+                           data-validation-length="6-12"
+                           placeholder="密码长度只能在6-20位字符之间"
+                           data-validation-error-msg="密码长度只能在6-20位字符之间">
+                </div>
+                <label for="register_password">
+                    重复密码
+                </label>
+
+                <div class="controls has-error">
+                    <input class="input-block" id="re_register_password" name="rePassword" tabindex="2" type="password"
+                           data-validation="length alphanumeric"
+                           data-validation-length="6-12"
+                           placeholder="密码长度只能在6-20位字符之间"
+                           data-validation-error-msg="密码长度只能在6-20位字符之间">
+                </div>
+                <span class="form-error">{{.response.Message}}</span>
+
+                <div class="">
+                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
+                           value="注 册">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+{{template "public/footer.html" .}}
+<script>
+    registerFormValid();
+    $.validate({
+        modules: 'location, date, security, file',
+    });
+</script>
+

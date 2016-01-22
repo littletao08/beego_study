@@ -107,6 +107,25 @@ func CheckUserMail(mail string) error {
 	return nil
 }
 
+func CheckUserMobile(mobile string) error {
+
+	valid := validation.Validation{}
+
+	if !valid.Mobile(mobile, "mobile").Ok {
+		return errors.New("手机号格式不正确")
+	}
+
+	orm := orm.NewOrm()
+
+	count, err := orm.QueryTable("user").Filter("mobile", mobile).Count()
+
+	if nil != err || count > 0 {
+		return exception.USER_MOBILE_EXISTENT
+	}
+
+	return nil
+}
+
 func CheckNewUser(user *entities.User) error {
 
 	name := user.Name

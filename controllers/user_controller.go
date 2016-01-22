@@ -10,9 +10,9 @@ import (
 const
 (
 
-	COMMON_REGISTER=0 //普通注册
+	COMMON_REGISTER = 0 //普通注册
 
-	OAUTH_REGISTER=1  //第三方授权注册
+	OAUTH_REGISTER = 1  //第三方授权注册
 )
 
 type UserController struct {
@@ -38,7 +38,7 @@ func (c *UserController) Login() {
 func (c *UserController) OauthLogin() {
 	c.Data["showLeftBar"] = false
 	openUser := c.CurrentOpenUser()
-	beego.Debug("openUser:",openUser)
+	beego.Debug("openUser:", openUser)
 	if nil == openUser || openUser.UserId != 0 {
 		c.Ctx.Redirect(302, "/")
 		return
@@ -60,7 +60,7 @@ func (c *UserController) Register() {
 func (c *UserController) OauthRegister() {
 	c.Data["showLeftBar"] = false
 	openUser := c.CurrentOpenUser()
-	beego.Debug("openUser:",openUser)
+	beego.Debug("openUser:", openUser)
 	if nil == openUser || openUser.UserId > 0 {
 		c.Ctx.Redirect(302, "/")
 		return
@@ -70,7 +70,7 @@ func (c *UserController) OauthRegister() {
 
 
 func (c *UserController) CreateUser() {
-	registerType,err := c.GetInt("registerType")
+	registerType, err := c.GetInt("registerType")
 	if nil != err {
 		c.Ctx.Redirect(302, "/")
 	}
@@ -211,4 +211,14 @@ func (c *UserController) CheckUserMail() {
 		c.JsonSuccess(nil)
 	}
 
+}
+
+func (c *UserController) CheckUserMobile() {
+	mobile := c.GetString("mobile")
+	err := models.CheckUserMobile(mobile)
+	if nil != err {
+		c.JsonError(err.Error())
+	}else {
+		c.JsonSuccess(nil)
+	}
 }
