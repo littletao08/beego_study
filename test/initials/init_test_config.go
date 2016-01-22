@@ -6,7 +6,7 @@ import
 )
 
 func init() {
-	beego.AppConfigPath = "/Users/zhanglida/go_path/src/beego_study/test/conf/app.conf"
+	beego.AppConfigPath = "/Users/zhanglida/go_path/src/beego_study/conf/app.conf"
 	beego.ParseConfig()
 	beego.Error("apppath", beego.AppConfigPath)
 }
