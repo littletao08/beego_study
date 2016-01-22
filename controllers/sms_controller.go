@@ -5,21 +5,26 @@ import (
 	"beego_study/utils/redis"
 	"strings"
 	"time"
+	"log"
 )
 var smsCodeLength, smsCodeVerifyCount int
 var smsCodePrefix, smsCodeVerifyCountPrefix string
+var smsCodeTimeOut int64
 
 func init() {
-	smsCodeLength = models.AuthConfig.DefaultInt("sms-code-length", 6)
-	smsCodePrefix = models.AuthConfig.DefaultString("sms-code-prefix", "sms_code_")
+	smsCodeLength = 6
+	smsCodePrefix = "sms_code_"
+	//限制同一个手机号同一天只能发送的次数
 	smsCodeVerifyCount = models.AuthConfig.DefaultInt("sms-code-verify-count", 10)
-	smsCodeVerifyCountPrefix = models.AuthConfig.DefaultString("sms-code-verify-count-prefix", "sms_code_verify_count_")
+	smsCodeVerifyCountPrefix = "sms_code_verify_count_"
+	//验证码有效期
+	smsCodeTimeOut = models.AuthConfig.DefaultInt64("sms-code-time-out", 600)
 }
 type SmsController struct {
 	BaseController
 }
 
-func (sms *SmsController) Send() string {
+func (sms *SmsController) Send() {
 	mobile := sms.GetString("mob")
 	smsResponse := &models.SmsResponse{}
 	if verify, ct := verifyMaxCount(mobile); verify {
@@ -27,24 +32,25 @@ func (sms *SmsController) Send() string {
 		smsCode := models.RandomSmsCode(smsCodeLength)
 
 		smsRequest := &models.SmsRequest{MobilePhoneNumber:mobile, Content:smsCode}
-		smsResponse = models.Send(smsRequest)
-		bytes, _ := json.MarshalIndent(smsResponse, " ", "")
+		smsResponse = models.SendRegisterSms(smsRequest)
+		bytes, _ := json.Marshal(smsResponse)
 		jsonValue := string(bytes)
 		//发送并且响应成功以后
 		if smsResponse != nil && smsResponse.Code == 0 {
-			redis_util.Set(smsCodePrefix + mobile, sms, 600)
+			redis_util.Set(smsCodePrefix + mobile, smsCode, smsCodeTimeOut)
 			//设置每天短信验证码的次数
-			ct = + 1
+			ct = ct + 1
 			timeStr := time.Now().Format("2006-01-02")
+			log.Printf("短信验证码发送成功,当天发送次数:%d", ct)
 			redis_util.Set(smsCodeVerifyCountPrefix + timeStr + mobile, ct, 86400)
-
 		}
-		return jsonValue
+		sms.Data["json"] = jsonValue
 	}else {
 		smsResponse.ResMessage = "发送验证码次数已经超过上限"
-		bytes, _ := json.MarshalIndent(smsResponse, " ", "")
-		return string(bytes)
+		bytes, _ := json.Marshal(smsResponse)
+		sms.Data["json"] = string(bytes)
 	}
+	sms.ServeJSON()
 }
 
 func (sms *SmsController) VerifySmsCode() {

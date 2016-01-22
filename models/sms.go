@@ -12,6 +12,7 @@ import (
 	"time"
 	"net/http"
 	"log"
+	"go-exercise/go/src/fmt"
 )
 
 type SmsResponse struct {
@@ -24,6 +25,21 @@ type SmsRequest struct {
 	MobilePhoneNumber string `json:"mobilePhoneNumber"`
 	Content           string `json:"content"`
 }
+var registerTemplate, appId, appKey, contentType, smsUrl string
+
+func init() {
+	registerTemplate = AuthConfig.String("sms-register-template")
+	contentType = AuthConfig.String("sms-Content-Type")
+	appKey = AuthConfig.String("sms-X-Bmob-REST-API-Key")
+	appId = AuthConfig.String("sms-X-Bmob-Application-Id")
+	smsUrl = AuthConfig.String("sms-bmob-url")
+}
+
+func SendRegisterSms(request *SmsRequest) *SmsResponse {
+	request.Content = fmt.Sprintf(registerTemplate, request.Content)
+	return Send(request)
+}
+
 //生成一个纯数字的验证码.
 func RandomSmsCode(length int) string {
 	values := make([]string, length)
@@ -43,22 +59,20 @@ func Send(request *SmsRequest) (*SmsResponse) {
 	if err != nil {
 		return nil
 	}
-	url := AuthConfig.String("sms-bmob-url")
-
 	params := string(jsonValues)
-	log.Printf("params : %s \n",params)
+	log.Printf("params : %s \n", params)
 
-	req, err := http.NewRequest("POST", url, strings.NewReader(params))
+	req, err := http.NewRequest("POST", smsUrl, strings.NewReader(params))
 	if err != nil {
 		beego.Error("短信请求发送失败")
 		return nil
 	}
 
 	//设置Head参数
-	req.Header.Add("X-Bmob-Application-Id", AuthConfig.String("sms-X-Bmob-Application-Id"))
-	req.Header.Add("X-Bmob-REST-API-Key", AuthConfig.String("sms-X-Bmob-REST-API-Key"))
-	req.Header.Add("Content-Type", AuthConfig.String("sms-Content-Type"))
-	log.Printf("sms send request : %+v \n",req)
+	req.Header.Add("X-Bmob-Application-Id", appId)
+	req.Header.Add("X-Bmob-REST-API-Key", appKey)
+	req.Header.Add("Content-Type", contentType)
+	log.Printf("sms send request : %+v \n", req)
 	resp, err := client.Do(req)
 	if err != nil {
 		beego.Error("短信请求发送失败")
