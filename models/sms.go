@@ -11,8 +11,7 @@ import (
 	"math/rand"
 	"time"
 	"net/http"
-	"log"
-	"go-exercise/go/src/fmt"
+	"fmt"
 )
 
 type SmsResponse struct {
@@ -38,14 +37,14 @@ func init() {
 	appId = AuthConfig.String("sms-X-Bmob-Application-Id")
 	smsUrl = AuthConfig.String("sms-bmob-url")
 	//测试的时候使用,如果是true,表示是关闭渠道的调用,模拟发送
-	testSend = AuthConfig.DefaultBool("sms-test-send",false)
+	testSend = AuthConfig.DefaultBool("sms-test-send", false)
 }
 
 func SendRegisterSms(request *SmsRequest) *SmsResponse {
 	request.Content = fmt.Sprintf(registerTemplate, request.Content)
 	if testSend {
-		beego.Debug("虚拟发送验证码:",request.Content)
-		return &SmsResponse{SmsId:1234,ResMessage:"验证码发送成功",Success:true}
+		beego.Debug("虚拟发送验证码:", request.Content)
+		return &SmsResponse{SmsId:1234, ResMessage:"验证码发送成功", Success:true}
 	}
 	return Send(request)
 }
@@ -73,7 +72,7 @@ func Send(request *SmsRequest) (*SmsResponse) {
 
 	req, err := http.NewRequest("POST", smsUrl, strings.NewReader(params))
 	if err != nil {
-		beego.Error("短信请求发送失败:",err.Error())
+		beego.Error("短信请求发送失败:", err.Error())
 		return nil
 	}
 
@@ -93,6 +92,6 @@ func Send(request *SmsRequest) (*SmsResponse) {
 		beego.Error("短信内容解析失败")
 		return nil
 	}
-	smsResponse.Success=true
+	smsResponse.Success = true
 	return smsResponse
 }

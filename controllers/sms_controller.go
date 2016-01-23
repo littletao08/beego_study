@@ -5,7 +5,6 @@ import (
 	"beego_study/utils/redis"
 	"strings"
 	"time"
-	"log"
 	"beego_study/entities"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/validation"
@@ -58,7 +57,7 @@ func (sms *SmsController) Send() {
 			//设置每天短信验证码的次数
 			ct = ct + 1
 			timeStr := time.Now().Format("2006-01-02")
-			log.Printf("短信验证码发送成功,当天发送次数:%d", ct)
+			beego.Debug(mobile,"该手机号验证码当天发送次数:%d", ct)
 			redis_util.Set(smsCodeVerifyCountPrefix + timeStr + mobile, ct, 86400)
 		}else {
 			smsResponse.ResMessage = "验证码发送失败,请稍后重试"
