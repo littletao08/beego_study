@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"beego_study/controllers"
 	_"beego_study/initials"
+"github.com/astaxie/beego/context"
 )
 func init() {
 	beego.Router("", &controllers.IndexController{},"get:Index")
@@ -45,6 +46,13 @@ func init() {
 
 	//手机号注册页面
 	beego.Router("/open_users/mobile/mob_reg", &controllers.SmsController{},"get:MobRegister")
+	var FilterMethod = func(ctx *context.Context) {
+		if ctx.Input.Query("_method")!="" && ctx.Input.IsPost(){
+			ctx.Request.Method = ctx.Input.Query("_method")
+		}
+	}
+
+	beego.InsertFilter("*", beego.BeforeRouter, FilterMethod)
 }
 
 
