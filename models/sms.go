@@ -81,7 +81,6 @@ func Send(request *SmsRequest) (*SmsResponse) {
 	req.Header.Add("X-Bmob-Application-Id", appId)
 	req.Header.Add("X-Bmob-REST-API-Key", appKey)
 	req.Header.Add("Content-Type", contentType)
-	log.Printf("sms send request : %+v \n", req)
 	resp, err := client.Do(req)
 	if err != nil {
 		beego.Error("短信请求发送失败")
