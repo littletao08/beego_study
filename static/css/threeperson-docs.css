@@ -753,10 +753,12 @@ article .user-head {
 .auth-form .sms-btn{
     margin-left: 5%;
     width: 30%;
+    float: right;
+    display: inline;
     background: rgba(46, 142, 49, 0.99);
     border-width: 0px;
     border-radius: 5px;
-    line-height: 30px;
+    line-height: 34px;
     font-size: 14px;
     color: #fff;
     text-align: center;

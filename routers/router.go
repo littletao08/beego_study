@@ -22,7 +22,11 @@ func init() {
 	beego.Router("/users/check_user_mobile", &controllers.UserController{},"post:CheckUserMobile")
 
 
+	//手机号注册,发送短信验证码
 	beego.Router("/users/mob_register",&controllers.SmsController{},"post:Send")
+
+	//短信验证码验证
+	beego.Router("/users/verify_code",&controllers.SmsController{},"post:VerifySmsCode")
 
 	beego.Router("/articles", &controllers.ArticleController{},"get:Articles")
 	beego.Router("/articles", &controllers.ArticleController{},"post:CreateArticle")
@@ -38,6 +42,8 @@ func init() {
 
 	beego.Router("/open_users/:type/auth", &controllers.OpenUserController{},"get:QqAuth")
 	beego.Router("/open_users/:type/token", &controllers.OpenUserController{},"get:QqToken")
+
+	//手机号注册页面
 	beego.Router("/open_users/mobile/mob_reg", &controllers.SmsController{},"get:MobRegister")
 }
 

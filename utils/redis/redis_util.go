@@ -96,6 +96,10 @@ func Get(key string, to interface{}) error {
 	return err
 }
 
+func Del(key string)error{
+	return redis.Delete(key)
+}
+
 func Hget(key string,field string, to interface{}) error {
 	var err error
 	defer utils.Recover("redis get falure")

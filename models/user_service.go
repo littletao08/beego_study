@@ -46,6 +46,23 @@ func SaveUser(user *entities.User) error {
 	user.Id = id
 	return nil
 }
+func NewMobUser(user *entities.User)error{
+	orm := orm.NewOrm()
+
+	err := CheckUserMobile(user.Cell)
+
+	if nil != err {
+		return err
+	}
+	user.CreatedAt=time.Now()
+
+	id, err := orm.Insert(user)
+	if nil == err {
+		return err
+	}
+	user.Id = id
+	return nil
+}
 
 func FundUser(name string, password string) (entities.User, error) {
 	var err error
@@ -117,7 +134,7 @@ func CheckUserMobile(mobile string) error {
 
 	orm := orm.NewOrm()
 
-	count, err := orm.QueryTable("user").Filter("mobile", mobile).Count()
+	count, err := orm.QueryTable("user").Filter("cell", mobile).Count()
 
 	if nil != err || count > 0 {
 		return exception.USER_MOBILE_EXISTENT

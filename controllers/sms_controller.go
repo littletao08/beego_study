@@ -6,6 +6,9 @@ import (
 	"strings"
 	"time"
 	"log"
+	"beego_study/entities"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/validation"
 )
 var smsCodeLength, smsCodeVerifyCount int
 var smsCodePrefix, smsCodeVerifyCountPrefix string
@@ -32,13 +35,16 @@ func (controller *SmsController) MobRegister() {
 func (sms *SmsController) Send() {
 	mobile := sms.GetString("mobile")
 	smsResponse := &models.SmsResponse{}
-	if len(mobile) < 11 {
-		smsResponse.ResMessage = "手机号不能为空!"
+	valid := validation.Validation{}
+
+	if !valid.Mobile(mobile, "mobile").Ok {
+		smsResponse.ResMessage = "手机号格式不正确!"
 		bytes, _ := json.Marshal(smsResponse)
 		sms.Data["json"] = string(bytes)
 		sms.ServeJSON()
 		return
 	}
+	//上限检测
 	if verify, ct := verifyMaxCount(mobile); verify {
 		//生成验证码,默认是六位
 		smsCode := models.RandomSmsCode(smsCodeLength)
@@ -48,7 +54,6 @@ func (sms *SmsController) Send() {
 		bytes, _ := json.Marshal(smsResponse)
 		//发送并且响应成功以后
 		if smsResponse != nil && smsResponse.Code == 0 {
-			smsResponse.Success = true
 			redis_util.Set(smsCodePrefix + mobile, smsCode, smsCodeTimeOut)
 			//设置每天短信验证码的次数
 			ct = ct + 1
@@ -68,17 +73,48 @@ func (sms *SmsController) Send() {
 	sms.ServeJSON()
 }
 
-func (sms *SmsController) VerifySmsCode() {
-	mobile := sms.GetString("mobile")
-	reSmsCode := sms.GetString("smsCode")
-	var smsCode string
-	if err := redis_util.Get(smsCodePrefix + mobile, &smsCode); err != nil {
-		//验证码不正确
+func (this *SmsController) VerifySmsCode() {
+	mobile := this.GetString("mobile")
+	reSmsCode := this.GetString("smsCode")
+	pwd := this.GetString("password")
+	repwd := this.GetString("repassword")
+	//失败的时候免用户输入手机号
+	this.Data["mobile"] = mobile
+
+	beego.Debug("手机号注册参数:mobile:", mobile, "smsCode:", reSmsCode)
+	//验证密码和重复密码是否一致
+	if !strings.EqualFold(pwd, repwd) {
+		this.Data["Message"] = "密码与重复密码不一致"
+		this.MobRegister()
+		return
 	}
+
+	var smsCode string
+
+	key := smsCodePrefix + mobile
+	//验证码是否能或取到
+	if err := redis_util.Get(key, &smsCode); err != nil {
+		this.Data["Message"] = "验证码不正确"
+		this.MobRegister()
+		return
+	}
+
 	if strings.EqualFold(reSmsCode, smsCode) {
-		//验证码验证通过了
+		user := entities.User{Cell:mobile, Password:pwd, Nick:mobile, Name:mobile, CreatedAt:time.Now()}
+		err := models.NewMobUser(&user)
+		if err != nil {
+			this.Data["Message"] = "注册失败,请稍后重试"
+			this.MobRegister()
+			return
+		}
+		redis_util.Del(key)
+		this.SetCurrSession("user", user)
+		this.Ctx.Redirect(302, "/")
 	}else {
 		//验证码不正确
+		this.Data["Message"] = "验证码不正确"
+		this.MobRegister()
+		return
 	}
 }
 

@@ -3,8 +3,7 @@
 <div id="js-pjax-container" class="context-loader-container" data-pjax-container="">
 
     <div class="auth-form" id="register">
-        <form accept-charset="UTF-8" id="registerForm" action="/users"
-              method="post">
+        <form accept-charset="UTF-8" method="post" action="/users/verify_code">
             <div class="auth-form-header">
                 <h2 class="hosted-signin-title">创建threeperson账号</h2>
             </div>
@@ -29,7 +28,7 @@
 
                 <div class="controls has-error">
                     <input  style="width: 65%" id="smsCode" name="smsCode" tabindex="1" type="text" />
-                    <button id="sendCode" class="sms-btn" style="margin-left:5%;width: 30%" name="senBtn" tabindex="1">获取验证码</button>
+                    <div id="sendCode" class="sms-btn" name="senBtn">获取验证码</div>
                 </div>
                 <label for="register_password">
                     密码
@@ -47,13 +46,13 @@
                 </label>
 
                 <div class="controls has-error">
-                    <input class="input-block" id="re_register_password" name="rePassword" tabindex="2" type="password"
+                    <input class="input-block" id="re_register_password" name="repassword" tabindex="2" type="password"
                            data-validation="length alphanumeric"
                            data-validation-length="6-12"
                            placeholder="密码长度只能在6-20位字符之间"
                            data-validation-error-msg="密码长度只能在6-20位字符之间">
                 </div>
-                <span class="form-error">{{.response.Message}}</span>
+                <span class="form-error">{{.Message}}</span>
 
                 <div class="">
                     <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
@@ -66,7 +65,7 @@
 </div>
 {{template "public/footer.html" .}}
 <script>
-    registerFormValid();
+    mobRegisterValid();
     $.validate({
         modules: 'location, date, security, file',
     });

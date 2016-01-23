@@ -17,7 +17,7 @@ import (
 
 type SmsResponse struct {
 	SmsId      int32  `json:"smsId"`
-	ResMessage string `json:"error"`
+	ResMessage string `json:"message"`
 	Code       int32  `json:"code"`
 	Success    bool `json:"success"`
 }
@@ -27,17 +27,26 @@ type SmsRequest struct {
 	Content           string `json:"content"`
 }
 var registerTemplate, appId, appKey, contentType, smsUrl string
+var testSend bool
 
 func init() {
+	//短信内容模板
 	registerTemplate = AuthConfig.String("sms-register-template")
+	//短信渠道调用接口配置
 	contentType = AuthConfig.String("sms-Content-Type")
 	appKey = AuthConfig.String("sms-X-Bmob-REST-API-Key")
 	appId = AuthConfig.String("sms-X-Bmob-Application-Id")
 	smsUrl = AuthConfig.String("sms-bmob-url")
+	//测试的时候使用,如果是true,表示是关闭渠道的调用,模拟发送
+	testSend = AuthConfig.DefaultBool("sms-test-send",false)
 }
 
 func SendRegisterSms(request *SmsRequest) *SmsResponse {
 	request.Content = fmt.Sprintf(registerTemplate, request.Content)
+	if testSend {
+		beego.Debug("虚拟发送验证码:",request.Content)
+		return &SmsResponse{SmsId:1234,ResMessage:"验证码发送成功",Success:true}
+	}
 	return Send(request)
 }
 
@@ -61,11 +70,10 @@ func Send(request *SmsRequest) (*SmsResponse) {
 		return nil
 	}
 	params := string(jsonValues)
-	log.Printf("params : %s \n", params)
 
 	req, err := http.NewRequest("POST", smsUrl, strings.NewReader(params))
 	if err != nil {
-		beego.Error("短信请求发送失败")
+		beego.Error("短信请求发送失败:",err.Error())
 		return nil
 	}
 
@@ -86,6 +94,6 @@ func Send(request *SmsRequest) (*SmsResponse) {
 		beego.Error("短信内容解析失败")
 		return nil
 	}
-	log.Printf("短信验证码发送结果:%v+ \n", smsResponse)
+	smsResponse.Success=true
 	return smsResponse
 }
