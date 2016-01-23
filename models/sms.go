@@ -16,7 +16,7 @@ import (
 
 type SmsResponse struct {
 	SmsId      int32  `json:"smsId"`
-	ResMessage string `json:"message"`
+	ResMessage string `json:"error"`
 	Code       int32  `json:"code"`
 	Success    bool `json:"success"`
 }

@@ -307,7 +307,7 @@ $(function(){
                     if (result.success) {
                         time($("#sendCode"))
                     } else {
-                        alert(result.message)
+                        alert(result.error)
                     }
                 }
             })
