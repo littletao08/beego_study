@@ -764,6 +764,11 @@ article .user-head {
     text-align: center;
     cursor: pointer;
 }
+
+.btn-opacity {
+    opacity: 0.5
+}
+
 .login-look .margin-left-10{
     margin-left: 10px;
 }

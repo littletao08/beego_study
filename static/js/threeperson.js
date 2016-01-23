@@ -281,11 +281,11 @@ $(function(){
     function time(o) {
         if (wait == 0) {
             o.html("获取验证码");
-            o.removeAttr("disabled");
+            o.removeClass("btn-opacity");
             wait = 60;
         } else {
             o.html("重新发送(" + wait + ")");
-            o.attr("disabled",true);
+            o.addClass("btn-opacity")
             wait--;
             setTimeout(function(){time(o)}, 1000)
         }
@@ -293,7 +293,7 @@ $(function(){
     $(document).on("click","#sendCode",function(e){
         e.defaultPrevented
         //禁止用户重复发送
-        if ($(this).attr("disabled"))return false;
+        if ($(this).hasClass("btn-opacity"))return false;
         var mobile = $("#mobile").val()
         if((/^1[3|4|5|7|8]\d{9}$/.test(mobile))){
             $.ajax({
