@@ -29,9 +29,29 @@
                            data-validation-length="6-12"
                            data-validation-error-msg="密码长度只能在6-20位字符之间">
                 </div>
+                <label for="login_captcha">
+
+                </label>
+                {{if .showCaptcha}}
+                <div class="control has-error ">
+                    <input id="login_captcha" name="captcha" type="text"
+                           class="captcha-input"
+                           data-validation="length"
+                           data-validation-length="6"
+                           data-validation-error-msg="验证码长度必须为6位数"
+                            >
+                    <div class="form-captcha">
+                    {{create_captcha}}
+                    </div>
+                </div>
+                {{end}}
+
+                <div>
+
+                </div>
                 <span class="form-error">{{.response.Message}}</span>
                 <div class="">
-                    <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="登 录">
+                    <input class="btn" data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="登 录">
                 </div>
                 <div class="login-look navbar-btn">
                     <a href="#" title="微博登录" class="sina-login" type="sina" ><img src="/static/img/third_login_sina.png">微博登录</a>
@@ -42,7 +62,6 @@
     </div>
 
 </div>
-<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101287052" data-redirecturi="http://www.threeperson.com" charset="utf-8"></script>
 {{template "public/footer.html" .}}
 <script>
     $.validate({

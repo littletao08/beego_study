@@ -841,6 +841,21 @@ form .btn {
 
 
 /***************表单校验样式********************/
+.form-captcha{
+    display: inline;
+    margin-left: 10%;
+}
+
+.form-captcha img{
+    display: inline;
+    width: 65%;
+    height: 30px;
+}
+
+.captcha-input{
+    width: 25%;
+}
+
 
 .form-error{
     display: block;

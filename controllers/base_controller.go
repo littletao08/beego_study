@@ -25,6 +25,7 @@ type ResponseBody struct {
 	Data    interface{}
 }
 
+
 func (c *BaseController) Prepare() {
 
 	userId := c.CurrentUserId()
@@ -224,3 +225,6 @@ func (c *BaseController) SetTitle(title string) *BaseController {
 	c.Data["title"] = title
 	return c
 }
+
+
+
