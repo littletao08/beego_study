@@ -1,4 +1,5 @@
 package controllers
+
 import (
 	"github.com/astaxie/beego"
 	"beego_study/models"
@@ -12,7 +13,18 @@ import (
 	"bytes"
 	"github.com/tdewolff/minify"
 	"github.com/tdewolff/minify/html"
+	"github.com/astaxie/beego/cache"
+	"github.com/astaxie/beego/utils/captcha"
+	"beego_study/utils/redis"
+	"time"
 )
+
+var cpt *captcha.Captcha
+
+func init() {
+	store := cache.NewMemoryCache()
+	cpt = captcha.NewWithFilter("/captcha/", store)
+}
 
 type BaseController struct {
 	beego.Controller
@@ -24,7 +36,6 @@ type ResponseBody struct {
 	Code    int
 	Data    interface{}
 }
-
 
 func (c *BaseController) Prepare() {
 
@@ -107,7 +118,6 @@ func mini(renderBytes []byte) ([]byte, error) {
 	return w.Bytes(), err
 }
 
-
 func (c *BaseController) NewPagination() *db.Pagination {
 	page, err := c.GetInt("page")
 	if nil != err {
@@ -118,7 +128,6 @@ func (c *BaseController) NewPagination() *db.Pagination {
 	pagination.SetUrl(link)
 	return pagination
 }
-
 
 func (c *BaseController) CurrentUser() *entities.User {
 	user := c.GetSession("user")
@@ -144,10 +153,9 @@ func (c *BaseController) CurrentOpenUser() *entities.OpenUser {
 	return u
 }
 
-func (c *BaseController) SetCurrSession(sessionKey string,value interface{})  {
+func (c *BaseController) SetCurrSession(sessionKey string, value interface{}) {
 	c.SetSession(sessionKey, value)
 }
-
 
 func (c *BaseController) CurrentUserId() int64 {
 	user := c.CurrentUser()
@@ -187,7 +195,6 @@ func (c *BaseController) ErrorCodeJsonError(exception exception.ErrorCode) {
 	c.ServeJSON()
 }
 
-
 func (c *BaseController) JsonError(message interface{}) {
 	response := new(ResponseBody)
 	response.Code = -1
@@ -205,7 +212,6 @@ func (c *BaseController) JsonSuccess(message interface{}) {
 	c.Data["json"] = response
 	c.ServeJSON()
 }
-
 
 func (c *BaseController) Ip() string {
 	return c.Ctx.Request.Header.Get("X-Real-Ip")
@@ -226,5 +232,32 @@ func (c *BaseController) SetTitle(title string) *BaseController {
 	return c
 }
 
+func (c *BaseController) VerifyCaptcha() bool {
+	captcha := c.GetString("captcha")
+	captchaId := c.GetString("captcha_id")
+	return cpt.Verify(captchaId, captcha)
+}
+
+func (c *BaseController) RecordLoginFailTimes() {
+	sessionId := c.CruSession.SessionID()
+
+	failTimes := models.ParameterIntValue("no_captcha_login_fail_times")
+
+	failTimesCache := redis_util.IncrByWithTimeOut(sessionId, 1, int64(time.Second * 3))
+
+	if failTimesCache >= failTimes {
+		c.Data["showCaptcha"] = true
+	}
+}
+
+func (c *BaseController) NeedCheckCaptcha() bool {
+	sessionId := c.CruSession.SessionID()
+
+	failTimes := models.ParameterIntValue("no_captcha_login_fail_times")
+
+	failTimesCache := redis_util.IncrByWithTimeOut(sessionId, 1, int64(time.Second * 3))
+
+	return failTimesCache > failTimes;
+}
 
 

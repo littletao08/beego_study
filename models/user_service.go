@@ -50,7 +50,6 @@ func SaveUser(user *entities.User) error {
 func FundUser(name string, password string) (entities.User, error) {
 	var err error
 	var user entities.User
-	beego.Error("name:", name, "password:", password)
 
 	orm := orm.NewOrm()
 	querySetter := orm.QueryTable("user").Filter("password", password);
@@ -64,6 +63,7 @@ func FundUser(name string, password string) (entities.User, error) {
 	}
 
 	err = querySetter.One(&user, "id", "name", "nick", "password", "age", "cell", "mail", "sex", "CreatedAt", "UpdatedAt")
+
 	return user, err
 }
 

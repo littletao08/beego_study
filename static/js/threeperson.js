@@ -252,4 +252,5 @@ function registerFormValid(){
             }
         }
     );
+
 }

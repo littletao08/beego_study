@@ -9,10 +9,9 @@ import (
 
 const
 (
+	COMMON_REGISTER = 0 //普通注册
 
-	COMMON_REGISTER=0 //普通注册
-
-	OAUTH_REGISTER=1  //第三方授权注册
+	OAUTH_REGISTER = 1  //第三方授权注册
 )
 
 type UserController struct {
@@ -38,7 +37,7 @@ func (c *UserController) Login() {
 func (c *UserController) OauthLogin() {
 	c.Data["showLeftBar"] = false
 	openUser := c.CurrentOpenUser()
-	beego.Debug("openUser:",openUser)
+	beego.Debug("openUser:", openUser)
 	if nil == openUser || openUser.UserId != 0 {
 		c.Ctx.Redirect(302, "/")
 		return
@@ -60,7 +59,7 @@ func (c *UserController) Register() {
 func (c *UserController) OauthRegister() {
 	c.Data["showLeftBar"] = false
 	openUser := c.CurrentOpenUser()
-	beego.Debug("openUser:",openUser)
+	beego.Debug("openUser:", openUser)
 	if nil == openUser || openUser.UserId > 0 {
 		c.Ctx.Redirect(302, "/")
 		return
@@ -68,9 +67,8 @@ func (c *UserController) OauthRegister() {
 	c.TplName = "register_bind_open_user.html"
 }
 
-
 func (c *UserController) CreateUser() {
-	registerType,err := c.GetInt("registerType")
+	registerType, err := c.GetInt("registerType")
 	if nil != err {
 		c.Ctx.Redirect(302, "/")
 	}
@@ -151,12 +149,25 @@ func (c *UserController) oauthCreateUser() {
 func (c *UserController) Session() {
 	name := c.GetString("name")
 	password := c.GetString("password")
-	user, err := models.FundUser(name, password)
 
+	needCheckCaptcha := c.NeedCheckCaptcha()
+	if needCheckCaptcha {
+		result := c.VerifyCaptcha()
+		if !result {
+			c.RecordLoginFailTimes()
+			c.StringError(exception.CAPTCHA_FALSE.Error())
+			c.Data["showLeftBar"] = false
+			c.TplName = "login.html"
+			return
+		}
+	}
+
+	user, err := models.FundUser(name, password)
 	if err == nil {
 		c.SetCurrSession("user", user)
 		c.Ctx.Redirect(302, "/")
 	}else {
+		c.RecordLoginFailTimes()
 		c.StringError(exception.USER_NAME_OR_PASS_UNMATCH.Error())
 		c.Data["showLeftBar"] = false
 		c.TplName = "login.html"
@@ -167,7 +178,6 @@ func (c *UserController) OauthSession() {
 	name := c.GetString("name")
 	password := c.GetString("password")
 	user, err := models.FundUser(name, password)
-
 	if err == nil {
 		c.SetCurrSession("user", user)
 		c.Ctx.Redirect(302, "/")
@@ -187,6 +197,9 @@ func (c *UserController) OauthSession() {
 	}
 
 	c.StringError(exception.USER_NAME_OR_PASS_UNMATCH.Error())
+
+	c.RecordLoginFailTimes()
+
 	c.OauthLogin()
 
 }

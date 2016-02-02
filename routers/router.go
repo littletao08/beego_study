@@ -36,6 +36,7 @@ func init() {
 
 	beego.Router("/open_users/:type/auth", &controllers.OpenUserController{}, "get:QqAuth")
 	beego.Router("/open_users/:type/token", &controllers.OpenUserController{}, "get:QqToken")
+
 	var FilterMethod = func(ctx *context.Context) {
 		if ctx.Input.Query("_method") != "" && ctx.Input.IsPost() {
 			ctx.Request.Method = ctx.Input.Query("_method")

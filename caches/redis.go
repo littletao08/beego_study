@@ -29,7 +29,7 @@ func NewRedisCache() cache.Cache {
 }
 
 // actually do the redis cmds
-func (rc *MyRedisCache) do(commandName string, args ...interface{}) (reply interface{}, err error) {
+func (rc *MyRedisCache) Do(commandName string, args ...interface{}) (reply interface{}, err error) {
 	c := rc.p.Get()
 	defer c.Close()
 
@@ -38,7 +38,7 @@ func (rc *MyRedisCache) do(commandName string, args ...interface{}) (reply inter
 
 // Get cache from redis.
 func (rc *MyRedisCache) Get(key string) interface{} {
-	if v, err := rc.do("GET", key); err == nil {
+	if v, err := rc.Do("GET", key); err == nil {
 		return v
 	}
 	return nil
@@ -46,7 +46,7 @@ func (rc *MyRedisCache) Get(key string) interface{} {
 
 // HGet cache from redis.
 func (rc *MyRedisCache) Hget(key string,field string) interface{} {
-	if v, err := rc.do("HGET", key,field); err == nil {
+	if v, err := rc.Do("HGET", key,field); err == nil {
 		return v
 	}
 	return nil
@@ -89,7 +89,7 @@ func (rc *MyRedisCache) GetMulti(keys []string) []interface{} {
 // put cache to redis.
 func (rc *MyRedisCache) Put(key string, val interface{}, timeout time.Duration) error {
 	var err error
-	if _, err = rc.do("SETEX", key, timeout/time.Second, val); err != nil {
+	if _, err = rc.Do("SETEX", key, timeout/time.Second, val); err != nil {
 		return err
 	}
 	return err
@@ -97,14 +97,14 @@ func (rc *MyRedisCache) Put(key string, val interface{}, timeout time.Duration) 
 
 func (rc *MyRedisCache) Set(key string, val interface{}, timeout int64) error {
 	var err error
-	_, err = rc.do("SETEX", key, timeout, val)
+	_, err = rc.Do("SETEX", key, timeout, val)
 	return err;
 }
 
 func (rc *MyRedisCache) Hset(key string,field string, val interface{}, timeout int64) error {
 	var err error
-	_, err = rc.do("HSET", key,field ,val)
-	rc.do("EXPIRE",key,timeout)
+	_, err = rc.Do("HSET", key,field ,val)
+	rc.Do("EXPIRE",key,timeout)
 	return err;
 }
 
@@ -113,14 +113,14 @@ func (rc *MyRedisCache) Hset(key string,field string, val interface{}, timeout i
 // delete cache in redis.
 func (rc *MyRedisCache) Delete(key string) error {
 	var err error
-	_, err = rc.do("DEL", key)
+	_, err = rc.Do("DEL", key)
 	return err
 }
 
 
 // check cache's existence in redis.
 func (rc *MyRedisCache) IsExist(key string) bool {
-	v, err := redis.Bool(rc.do("EXISTS", key))
+	v, err := redis.Bool(rc.Do("EXISTS", key))
 	if err != nil {
 		return false
 	}
@@ -129,28 +129,41 @@ func (rc *MyRedisCache) IsExist(key string) bool {
 
 // increase counter in redis.
 func (rc *MyRedisCache) Incr(key string) error {
-	_, err := redis.Bool(rc.do("INCRBY", key, 1))
+	_, err := redis.Bool(rc.Do("INCRBY", key, 1))
 	return err
+}
+
+// increase counter in redis.
+func (rc *MyRedisCache) IncrBy(key string,incr int) (int,error) {
+	number, err := redis.Int(rc.Do("INCRBY", key, incr))
+	return number,err
+}
+
+// increase counter in redis.
+func (rc *MyRedisCache) IncrByWithTimeOut(key string,incr int,timeout int64) (int,error) {
+	number, err := redis.Int(rc.Do("INCRBY", key, incr))
+	rc.Do("EXPIRE",key,timeout)
+	return number,err
 }
 
 // decrease counter in redis.
 func (rc *MyRedisCache) Decr(key string) error {
-	_, err := redis.Bool(rc.do("INCRBY", key, -1))
+	_, err := redis.Bool(rc.Do("INCRBY", key, -1))
 	return err
 }
 
 // clean all cache in redis. delete this redis collection.
 func (rc *MyRedisCache) ClearAll() error {
-	cachedKeys, err := redis.Strings(rc.do("HKEYS", rc.key))
+	cachedKeys, err := redis.Strings(rc.Do("HKEYS", rc.key))
 	if err != nil {
 		return err
 	}
 	for _, str := range cachedKeys {
-		if _, err = rc.do("DEL", str); err != nil {
+		if _, err = rc.Do("DEL", str); err != nil {
 			return err
 		}
 	}
-	_, err = rc.do("DEL", rc.key)
+	_, err = rc.Do("DEL", rc.key)
 	return err
 }
 

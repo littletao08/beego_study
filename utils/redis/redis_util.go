@@ -96,6 +96,29 @@ func Get(key string, to interface{}) error {
 	return err
 }
 
+func IncrBy(key string, incr int) int {
+	var err error
+	var val int
+	defer utils.Recover("redis get falure")
+	val,err = redis.IncrBy(key,incr)
+	if err != nil {
+		log.Redf("decode failure", err)
+	}
+	return val
+}
+
+
+func IncrByWithTimeOut(key string, incr int,timeOut int64) int {
+	var err error
+	var val int
+	defer utils.Recover("redis get falure")
+	val,err = redis.IncrByWithTimeOut(key,incr,timeOut)
+	if err != nil {
+		log.Redf("decode failure", err)
+	}
+	return val
+}
+
 func Hget(key string,field string, to interface{}) error {
 	var err error
 	defer utils.Recover("redis get falure")

@@ -12,6 +12,7 @@
                 <label for="login_name">
                     用户名/邮箱
                 </label>
+
                 <div class="controls has-error">
                     <input class="form-control input-block"
                            id="login_name" name="name" tabindex="1"
@@ -23,8 +24,10 @@
                 <label for="login_password">
                     密码
                 </label>
+
                 <div class="controls has-error">
-                    <input id="login_password" class="input-block" id="password" name="password" tabindex="2" type="password"
+                    <input id="login_password" class="input-block" id="password" name="password" tabindex="2"
+                           type="password"
                            data-validation="length alphanumeric"
                            data-validation-length="6-12"
                            data-validation-error-msg="密码长度只能在6-20位字符之间">
@@ -41,7 +44,7 @@
                            data-validation-error-msg="验证码长度必须为6位数"
                             >
                     <div class="form-captcha">
-                    {{create_captcha}}
+                        {{create_captcha}}
                     </div>
                 </div>
                 {{end}}
@@ -50,12 +53,15 @@
 
                 </div>
                 <span class="form-error">{{.response.Message}}</span>
+
                 <div class="">
-                    <input class="btn" data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="登 录">
+                    <input class="btn" data-disable-with="Signing in…" name="commit" tabindex="3" type="submit"
+                           value="登 录"/>
                 </div>
                 <div class="login-look navbar-btn">
-                    <a href="#" title="微博登录" class="sina-login" type="sina" ><img src="/static/img/third_login_sina.png">微博登录</a>
-                    <a href="#" title="QQ登录" class="qq-login" type="qq" ><img src="/static/img/third_login_qq.png">QQ登录</a>
+                    <a href="#" title="微博登录" class="sina-login" type="sina"><img src="/static/img/third_login_sina.png">微博登录</a>
+                    <a href="#" title="QQ登录" class="qq-login" type="qq"><img
+                            src="/static/img/third_login_qq.png">QQ登录</a>
                 </div>
             </div>
         </form>
@@ -64,13 +70,15 @@
 </div>
 {{template "public/footer.html" .}}
 <script>
+
+
     $.validate({
         modules: 'location, date, security, file',
     });
 
-    $('.login-look a').on("click", function(e) {
-        var type= $(this).attr("type")
-        window.location="/open_users/"+type+"/auth";
+    $('.login-look a').on("click", function (e) {
+        var type = $(this).attr("type")
+        window.location = "/open_users/" + type + "/auth";
     });
 
 </script>
