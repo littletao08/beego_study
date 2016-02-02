@@ -29,6 +29,22 @@
                            data-validation-length="6-12"
                            data-validation-error-msg="密码长度只能在6-20位字符之间">
                 </div>
+
+                {{if .showCaptcha}}
+                <label for="login_captcha"></label>
+                <div class="control has-error ">
+                    <input id="login_captcha" name="captcha" type="text"
+                           class="captcha-input"
+                           data-validation="length"
+                           data-validation-length="6"
+                           data-validation-error-msg="验证码长度必须为6位数"
+                            >
+                    <div class="form-captcha">
+                        {{create_captcha}}
+                    </div>
+                </div>
+                {{end}}
+
                 <span class="form-error">{{.response.Message}}</span>
                 <div class="">
                     <input class="btn " data-disable-with="Signing in…" name="commit" tabindex="3" type="submit" value="绑 定">

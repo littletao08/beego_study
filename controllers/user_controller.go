@@ -177,6 +177,18 @@ func (c *UserController) Session() {
 func (c *UserController) OauthSession() {
 	name := c.GetString("name")
 	password := c.GetString("password")
+
+	needCheckCaptcha := c.NeedCheckCaptcha()
+	if needCheckCaptcha {
+		result := c.VerifyCaptcha()
+		if !result {
+			c.RecordLoginFailTimes()
+			c.StringError(exception.CAPTCHA_FALSE.Error())
+			c.OauthLogin()
+			return
+		}
+	}
+
 	user, err := models.FundUser(name, password)
 	if err == nil {
 		c.SetCurrSession("user", user)
