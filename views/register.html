@@ -37,6 +37,19 @@
                            value="{{.mail}}"
                             >
                 </div>
+
+                <label for="register_captcha">
+
+                </label>
+                <div class="controls has-error">
+                    <input autocapitalize="off" autocorrect="off" class="mail-captcha"
+                           id="register_captcha" name="captcha" tabindex="1" type="text"
+                           data-validation="captcha" value="" >
+                    <div class="form-captcha">
+                        <input type="button" value="获取邮箱验证码">
+                    </div>
+                </div>
+
                 <label for="register_password">
                     密码
                 </label>

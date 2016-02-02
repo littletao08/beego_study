@@ -852,8 +852,18 @@ form .btn {
     height: 30px;
 }
 
+
 .captcha-input{
     width: 25%;
+}
+.form-captcha input{
+    display: inline;
+    width: 40%;
+    height: 30px;
+}
+
+.mail-captcha{
+    width: 50%;
 }
 
 
