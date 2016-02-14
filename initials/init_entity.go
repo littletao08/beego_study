@@ -13,4 +13,5 @@ func InitEntity()  {
 	orm.RegisterModel(new(entities.ArticleView))
 	orm.RegisterModel(new(entities.Tag))
 	orm.RegisterModel(new(entities.OpenUser))
+	orm.RegisterModel(new(entities.SystemMail))
 }

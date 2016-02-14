@@ -1,4 +1,4 @@
-package models_test
+package models
 import (
 	_"beego_study/initials"
 	"testing"

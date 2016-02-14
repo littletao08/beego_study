@@ -5,6 +5,12 @@ import (
 	"beego_study/entities"
 	"github.com/astaxie/beego"
 	"beego_study/exception"
+	"beego_study/utils"
+	"beego_study/utils/redis"
+	"strings"
+	"beego_study/constants"
+	"fmt"
+	"errors"
 )
 
 const
@@ -90,14 +96,19 @@ func (c *UserController) commonCreateUser() {
 	user.Name = c.GetString("name")
 	user.Mail = c.GetString("mail")
 	user.Password = c.GetString("password")
-
-	err := models.SaveUser(&user)
+	captcha := c.GetString("captcha")
+	var err error
+	isCaptchaValid := c.isMailCaptchaValid(captcha)
+	if !isCaptchaValid {
+		err = errors.New("验证码错误")
+	}else {
+		err = models.SaveUser(&user)
+	}
 
 	if err != nil {
 		c.StringError(err.Error())
 		c.Data["name"] = user.Name
 		c.Data["mail"] = user.Mail
-		c.Data["password"] = user.Password
 		c.Register()
 	}
 
@@ -142,7 +153,6 @@ func (c *UserController) oauthCreateUser() {
 	c.StringError(err.Error())
 	c.Data["name"] = user.Name
 	c.Data["mail"] = user.Mail
-	c.Data["password"] = user.Password
 	c.OauthRegister()
 }
 
@@ -237,3 +247,42 @@ func (c *UserController) CheckUserMail() {
 	}
 
 }
+
+func (c *UserController) isMailCaptchaValid(captcha string) bool {
+	sessionId := c.CruSession.SessionID()
+	var captchaCache string
+	mailCaptchaKey := strings.Replace(constants.MAIL_CAPTCHA_KEY, "$sessionId", sessionId, 1)
+	redis_util.Get(mailCaptchaKey, &captchaCache)
+	beego.Debug("captcha:", captcha, "captchaCache:", captchaCache)
+	if (len(captcha) == 0 || len(captchaCache) == 0 || captchaCache != captcha) {
+		return false
+	}
+	return true
+}
+func (c *UserController) CreateRegisterCaptcha() {
+	mail := c.GetString("mail")
+	sessionId := c.CruSession.SessionID()
+	var captcha string
+	mailCaptchaKey := strings.Replace(constants.MAIL_CAPTCHA_KEY, "$sessionId", sessionId, 1)
+	redis_util.Get(mailCaptchaKey, &captcha)
+	beego.Debug("captcha", captcha)
+	if len(captcha) == 0 {
+		captcha = utils.RandomIntCaptcha(6)
+		redis_util.Set(mailCaptchaKey, captcha, 60)
+	}
+	content := fmt.Sprintf(models.MAIL_CAPTCHA_TEMPLATE, captcha, captcha)
+	models.SendHtmlMail("threeperson(www.threeperson.com)注册验证码", content, []string{mail})
+	c.JsonSuccess(60)
+
+}
+
+func (c *UserController) UserHome()  {
+	pagination := c.NewPagination()
+	userId := c.CurrentUserId()
+	models.AllArticles(userId, pagination)
+	models.SetLikeSign(pagination,userId)
+	c.Data["pagination"] = pagination
+	c.Data["user"]=c.CurrentUser()
+	c.TplName = "user_home.html"
+}
+

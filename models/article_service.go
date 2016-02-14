@@ -26,11 +26,14 @@ func AllArticles(userId int64, pagination *db.Pagination) {
 	query := db.From("article")
 
 	if userId > 0 {
-		query.Where("user_id",userId)
+		query.Where("user_id", userId)
 	}
 
 	query.OrderBy("created_at desc").FillPagination(&articles, pagination)
 
+}
+
+func SetLikeSign(pagination *db.Pagination, userId int64) {
 	//设置当前用户点赞标记
 	if len(pagination.Data) < 1 || userId <= 0 {
 		return
@@ -41,19 +44,19 @@ func AllArticles(userId int64, pagination *db.Pagination) {
 		return
 	}
 
-	if userId > 0 {
-		signs := ArticleLikeLogs(userId, ids)
-		signMap := make(map[int64]bool)
-		for _, v := range signs {
-			signMap[v] = true
-		}
-		var newArticles []entities.Article
-		for _, v := range articles {
-			v.HasLike = signMap[v.Id]
-			newArticles = append(newArticles, v)
-		}
-		pagination.SetData(newArticles)
+	signs := ArticleLikeLogs(userId, ids)
+	signMap := make(map[int64]bool)
+	for _, v := range signs {
+		signMap[v] = true
 	}
+
+	var articles []entities.Article
+	for _, v := range pagination.Data {
+		article := v.(entities.Article)
+		article.HasLike = signMap[article.Id]
+		articles = append(articles,article)
+	}
+	pagination.SetData(articles)
 }
 
 func ArticlesGyCategory(userId int64, category string, pagination *db.Pagination) {
@@ -105,7 +108,7 @@ func LastArticle() (entities.Article, error) {
 	return article, err
 }
 
-func ArticleByIdAndUserId(articleId int64,userId int64) (*entities.Article, error) {
+func ArticleByIdAndUserId(articleId int64, userId int64) (*entities.Article, error) {
 	var err error
 	var article entities.Article
 	db := db.NewDB()

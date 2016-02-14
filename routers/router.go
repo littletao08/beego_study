@@ -17,8 +17,12 @@ func init() {
 	beego.Router("/users/oauth_session", &controllers.UserController{}, "post:OauthSession")
 	beego.Router("/users/register", &controllers.UserController{}, "get:Register")
 	beego.Router("/users/oauth_register", &controllers.UserController{}, "get:OauthRegister")
+	beego.Router("/users/register_captcha", &controllers.UserController{}, "post:CreateRegisterCaptcha")
+
 
 	beego.Router("/users", &controllers.UserController{}, "post:CreateUser")
+	beego.Router("/users/:name", &controllers.UserController{}, "get:UserHome")
+
 	beego.Router("/users/check_user_name", &controllers.UserController{}, "post:CheckUserName")
 	beego.Router("/users/check_user_mail", &controllers.UserController{}, "post:CheckUserMail")
 

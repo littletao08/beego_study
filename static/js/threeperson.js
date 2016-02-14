@@ -269,3 +269,19 @@ function registerFormValid(){
     );
 
 }
+
+
+function setCountdown($elem,countdown,defaultVal) {
+    if (countdown == 0) {
+        $elem.attr("disabled",false);
+        $elem.val(defaultVal);
+        return ;
+    } else {
+        $elem.attr("disabled", true);
+        $elem.val("重新发送(" + countdown + ")");
+        countdown--;
+    }
+    setTimeout(function() {
+        setCountdown($elem,countdown,defaultVal)
+    },1000)
+}

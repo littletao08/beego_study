@@ -758,6 +758,7 @@ article .user-head {
 
 .login-look a.sina-login {
     margin-right: 10px;
+    display: none;
 }
 
 .login-look a.qq-login {

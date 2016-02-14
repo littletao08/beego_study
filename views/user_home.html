@@ -1,0 +1,63 @@
+{{template "public/header.html" .}}
+
+{{range $index, $article := .pagination.Data}}
+<div class="article-list">
+    <article>
+        <div class="media">
+
+            <div class="pull-left">
+                <a href="#">
+                    <img class="media-object" src="../static/img/logo.jpg" style="width:64px;height: 64px;" alt="">
+                </a>
+            </div>
+            <div class="media-body">
+
+                <h4 class="media-heading"><a href="/articles/{{.Id}}">{{$article.Title}}</a></h4>
+
+                <div class="row article-categories-row">
+                    <div class="span glyphicon-tag-img">
+                        <span class="glyphicon-bookmark" title="分类"></span>
+                    </div>
+                    <div class="span article-tag">
+                        {{range $index, $category := $article.SliceCategories }}
+                        <span class="tags">{{$category}}</span>
+                        {{end}}
+                    </div>
+                </div>
+
+                <div class="row article-tags-row">
+                    <div class="span glyphicon-tag-img">
+                        <span class="glyphicon-tags" title="标签"></span>
+                    </div>
+                    <div class="span article-tag">
+                        {{range $index, $tag := $article.SliceTags }}
+                        <span class="tags">{{$tag}}</span>
+                        {{end}}
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="hidden simple-article-content" article-id="{{.Id}}">
+                    {{substr .Content 0 300}}
+                </div>
+                <hr>
+                <div class="article-detail-nav">
+                    <span class="glyphicon-eye-open" title="浏览数"></span><span class="article-detail-number">{{.ViewCount}}</span>
+                    <span {{if .HasLike }} class="glyphicon-heart article-like" {{else}}
+                          class="glyphicon-heart-empty article-like" {{end}} title="点赞"
+                          article-id="{{.Id}}"></span><span class="article-detail-number">{{.LikeCount}}</span>
+                    <span class="glyphicon-comment" title="评论数"></span><span class="article-detail-number">{{.CommentCount}}</span>
+                    <span class="glyphicon-time" title="创建时间"></span><span
+                        class="article-detail-number">{{zhtime $article.CreatedAt}}</span>
+                </div>
+
+            </div>
+
+        </div>
+    </article>
+</div>
+{{end}}
+
+{{template "public/pagination.html" .}}
+{{template "public/footer.html" .}}

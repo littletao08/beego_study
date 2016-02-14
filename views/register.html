@@ -46,7 +46,7 @@
                            id="register_captcha" name="captcha" tabindex="1" type="text"
                            data-validation="captcha" value="" >
                     <div class="form-captcha">
-                        <input type="button" value="获取邮箱验证码">
+                        <input type="button" id="mail-captcha-btn" value="获取邮箱验证码">
                     </div>
                 </div>
 
@@ -78,6 +78,27 @@
     registerFormValid();
     $.validate({
         modules: 'location, date, security, file',
+    });
+
+    $(function(){
+       $("#mail-captcha-btn").click(function(){
+           $("#register_email").blur();
+           var $mailError = $("#register_email").next()
+
+           if ($mailError != undefined && $mailError.hasClass("form-error") ){
+               $("register_email").focus();
+               return ;
+           }
+
+           $.ajax({
+               url: "/users/register_captcha",
+               type: "POST",
+               data: {mail: $("#register_email").val()},
+               success: function (result) {
+                   setCountdown($("#mail-captcha-btn"),result.Message,$("#mail-captcha-btn").val())
+               }
+           });
+       });
     });
 </script>
 
