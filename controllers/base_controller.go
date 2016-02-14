@@ -255,7 +255,7 @@ func (c *BaseController) NeedCheckCaptcha() bool {
 
 	failTimes := models.ParameterIntValue("no_captcha_login_fail_times")
 
-	failTimesCache := redis_util.IncrByWithTimeOut(sessionId, 1, int64(time.Second * 3))
+	failTimesCache := redis_util.IncrByWithTimeOut(sessionId, failTimes, int64(time.Second * 3))
 
 	return failTimesCache > failTimes;
 }
