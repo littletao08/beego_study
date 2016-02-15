@@ -15,6 +15,8 @@ type User struct {
 	Qq        string
 	Province  string
 	City      string
+	LikeCount int
+	ViewCount int
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }

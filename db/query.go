@@ -142,6 +142,13 @@ func (q *Querier) First(container interface{}) error {
 	return err
 }
 
+func (q *Querier) All(container interface{}) error {
+	var err error
+	var sql = q.ToSql()
+	_, err = q.Raw(sql, q.Parameters()).QueryRows(container)
+	return err
+}
+
 func (q *Querier) Pagination(container interface{}, page int, pageSize int) (*Pagination, error) {
 	var err error
 	var totalItem int

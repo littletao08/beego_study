@@ -12,7 +12,7 @@
                         </div>
                         <div class="media-body">
 
-                            <h4 class="media-heading"><a href="/articles/{{.Id}}">{{$article.Title}}</a></h4>
+                            <h4 class="media-heading"><a href="/users/{{.UserId}}/articles/{{.Id}}">{{$article.Title}}</a></h4>
 
                             <div class="hidden simple-article-content" article-id="{{.Id}}">
                                 {{substr .Content 0 150}}
@@ -38,46 +38,31 @@
             <div class="section">
                 <ul class="section-ul">
                     <li class="section-title">推荐博客</li>
+                    {{range $index,$user := .likeBlogs}}
                     <li>
                         <div class="media">
                             <div class="pull-left">
-                                <img class="user-head" src="../static/img/logo.jpg" alt="">
+                                <img class="user-head" src="{{$user.Head}}" alt="头像">
                             </div>
                             <div class="media-body">
-                                <span class="help-block">用户名</span>
+                                <span class="help-block"><a href="/users/{{$user.Name}}">{{$user.Nick}}</a></span>
                                 <span class="help-block">
-                                    浏览数量:11111
+                                    浏览数量:{{$user.ViewCount}}
                                 </span>
                             </div>
                         </div>
                     </li>
-                    <li>
-                        <div class="media">
-                            <div class="pull-left">
-                                <img class="user-head" src="../static/img/logo.jpg" alt="">
-                            </div>
-                            <div class="media-body">
-                                <span class="help-block">用户名</span>
-                                <span class="help-block">
-                                    浏览数量:222222
-                                </span>
-                            </div>
-                        </div>
-                    </li>
+                    {{end}}
+
                 </ul>
             </div>
 
             <div class="section">
                 <ul class="section-ul">
                     <li class="section-title">精华文章</li>
-                    <li>左边栏设计</li>
-                    <li>左边栏设计</li>
-                    <li>左边栏设计</li>
-                    <li>左边栏设计</li>
-                    <li>左边栏设计</li>
-                    <li>左边栏设计</li>
-                    <li>左边栏设计</li>
-                    <li>左边栏设计</li>
+                    {{range $index,$article := .likeArticles}}
+                    <li><a href="/users/{{.UserId}}/articles/{{$article.Id}}">{{$article.Title}}</a></li>
+                    {{end}}
                 </ul>
             </div>
         </div>

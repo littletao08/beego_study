@@ -1,4 +1,4 @@
-package models
+package services
 import (
 	"beego_study/constants"
 	"beego_study/entities"

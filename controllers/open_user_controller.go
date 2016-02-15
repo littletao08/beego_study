@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/astaxie/beego"
 	"beego_study/utils"
-	"beego_study/models"
+	"beego_study/services"
 	"errors"
 	"beego_study/entities"
 )
@@ -14,14 +14,14 @@ type OpenUserController struct {
 
 func (c *OpenUserController) QqAuth() {
 	params := make(map[string]string)
-	params["client_id"] = models.AuthConfig.String("app_id")
-	params["redirect_uri"] = models.AuthConfig.String("auth_redirect_uri")
+	params["client_id"] = services.AuthConfig.String("app_id")
+	params["redirect_uri"] = services.AuthConfig.String("auth_redirect_uri")
 	params["response_type"] = "code"
 	var state = "111";
 	params["state"] = state
-	params["scope"] = models.AuthConfig.String("scope")
+	params["scope"] = services.AuthConfig.String("scope")
 
-	var baseUrl = models.AuthConfig.String("authorize_url")
+	var baseUrl = services.AuthConfig.String("authorize_url")
 
 	subUrl := utils.BuildQueryString(params)
 
@@ -41,7 +41,7 @@ func (c *OpenUserController) QqToken() {
 
 	var loginPageUrl = "/users/login"
 	//获取token
-	tokenRes, err := models.QueryToken(code)
+	tokenRes, err := services.QueryToken(code)
 	beego.Debug("****************tokenRes:", tokenRes, "****************")
 	if (nil != err ) {
 		c.Redirect(loginPageUrl, 302)
@@ -56,7 +56,7 @@ func (c *OpenUserController) QqToken() {
 	}
 
 	//获取openid
-	openIdRes, err := models.QueryOpenId(accessToken)
+	openIdRes, err := services.QueryOpenId(accessToken)
 	beego.Debug("****************openIdRes:", openIdRes, "****************")
 	if (nil != err ) {
 		beego.Error(err)
@@ -72,7 +72,7 @@ func (c *OpenUserController) QqToken() {
 	}
 
 	//获取user_info
-	openUser, err := models.OpenUserInfo(accessToken, openId)
+	openUser, err := services.OpenUserInfo(accessToken, openId)
 	beego.Debug("err:",err,"userInfoRes:", openUser)
 
 	if (nil != err ) {
@@ -81,19 +81,19 @@ func (c *OpenUserController) QqToken() {
 		return
 	}
 
-	err = models.SaveOrUpdateOpenUser(openUser)
+	err = services.SaveOrUpdateOpenUser(openUser)
 	if nil != err {
 		beego.Error(err)
 		c.Redirect(loginPageUrl, 302)
 		return
 	}
 
-	openUser,_ =models.OpenUser(openId,entities.OPEN_USER_TYPE_QQ)
+	openUser,_ = services.OpenUser(openId,entities.OPEN_USER_TYPE_QQ)
 	beego.Debug("openUser:",openUser)
 	//绑定了账号则跳转到首页,否则跳转到注册或绑卡页面
     if openUser.HasBindUser() {
 		userId := openUser.UserId
-		user,_ := models.User(userId)
+		user,_ := services.User(userId)
 		c.SetCurrSession("user", user)
 	}else {
 		c.SetSession("openUser",openUser)

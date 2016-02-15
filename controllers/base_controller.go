@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"beego_study/models"
+	"beego_study/services"
 	"beego_study/db"
 	"beego_study/entities"
 	"net/url"
@@ -39,13 +39,11 @@ type ResponseBody struct {
 
 func (c *BaseController) Prepare() {
 
-	userId := c.CurrentUserId()
-	categories, _ := models.UserCategories(userId)
-	c.Data["categories"] = categories
+
 	c.Data["showLeftBar"] = true
-	var keywords, _ = models.ParameterValue("index-keywords")
+	var keywords, _ = services.ParameterValue("index-keywords")
 	c.Data["keywords"] = keywords
-	var description, _ = models.ParameterValue("index-description")
+	var description, _ = services.ParameterValue("index-description")
 	c.Data["description"] = description
 
 	response := ResponseBody{Success:true}
@@ -241,7 +239,7 @@ func (c *BaseController) VerifyCaptcha() bool {
 func (c *BaseController) RecordLoginFailTimes() {
 	sessionId := c.CruSession.SessionID()
 
-	failTimes := models.ParameterIntValue("no_captcha_login_fail_times")
+	failTimes := services.ParameterIntValue("no_captcha_login_fail_times")
 
 	failTimesCache := redis_util.IncrByWithTimeOut(sessionId, 1, int64(time.Second * 3))
 
@@ -253,11 +251,15 @@ func (c *BaseController) RecordLoginFailTimes() {
 func (c *BaseController) NeedCheckCaptcha() bool {
 	sessionId := c.CruSession.SessionID()
 
-	failTimes := models.ParameterIntValue("no_captcha_login_fail_times")
+	failTimes := services.ParameterIntValue("no_captcha_login_fail_times")
 
 	failTimesCache := redis_util.IncrByWithTimeOut(sessionId, failTimes, int64(time.Second * 3))
 
 	return failTimesCache > failTimes;
 }
 
+func (c *BaseController) SetCategories(userId int64)  {
+	categories, _ := services.UserCategories(userId)
+	c.Data["categories"] = categories
+}
 

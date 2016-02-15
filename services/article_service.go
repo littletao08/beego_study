@@ -1,4 +1,4 @@
-package models
+package services
 
 import (
 	"beego_study/entities"
@@ -12,13 +12,6 @@ import (
 	"github.com/astaxie/beego"
 )
 
-func Articles(page int) ([]entities.Article, error) {
-	var err error
-	var articles []entities.Article
-	db := db.NewDB()
-	_, err = db.QueryTable("article").All(&articles)
-	return articles, err
-}
 
 func AllArticles(userId int64, pagination *db.Pagination) {
 	db := db.NewDB()
@@ -59,11 +52,11 @@ func SetLikeSign(pagination *db.Pagination, userId int64) {
 	pagination.SetData(articles)
 }
 
-func ArticlesGyCategory(userId int64, category string, pagination *db.Pagination) {
+func ArticlesGyCategory(userId int64, category string, pagination *db.Pagination,isFilterUserId bool) {
 	db := db.NewDB()
 	var articles []entities.Article
 	query := db.From("article")
-	if userId > 0 {
+	if userId > 0 && isFilterUserId {
 		query.Where("user_id", userId)
 	}
 
@@ -214,6 +207,11 @@ func IncrViewCount(articleId int64, userId int64, ip string) (bool, error) {
 	}
 
 	if nil == err {
+		sql = "update user set view_count=view_count+1  where user_id = ? "
+		_, err = db.Execute(sql, []interface{}{articleOwnerId})
+	}
+
+	if nil == err {
 		err = db.Commit()
 	}else {
 		err = db.Rollback()
@@ -258,6 +256,11 @@ func IncrLikeCount(articleId int64, userId int64) (int, error) {
 	}
 
 	if nil == err {
+		sql = "update user set like_count=like_count+1  where user_id = ? "
+		_, err = db.Execute(sql, []interface{}{articleOwnerId})
+	}
+
+	if nil == err {
 		err = db.Commit()
 	}else {
 		incrCount = 0
@@ -297,6 +300,18 @@ func ValidArticle(a entities.Article) (error, bool) {
 
 	return nil, true
 
+}
+
+func TopLikeArticles() []entities.Article  {
+
+    var articles []entities.Article
+	sql := "select id,user_id,title from article where like_count >0 and  created_at > date_sub(now(),interval ? DAY) order by like_count desc"
+
+	dayRange := ParameterIntValue("like_article_day_range")
+
+	db := db.NewDB()
+	db.Raw(sql,[]interface{}{dayRange}).QueryRows(&articles)
+	return articles ;
 }
 
 

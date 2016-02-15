@@ -1,4 +1,4 @@
-package models
+package services
 
 import (
 	"beego_study/entities"
@@ -32,7 +32,7 @@ func UserCategories(userId int64) ([]entities.Category, error) {
 	if userId > 0 {
 		querySetter = querySetter.Filter("user_id", userId)
 	}
-	_, err = querySetter.OrderBy("order").All(&categories, "id", "name", "order", "created_at", "updated_at")
+	_, err = querySetter.OrderBy("order").All(&categories, "id","user_id", "name", "order", "created_at", "updated_at")
 	return categories, err
 }
 

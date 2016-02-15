@@ -1,6 +1,6 @@
 package controllers
 import (
-	"beego_study/models"
+	"beego_study/services"
 )
 
 type IndexController struct {
@@ -10,12 +10,19 @@ type IndexController struct {
 func (c *IndexController) Index() {
 	pagination := c.NewPagination()
 	userId := c.CurrentUserId()
-	models.AllArticles(0, pagination)
-	models.SetLikeSign(pagination,userId)
-	categories, _ := models.UserCategories(0)
+	services.AllArticles(0, pagination)
+	services.SetLikeSign(pagination,userId)
+	categories, _ := services.UserCategories(0)
+	//推荐博客
+	likeBlogs := services.TopLikeUsers()
+	c.Data["likeBlogs"] = likeBlogs
+	//精华文章
+	likeArticles := services.TopLikeArticles()
+	c.Data["likeArticles"] = likeArticles
+
+
 	c.Data["categories"] = categories
 	c.Data["pagination"] = pagination
 	c.Data["user"]=c.CurrentUser()
 	c.TplName = "index.html"
-
 }

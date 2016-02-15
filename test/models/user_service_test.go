@@ -1,10 +1,10 @@
-package models
+package services
 
 import (
 	_"beego_study/test/initials"
 	"testing"
 	"beego_study/entities"
-	"beego_study/models"
+	"beego_study/services"
 	"fmt"
 )
 
@@ -15,7 +15,7 @@ func TestSaveUser(t *testing.T){
 	user.Mail="mail@qq.com"
 	user.Password="password"
 
-	err := models.SaveUser(user)
+	err := services.SaveUser(user)
 
 	fmt.Println(err)
 }

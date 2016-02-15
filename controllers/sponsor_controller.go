@@ -1,12 +1,12 @@
 package controllers
-import "beego_study/models"
+import "beego_study/services"
 
 type SponsorController struct {
 	BaseController
 }
 
 func (c *SponsorController) New() {
-	var order = models.Pay(float32(1))
+	var order = services.Pay(float32(1))
 	c.Data["json"] = order
 	c.ServeJSON()
 }

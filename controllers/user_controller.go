@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"beego_study/models"
+	"beego_study/services"
 	"beego_study/entities"
 	"github.com/astaxie/beego"
 	"beego_study/exception"
@@ -26,7 +26,7 @@ type UserController struct {
 
 func (c *UserController) Users() {
 	userId, _ := c.GetInt64(":id");
-	var user, err = models.User(userId);
+	var user, err = services.User(userId);
 	if err != nil {
 		c.Data["json"] = nil;
 	}else {
@@ -95,6 +95,7 @@ func (c *UserController) commonCreateUser() {
 	var user entities.User
 	user.Name = c.GetString("name")
 	user.Mail = c.GetString("mail")
+	user.Nick=user.Name
 	user.Password = c.GetString("password")
 	captcha := c.GetString("captcha")
 	var err error
@@ -102,7 +103,7 @@ func (c *UserController) commonCreateUser() {
 	if !isCaptchaValid {
 		err = errors.New("验证码错误")
 	}else {
-		err = models.SaveUser(&user)
+		err = services.SaveUser(&user)
 	}
 
 	if err != nil {
@@ -123,6 +124,7 @@ func (c *UserController) oauthCreateUser() {
 	user.Name = c.GetString("name")
 	user.Mail = c.GetString("mail")
 	user.Password = c.GetString("password")
+	user.Nick=user.Name
 
 	openUser := c.CurrentOpenUser()
 	beego.Debug("openuser:", openUser)
@@ -132,7 +134,7 @@ func (c *UserController) oauthCreateUser() {
 		unBindUser = true
 	}
 
-	err := models.SaveUser(&user)
+	err := services.SaveUser(&user)
 
 	if err == nil {
 		c.SetCurrSession("user", user)
@@ -140,7 +142,7 @@ func (c *UserController) oauthCreateUser() {
 		var err error
 		var result int64
 		if unBindUser {
-			result, err = models.BindUserIdToOpenUser(openUser.OpenId, entities.OPEN_USER_TYPE_QQ, user.Id)
+			result, err = services.BindUserIdToOpenUser(openUser.OpenId, entities.OPEN_USER_TYPE_QQ, user.Id)
 		}
 		//防止单个openuser 绑定多个user
 		if nil == err && result > 0 {
@@ -172,7 +174,7 @@ func (c *UserController) Session() {
 		}
 	}
 
-	user, err := models.FundUser(name, password)
+	user, err := services.FundUser(name, password)
 	if err == nil {
 		c.SetCurrSession("user", user)
 		c.Ctx.Redirect(302, "/")
@@ -199,7 +201,7 @@ func (c *UserController) OauthSession() {
 		}
 	}
 
-	user, err := models.FundUser(name, password)
+	user, err := services.FundUser(name, password)
 	if err == nil {
 		c.SetCurrSession("user", user)
 		c.Ctx.Redirect(302, "/")
@@ -208,7 +210,7 @@ func (c *UserController) OauthSession() {
 		beego.Debug("openuser:", openUser)
 		var result int64
 		if nil != openUser && openUser.UserId == 0 {
-			result, err = models.BindUserIdToOpenUser(openUser.OpenId, entities.OPEN_USER_TYPE_QQ, user.Id)
+			result, err = services.BindUserIdToOpenUser(openUser.OpenId, entities.OPEN_USER_TYPE_QQ, user.Id)
 		}
 
 		if nil == err && result > 0 {
@@ -228,7 +230,7 @@ func (c *UserController) OauthSession() {
 
 func (c *UserController) CheckUserName() {
 	name := c.GetString("name")
-	err := models.CheckUserName(name)
+	err := services.CheckUserName(name)
 	if nil != err {
 		c.JsonError(err.Error())
 	}else {
@@ -239,7 +241,7 @@ func (c *UserController) CheckUserName() {
 
 func (c *UserController) CheckUserMail() {
 	mail := c.GetString("mail")
-	err := models.CheckUserMail(mail)
+	err := services.CheckUserMail(mail)
 	if nil != err {
 		c.JsonError(err.Error())
 	}else {
@@ -270,8 +272,8 @@ func (c *UserController) CreateRegisterCaptcha() {
 		captcha = utils.RandomIntCaptcha(6)
 		redis_util.Set(mailCaptchaKey, captcha, 60)
 	}
-	content := fmt.Sprintf(models.MAIL_CAPTCHA_TEMPLATE, captcha, captcha)
-	models.SendHtmlMail("threeperson(www.threeperson.com)注册验证码", content, []string{mail})
+	content := fmt.Sprintf(services.MAIL_CAPTCHA_TEMPLATE, captcha, captcha)
+	services.SendHtmlMail("threeperson(www.threeperson.com)注册验证码", content, []string{mail})
 	c.JsonSuccess(60)
 
 }
@@ -279,10 +281,11 @@ func (c *UserController) CreateRegisterCaptcha() {
 func (c *UserController) UserHome()  {
 	pagination := c.NewPagination()
 	userId := c.CurrentUserId()
-	models.AllArticles(userId, pagination)
-	models.SetLikeSign(pagination,userId)
+	services.AllArticles(userId, pagination)
+	services.SetLikeSign(pagination,userId)
 	c.Data["pagination"] = pagination
 	c.Data["user"]=c.CurrentUser()
 	c.TplName = "user_home.html"
+	c.SetCategories(userId)
 }
 

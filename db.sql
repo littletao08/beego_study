@@ -230,7 +230,10 @@ CREATE TABLE `open_user` (
   UNIQUE KEY `unique_openid_type` (`open_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
+#20160216
+alter table `user` add column view_count int(10) default 0 comment '文章浏览总数' after city ;
+alter table `user` add column like_count int(10) default 0 comment '文章点赞总数' after city ;
+insert into parameter(`key`,`value`,`desc`,created_at)
+values('like_article_day_range',30,'精华文章筛选天数范围',now());
 
 

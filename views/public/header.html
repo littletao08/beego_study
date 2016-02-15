@@ -6,9 +6,8 @@
         {{if .showLeftBar }}
         <div class="span3 bs-docs-sidebar visible-desktop" id="container-left">
             <ul class="nav nav-list bs-docs-sidenav affix-top" id="sidebar">
-                <li {{if not .active_category}}class="active"{{end}}><a href="/articles"><i class="glyphicon-chevron-right"></i> all</a></li>
                 {{range .categories}}
-                <li {{if $.active_category}} {{if eq .Name $.active_category}} class="active" {{end}}{{end}}><a href="/categories/{{.Name}}"><i class="glyphicon-chevron-right"></i> {{.Name}}</a></li>
+                <li {{if $.active_category}} {{if eq .Name $.active_category}} class="active" {{end}}{{end}}><a href="/users/{{.UserId}}/categories/{{.Name}}"><i class="glyphicon-chevron-right"></i> {{.Name}}</a></li>
                 {{end}}
             </ul>
         </div>

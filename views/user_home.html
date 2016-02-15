@@ -7,12 +7,12 @@
 
             <div class="pull-left">
                 <a href="#">
-                    <img class="media-object" src="../static/img/logo.jpg" style="width:64px;height: 64px;" alt="">
+                    <img class="media-object" src="{{$.RemoteAddr}}/static/img/logo.jpg" style="width:64px;height: 64px;" alt="">
                 </a>
             </div>
             <div class="media-body">
 
-                <h4 class="media-heading"><a href="/articles/{{.Id}}">{{$article.Title}}</a></h4>
+                <h4 class="media-heading"><a href="/users/{{.UserId}}/articles/{{.Id}}">{{$article.Title}}</a></h4>
 
                 <div class="row article-categories-row">
                     <div class="span glyphicon-tag-img">

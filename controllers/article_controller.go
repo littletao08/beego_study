@@ -1,12 +1,13 @@
 package controllers
 
 import (
-	"beego_study/models"
+	"beego_study/services"
 	"beego_study/entities"
 	"time"
 	"github.com/astaxie/beego"
 	"beego_study/exception"
 	"beego_study/db"
+	"strconv"
 )
 
 type ArticleController struct {
@@ -15,7 +16,7 @@ type ArticleController struct {
 func (c *ArticleController) Articles() {
 	pagination := c.NewPagination()
 	userId := c.CurrentUserId()
-	models.AllArticles(userId, pagination)
+	services.AllArticles(userId, pagination)
 	c.Data["pagination"] = pagination
 	c.TplName = "index.html"
 
@@ -32,17 +33,36 @@ func (c *ArticleController) ArticlesGyCategory() {
 
 	pagination := c.NewPagination()
 
-	models.ArticlesGyCategory(userId, category, pagination)
+	services.ArticlesGyCategory(userId, category, pagination,false)
 	c.Data["pagination"] = pagination
 
 	c.TplName = "index.html"
 }
 
+
+func (c *ArticleController) ArticlesGyUserIdAndCategory() {
+
+	userIdStr := c.GetString(":userId")
+	category := c.GetString(":category")
+	userId,_ := strconv.ParseInt(userIdStr,10,64)
+	if len(category) > 0 {
+		c.Data["active_category"] = category
+	}
+
+	pagination := c.NewPagination()
+
+	services.ArticlesGyCategory(userId, category, pagination,true)
+	c.Data["pagination"] = pagination
+	c.SetCategories(userId)
+
+	c.TplName = "user_home.html"
+}
+
 func (c *ArticleController) ArticleDetail() {
 	id, _ := c.GetInt64(":id")
 	ip := c.Ip()
-	userId := c.CurrentUserId()
-	beego.Error("id", id)
+	userId,_ := c.GetInt64(":userId")
+
 	c.TplName = "article_detail.html"
 
 	if id <= 0 {
@@ -51,10 +71,10 @@ func (c *ArticleController) ArticleDetail() {
 		return
 	}
 
-	article, error := models.ArticleById(id)
+	article, error := services.ArticleById(id)
 
 	if userId > 0 {
-		hasLike, err := models.HasLikeArticle(id, userId, db.NewDB())
+		hasLike, err := services.HasLikeArticle(id, userId, db.NewDB())
 		if nil == err {
 			article.HasLike = hasLike
 		}
@@ -63,13 +83,16 @@ func (c *ArticleController) ArticleDetail() {
 	if nil != error {
 		c.StringError("文章不存在")
 	}else {
-		success, _ := models.IncrViewCount(id, userId, ip)
+		success, _ := services.IncrViewCount(id, userId, ip)
 		if success {
 			article.ViewCount = article.ViewCount + 1
 		}
 		c.Data["article"] = article
+
+		c.SetCategories(article.UserId)
+
 		c.SetKeywords(article.Categories + "," + article.Tags)
-		var subLength = models.ParameterIntValue("seo-description-length")
+		var subLength = services.ParameterIntValue("seo-description-length")
 		c.SetDescription(article.ShortContent(subLength)).SetTitle(article.Title)
 	}
 }
@@ -91,14 +114,14 @@ func (c *ArticleController) EditArticle() {
 		return
 	}
 
-	article, error := models.ArticleByIdAndUserId(id,userId)
+	article, error := services.ArticleByIdAndUserId(id,userId)
 
 	if nil != error {
 		c.StringError("文章不存在")
 	}else {
 		c.Data["article"] = article
 		c.SetKeywords(article.Categories + "," + article.Tags)
-		var subLength = models.ParameterIntValue("seo-description-length")
+		var subLength = services.ParameterIntValue("seo-description-length")
 		c.SetDescription(article.ShortContent(subLength)).SetTitle(article.Title)
 	}
 }
@@ -128,9 +151,9 @@ func (c *ArticleController) UpdateArticle() {
 		prt.SetCategories(categories)
 		prt.SetTags(tag)
 		beego.Error("tag", article.Tags, "categories", article.Categories)
-		exception, valid := models.ValidArticle(article)
+		exception, valid := services.ValidArticle(article)
 		if valid {
-			err = models.UpdateArticle(&article)
+			err = services.UpdateArticle(&article)
 		}else {
 			err = exception
 		}
@@ -174,12 +197,12 @@ func (c *ArticleController) CreateArticle() {
 	beego.Debug("title", title, "categories", categories, "tag", tag, "content", content)
 
 	article := entities.Article{UserId:userId, Title:title, Content:content, CreatedAt:time.Now()}
-	err, valid := models.ValidArticle(article)
+	err, valid := services.ValidArticle(article)
 	if valid {
 		prt := &article
 		prt.SetCategories(categories)
 		prt.SetTags(tag)
-		err = models.SaveArticle(&article)
+		err = services.SaveArticle(&article)
 	}
 
 	if (nil == err) {
@@ -210,7 +233,7 @@ func (c *ArticleController) Like() {
 	}
 
 	var incrCount int
-	incrCount, err = models.IncrLikeCount(articleId, userId)
+	incrCount, err = services.IncrLikeCount(articleId, userId)
 
 	if nil == err {
 		c.JsonSuccess(incrCount)

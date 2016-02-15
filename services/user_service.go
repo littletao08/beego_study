@@ -1,4 +1,4 @@
-package models
+package services
 
 import (
 	"beego_study/entities"
@@ -9,6 +9,7 @@ import (
 	"github.com/astaxie/beego/validation"
 	"github.com/astaxie/beego"
 	"time"
+	"beego_study/db"
 )
 
 func User(id int64) (entities.User, error) {
@@ -132,4 +133,11 @@ func CheckNewUser(user *entities.User) error {
 	}
 
 	return nil
+}
+
+func TopLikeUsers() []entities.User {
+	var users []entities.User
+	db := db.NewDB()
+	db.From("user").Select("name","nick","view_count","head").Great("like_count",0).OrderBy("like_count desc").Limit(0,10).All(&users)
+	return users
 }

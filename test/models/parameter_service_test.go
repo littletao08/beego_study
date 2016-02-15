@@ -1,7 +1,7 @@
-package models
+package services
 import (
 	"fmt"
-	"beego_study/models"
+	"beego_study/services"
 	"testing"
 	_ "github.com/astaxie/beego"
 	_"beego_study/test/initials"
@@ -11,7 +11,7 @@ import (
 
 func TestGetUsers(t *testing.T) {
 	fmt.Println("*************************")
-	var v, _ = models.ParameterValue("x-bmob-application-id")
+	var v, _ = services.ParameterValue("x-bmob-application-id")
 	fmt.Println("v:", v)
 }
 

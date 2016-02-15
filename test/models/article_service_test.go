@@ -1,4 +1,4 @@
-package models
+package services
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	"fmt"
 	_ "beego_study/test/initials"
 	"beego_study/db"
-	"beego_study/models"
+	"beego_study/services"
 	"html"
 	"strings"
 	"github.com/astaxie/beego"
@@ -17,7 +17,7 @@ import (
 
 func TestSave(t *testing.T) {
 	article := entities.Article{UserId:1, Title:"title", Tags:"go,reis", Categories:"go3,go4", Content:"content", CreatedAt:time.Now()}
-	models.SaveArticle(&article)
+	services.SaveArticle(&article)
 	db := db.NewDB()
 	db.Insert(&article)
 
@@ -45,7 +45,7 @@ func TestRel(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	article, _ := models.ArticleById(35120)
+	article, _ := services.ArticleById(35120)
 	var content = html.UnescapeString(article.Content)
 	if len(content) == 0 {
 		return
@@ -65,7 +65,7 @@ func TestArticlesGyCategory(t *testing.T) {
 	pagination := new(db.Pagination)
 	pagination.PerPage = 10
 	pagination.Page = 1
-	models.ArticlesGyCategory(1, "bootstrap", pagination)
+	services.ArticlesGyCategory(1, "bootstrap", pagination)
 
 	for _, v := range pagination.Data {
 		fmt.Println("id:", v.(entities.Article).Id, "title:", v.(entities.Article).Title)

@@ -1,4 +1,4 @@
-package models
+package services
 import (
 	"net/http"
 	"bytes"
