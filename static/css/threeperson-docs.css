@@ -18,10 +18,13 @@ body > .container,
 
 }
 
-hr{
+hr {
     margin: 10px 0;
 }
 
+.help-block{
+    margin: 0;
+}
 /* Sections
 -------------------------------------------------- */
 
@@ -35,7 +38,6 @@ section > .page-header,
 section > .lead {
     color: #5a5a5a;
 }
-
 
 section > ul li {
     margin-bottom: 5px;
@@ -51,7 +53,6 @@ section > ul li {
     padding-bottom: 15px;
     line-height: 20px;
 }
-
 
 /* Jumbotrons
 -------------------------------------------------- */
@@ -238,7 +239,6 @@ section > ul li {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
-
 
 /* Tweak content of examples for optimum awesome */
 .bs-docs-example > p:last-child,
@@ -515,8 +515,8 @@ input.focused {
     border-color: #337B34;
 }
 
-a{
-    color:#468847;
+a {
+    color: #468847;
 }
 
 
@@ -570,7 +570,10 @@ a{
         bottom: 270px;
     }
 
+
+
 }
+
 
 /* Tablets/desktops and up */
 @media screen and (min-width: 992px) {
@@ -586,6 +589,32 @@ a{
     }
 }
 
+/*首页布局设置*/
+.index-container {
+    width: 100%;
+}
+
+div.index-container div.span9 {
+    width: 80%;
+}
+
+div.index-container div.span3 {
+    width: 20%;
+}
+
+@media screen and (max-width: 768px) {
+    /*首页布局设置*/
+    div.index-container div.span9 {
+        width: 100%;
+    }
+
+    div.index-container nav{
+        text-align: center;
+    }
+    div.index-container ul{
+        clear: left;
+    }
+}
 
 /*************文章显示****************/
 .article-list {
@@ -598,6 +627,7 @@ a{
     border-width: 1px 0;
     -webkit-box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
     box-shadow: inset 0 3px 6px rgba(0, 0, 0, .05);
+    border-radius: 5px;
 }
 
 .article-list:after {
@@ -611,23 +641,24 @@ a{
     letter-spacing: 1px;
 }
 
-@media screen and (min-width: 10px){
+@media screen and (min-width: 10px) {
     .row .span {
         float: left;
     }
 }
 
-.article-categories-row{
+.article-categories-row {
     margin-top: 15px;
 }
 
-.article-tags-row{
+.article-tags-row {
     margin-top: 8px;
 }
 
-.glyphicon-tag-img{
-    padding-top:2px ;
+.glyphicon-tag-img {
+    padding-top: 2px;
 }
+
 span.tags {
     display: inline-block;
     margin: 0 0 0 2px;
@@ -642,14 +673,13 @@ span.tags {
     line-height: 18px;
 }
 
-.article-tag{
+.article-tag {
     padding: 0 0 0 10px;
 }
 
-.article-tag span:first-child{
+.article-tag span:first-child {
     margin-right: 1px;
 }
-
 
 .article-item-bottom span {
     margin: 0px 5px;
@@ -663,24 +693,29 @@ span.tags {
     cursor: hand;
 }
 
+.simple-article-content {
+
+}
+
 /*light tip css */
 div.alert {
     margin-top: 50px;
 }
+
 /***********文章列表页*****************/
-.article-detail-nav{
+.article-detail-nav {
     margin-top: 10px;
 }
 
-.article-detail-nav span{
+.article-detail-nav span {
     margin-left: 5px;
 }
 
-.article-detail-nav span:first-child{
+.article-detail-nav span:first-child {
     margin-left: 0px;
 }
 
-article span{
+article span {
     font-size: 15px;
 }
 
@@ -688,10 +723,9 @@ article > h1 {
     font-size: 3rem;
 }
 
-
 /***********文章详情页*********************/
 
-.article-detail{
+.article-detail {
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -714,13 +748,14 @@ article > h1 {
     }
 }*/
 
-.article-detail-nav-right .glyphicon-pencil{
+.article-detail-nav-right .glyphicon-pencil {
     margin-left: 10px;
 }
 
-.article-detail-nav .article-detail-number{
+.article-detail-nav .article-detail-number {
     margin-left: 10px;
 }
+
 .article-detail-nav-left .article-detail-number {
     margin-left: 10px;
 }
@@ -734,7 +769,6 @@ article .user-head {
     height: 54px;
 }
 
-
 /************登录*******************/
 .auth-form {
     max-width: 400px;
@@ -743,7 +777,7 @@ article .user-head {
     padding-right: 10px;
 }
 
-.auth-form .btn{
+.auth-form .btn {
     margin: 20px auto;
     width: 100%;
     background: rgba(46, 142, 49, 0.99);
@@ -791,15 +825,17 @@ article .user-head {
 }
 
 /*************mac-editor****************/
-.article-editor-form .control-group{
+.article-editor-form .control-group {
     margin-top: 10px;
 }
-.article-editor-form .control-group:first-child{
-    margin-top:0px;
+
+.article-editor-form .control-group:first-child {
+    margin-top: 0px;
 }
 
 button.btn, input[type="submit"].btn {
 }
+
 form .btn {
     display: inline-block;
     padding: 4px 12px;
@@ -832,67 +868,64 @@ form .btn {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-
 /*************error css****************/
 
-.error-border{
+.error-border {
     border-color: red;
 }
 
-
-
 /***************表单校验样式********************/
-.form-captcha{
+.form-captcha {
     display: inline;
     margin-left: 10%;
 }
 
-.form-captcha img{
+.form-captcha img {
     display: inline;
     width: 65%;
     height: 30px;
 }
 
-
-.captcha-input{
+.captcha-input {
     width: 25%;
 }
-.form-captcha input{
+
+.form-captcha input {
     display: inline;
     width: 40%;
     height: 30px;
 }
 
-.mail-captcha{
+.mail-captcha {
     width: 50%;
 }
 
-
-.form-error{
+.form-error {
     display: block;
     color: #a94442;
     margin-top: 5px;
     margin-bottom: 10px;
     line-height: 140%;
 }
+
 select.error, input.error {
     border-color: #a94442;
     background-image: url('../img/false.png');
     background-position: right 1px center;
-    background-size:30px 25px ;
+    background-size: 30px 25px;
     background-repeat: no-repeat;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 select.valid, input.valid {
     border-color: #3c763d;
     background-image: url('../img/ok.png');
     background-position: right 1px center;
-    background-size:30px 25px ;
+    background-size: 30px 25px;
     background-repeat: no-repeat;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
 .has-success .input-group-addon {
@@ -901,3 +934,35 @@ select.valid, input.valid {
     border-color: #3c763d;
 }
 
+.user-head {
+    width: 64px;
+    height: 64px;
+}
+
+.section{
+    margin-bottom: 20px;
+}
+.section:first-child{
+    margin-top:-5px;
+}
+.section ul li{
+    list-style: none;
+    font-size: 12px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(221, 221, 221, 0.33);
+}
+
+.section ul li:first-child{
+    font-size: 14px;
+    margin-top: 10px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    border-bottom: 2px solid #CCC;
+
+}
+
+.section ul li img{
+    width: 37px;
+    height: 37px;
+
+}

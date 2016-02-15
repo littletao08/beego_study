@@ -36,12 +36,10 @@
                     </div>
                 </div>
 
-                <hr>
-
                 <div class="hidden simple-article-content" article-id="{{.Id}}">
                     {{substr .Content 0 300}}
                 </div>
-                <hr>
+
                 <div class="article-detail-nav">
                     <span class="glyphicon-eye-open" title="浏览数"></span><span class="article-detail-number">{{.ViewCount}}</span>
                     <span {{if .HasLike }} class="glyphicon-heart article-like" {{else}}
