@@ -120,6 +120,7 @@ func (c *ArticleController) EditArticle() {
 		c.StringError("文章不存在")
 	}else {
 		c.Data["article"] = article
+		c.SetCategories(article.UserId)
 		c.SetKeywords(article.Categories + "," + article.Tags)
 		var subLength = services.ParameterIntValue("seo-description-length")
 		c.SetDescription(article.ShortContent(subLength)).SetTitle(article.Title)
@@ -130,7 +131,7 @@ func (c *ArticleController) EditArticle() {
 
 func (c *ArticleController) UpdateArticle() {
 
-	user := c.GetSession("user")
+	user := c.CurrentUser()
 	if (nil == user) {
 		c.Redirect("/users/login", 200)
 	}
@@ -167,16 +168,19 @@ func (c *ArticleController) UpdateArticle() {
 		c.StringError(err.Error())
 		c.Data["article"] = article
 		c.TplName = "article_create.html"
+		c.SetCategories(user.Id)
+
 	}
 }
 
 
 func (c *ArticleController) New() {
-	user := c.GetSession("user")
-
+	user := c.CurrentUser()
+    beego.Error(user)
 	if (nil == user) {
 		c.Redirect("/users/login", 302)
 	}else {
+		c.SetCategories(user.Id)
 		c.TplName = "article_create.html"
 	}
 }
@@ -211,6 +215,7 @@ func (c *ArticleController) CreateArticle() {
 		beego.Error(err)
 		c.StringError(err.Error())
 		c.Data["article"] = article
+		c.SetCategories(article.UserId)
 		c.TplName = "article_create.html"
 	}
 
