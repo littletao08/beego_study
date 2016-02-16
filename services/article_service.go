@@ -207,7 +207,7 @@ func IncrViewCount(articleId int64, userId int64, ip string) (bool, error) {
 	}
 
 	if nil == err {
-		sql = "update user set view_count=view_count+1  where user_id = ? "
+		sql = "update user set view_count=view_count+1  where id = ? "
 		_, err = db.Execute(sql, []interface{}{articleOwnerId})
 	}
 
