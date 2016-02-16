@@ -256,7 +256,7 @@ func IncrLikeCount(articleId int64, userId int64) (int, error) {
 	}
 
 	if nil == err {
-		sql = "update user set like_count=like_count+1  where user_id = ? "
+		sql = "update user set like_count=like_count+1  where id = ? "
 		_, err = db.Execute(sql, []interface{}{articleOwnerId})
 	}
 
