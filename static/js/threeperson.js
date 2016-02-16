@@ -58,7 +58,6 @@ function bindLikeBtnEvent() {
             type: 'post',
             success: function (data) {
                 var $likeCount = $like.next();
-                alert(JSON.stringify(data))
                 if (data.Success) {
                     var oldCount = Number($likeCount.html());
                     if (data.Message > 0) {
