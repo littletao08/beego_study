@@ -134,3 +134,14 @@ func Hget(key string,field string, to interface{}) error {
 	}
 	return err
 }
+
+func Delete(key string) error {
+	var err error
+	defer utils.Recover("redis get falure")
+	err = redis.Delete(key)
+
+	if err != nil {
+		log.Redf("decode failure", err)
+	}
+	return err
+}

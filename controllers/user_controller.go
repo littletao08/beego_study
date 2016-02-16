@@ -259,6 +259,8 @@ func (c *UserController) isMailCaptchaValid(captcha string) bool {
 	if (len(captcha) == 0 || len(captchaCache) == 0 || captchaCache != captcha) {
 		return false
 	}
+	//删除验证码
+	redis_util.Delete(mailCaptchaKey)
 	return true
 }
 func (c *UserController) CreateRegisterCaptcha() {
@@ -270,7 +272,7 @@ func (c *UserController) CreateRegisterCaptcha() {
 	beego.Debug("captcha", captcha)
 	if len(captcha) == 0 {
 		captcha = utils.RandomIntCaptcha(6)
-		redis_util.Set(mailCaptchaKey, captcha, 60)
+		redis_util.Set(mailCaptchaKey, captcha, 60*2)
 	}
 	content := fmt.Sprintf(services.MAIL_CAPTCHA_TEMPLATE, captcha, captcha)
 	services.SendHtmlMail("threeperson(www.threeperson.com)注册验证码", content, []string{mail})
