@@ -305,7 +305,7 @@ func ValidArticle(a entities.Article) (error, bool) {
 func TopLikeArticles() []entities.Article  {
 
     var articles []entities.Article
-	sql := "select id,user_id,title from article where like_count >0 and  created_at > date_sub(now(),interval ? DAY) order by like_count desc"
+	sql := "select id,user_id,title from article where like_count >0 and  created_at > date_sub(now(),interval ? DAY) order by like_count desc limit 10"
 
 	dayRange := ParameterIntValue("like_article_day_range")
 
