@@ -188,7 +188,8 @@ function showArticleContent() {
         $articleContent.each(function(){
             var content = marked($(this).text());
             if ($(this).hasClass("full-article-content")) {
-                $(this).html(content).removeClass("hidden");
+                content=content.replace(new RegExp('\n','gm'),'<p>')
+                $articleContent.html(content).removeClass("hidden");
             } else {
                 content = $("<div>").html(content).text();
                 $(this).html(content).removeClass("hidden");
