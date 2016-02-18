@@ -190,7 +190,7 @@ function showArticleContent() {
             if ($(this).hasClass("full-article-content")) {
                 var $content=$("<div>"+content+"</div>");
                 $content.find("p").each(function(){
-                    var pText = $(this).text();
+                    var pText = $(this).html();
                     pText=pText.replace(new RegExp('\n','gm'),'<p>');
                     $(this).html(pText);
                 });
