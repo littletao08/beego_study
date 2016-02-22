@@ -264,12 +264,15 @@ function registerFormValid(){
         {
             name: 'captcha',
             validatorFunction: function (value, $el, config, language, $form) {
+
                 /******校验用户名长度*********/
                 var result = $.formUtils.numericRangeCheck(value.length,'6')
                 if (result[0]!="ok"){
                     this.errorMessage="验证码长度必须为6位字符"
                     return false;
                 }
+
+                return true ;
 
             }
         }

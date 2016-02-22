@@ -5,6 +5,7 @@ import (
 	"beego_study/db"
 	"encoding/json"
 	"github.com/astaxie/beego/utils"
+"github.com/astaxie/beego"
 )
 
 const MAIL_CAPTCHA_TEMPLATE =
@@ -51,6 +52,7 @@ func mailConfig() (string, error) {
 
 func SendHtmlMail(subject string, content string, to []string) {
 
+	beego.Info("content",content)
 	config, err := mailConfig()
 	if nil != err {
 		return
