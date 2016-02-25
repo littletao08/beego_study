@@ -13,6 +13,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/gogather/com"
 	"github.com/PuerkitoBio/goquery"
+	"github.com/astaxie/beego/session"
 )
 
 func TestSave(t *testing.T) {

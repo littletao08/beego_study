@@ -3,7 +3,6 @@ package routers
 import (
 	"github.com/astaxie/beego"
 	"beego_study/controllers"
-	_"beego_study/initials"
 	"github.com/astaxie/beego/context"
 )
 
