@@ -59,6 +59,8 @@ func (c *ArticleController) ArticlesGyUserIdAndCategory() {
 }
 
 func (c *ArticleController) ArticleDetail() {
+
+
 	id, _ := c.GetInt64(":id")
 	ip := c.Ip()
 	userId,_ := c.GetInt64(":userId")
@@ -70,6 +72,9 @@ func (c *ArticleController) ArticleDetail() {
 		c.Ctx.Redirect(302, "/")
 		return
 	}
+
+	reQUri := c.Ctx.Request.RequestURI;
+	c.Data["reQUri"] =reQUri;
 
 	article, error := services.ArticleById(id)
 
