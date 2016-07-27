@@ -17,7 +17,6 @@ import (
 	"github.com/astaxie/beego/utils/captcha"
 	"beego_study/utils/redis"
 	"time"
-	"strings"
 )
 
 var cpt *captcha.Captcha
@@ -266,8 +265,8 @@ func (c *BaseController) SetCategories(userId int64)  {
 
 func (c *BaseController) Host() string {
 
-	url := c.Ctx.Request.Referer();
-	url := strings.Split(url, "//")[1]
+	var url = c.Ctx.Request.Referer();
+	url = strings.Split(url, "//")[1]
 	host := strings.Split(url, "/")[0]
 
 	return host

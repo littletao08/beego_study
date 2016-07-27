@@ -8,13 +8,13 @@ import (
 	"beego_study/exception"
 	"beego_study/db"
 	"strconv"
-	"strings"
-"fmt"
+	"fmt"
 )
 
 type ArticleController struct {
 	BaseController
 }
+
 func (c *ArticleController) Articles() {
 	pagination := c.NewPagination()
 	userId := c.CurrentUserId()
@@ -35,25 +35,24 @@ func (c *ArticleController) ArticlesGyCategory() {
 
 	pagination := c.NewPagination()
 
-	services.ArticlesGyCategory(userId, category, pagination,false)
+	services.ArticlesGyCategory(userId, category, pagination, false)
 	c.Data["pagination"] = pagination
 
 	c.TplName = "index.html"
 }
 
-
 func (c *ArticleController) ArticlesGyUserIdAndCategory() {
 
 	userIdStr := c.GetString(":userId")
 	category := c.GetString(":category")
-	userId,_ := strconv.ParseInt(userIdStr,10,64)
+	userId, _ := strconv.ParseInt(userIdStr, 10, 64)
 	if len(category) > 0 {
 		c.Data["active_category"] = category
 	}
 
 	pagination := c.NewPagination()
 
-	services.ArticlesGyCategory(userId, category, pagination,true)
+	services.ArticlesGyCategory(userId, category, pagination, true)
 	c.Data["pagination"] = pagination
 	c.SetCategories(userId)
 
@@ -62,10 +61,9 @@ func (c *ArticleController) ArticlesGyUserIdAndCategory() {
 
 func (c *ArticleController) ArticleDetail() {
 
-
 	id, _ := c.GetInt64(":id")
 	ip := c.Ip()
-	userId,_ := c.GetInt64(":userId")
+	userId, _ := c.GetInt64(":userId")
 
 	c.TplName = "article_detail.html"
 
@@ -76,9 +74,9 @@ func (c *ArticleController) ArticleDetail() {
 	}
 
 	host := c.Host()
-	url :=c.Ctx.Request.RequestURI;
+	url := c.Ctx.Request.RequestURI;
 
-	reqUri := fmt.Sprintf("%s%s",host,url)
+	reqUri := fmt.Sprintf("%s%s", host, url)
 
 	c.Data["reqUri"] = reqUri;
 
@@ -109,13 +107,12 @@ func (c *ArticleController) ArticleDetail() {
 	}
 }
 
-
 func (c *ArticleController) EditArticle() {
 	id, _ := c.GetInt64(":id")
 	userId := c.CurrentUserId()
 	c.TplName = "article_edit.html"
 
-	beego.Error("id:",id)
+	beego.Error("id:", id)
 	if id <= 0 {
 		c.StringError("文章不存在")
 		return
@@ -126,7 +123,7 @@ func (c *ArticleController) EditArticle() {
 		return
 	}
 
-	article, error := services.ArticleByIdAndUserId(id,userId)
+	article, error := services.ArticleByIdAndUserId(id, userId)
 
 	if nil != error {
 		c.StringError("文章不存在")
@@ -139,8 +136,6 @@ func (c *ArticleController) EditArticle() {
 	}
 }
 
-
-
 func (c *ArticleController) UpdateArticle() {
 
 	user := c.CurrentUser()
@@ -149,7 +144,7 @@ func (c *ArticleController) UpdateArticle() {
 	}
 
 	id, err := c.GetInt64("id")
-	beego.Error("id:",id)
+	beego.Error("id:", id)
 
 	var article entities.Article
 	if nil == err {
@@ -185,10 +180,9 @@ func (c *ArticleController) UpdateArticle() {
 	}
 }
 
-
 func (c *ArticleController) New() {
 	user := c.CurrentUser()
-    beego.Error(user)
+	beego.Error(user)
 	if (nil == user) {
 		c.Redirect("/users/login", 302)
 	}else {
@@ -233,9 +227,7 @@ func (c *ArticleController) CreateArticle() {
 
 }
 
-
 func (c *ArticleController) Like() {
-
 
 	articleId, err := c.GetInt64(":id")
 	if nil != err {
