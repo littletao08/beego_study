@@ -73,7 +73,7 @@ func (c *ArticleController) ArticleDetail() {
 		return
 	}
 
-	reQUri := c.Ctx.Request.RemoteAddr;
+	reQUri := c.Ctx.Request.URL.Host+c.Ctx.Request.RequestURI;
 	c.Data["reQUri"] =reQUri;
 
 	article, error := services.ArticleById(id)
