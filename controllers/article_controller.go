@@ -73,8 +73,12 @@ func (c *ArticleController) ArticleDetail() {
 		return
 	}
 
-	reQUri := c.Ctx.Request.URL.Host+c.Ctx.Request.RequestURI;
+	reQUri := c.Ctx.Request.URL.Host;
+	path:=c.Ctx.Request.URL.Path;
+	host :=c.Ctx.Request.RequestURI;
 	c.Data["reQUri"] =reQUri;
+	c.Data["host"] =host;
+	c.Data["path"] = path;
 
 	article, error := services.ArticleById(id)
 
