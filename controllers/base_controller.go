@@ -17,6 +17,7 @@ import (
 	"github.com/astaxie/beego/utils/captcha"
 	"beego_study/utils/redis"
 	"time"
+	"strings"
 )
 
 var cpt *captcha.Captcha
