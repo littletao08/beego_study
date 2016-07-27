@@ -73,7 +73,7 @@ func (c *ArticleController) ArticleDetail() {
 		return
 	}
 
-	reQUri := c.Ctx.Request.RequestURI;
+	reQUri := c.Ctx.Request.Referer();
 	c.Data["reQUri"] =reQUri;
 
 	article, error := services.ArticleById(id)
