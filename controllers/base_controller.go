@@ -265,10 +265,11 @@ func (c *BaseController) SetCategories(userId int64)  {
 
 func (c *BaseController) Host() string {
 
-	var url = c.Ctx.Request.Referer();
+	/*var url = c.Ctx.Request.Referer();
 	url = strings.Split(url, "//")[1]
-	host := strings.Split(url, "/")[0]
+	host := strings.Split(url, "/")[0]*/
 
+	host :="www.threeperson.com"
 	return host
 
 }
