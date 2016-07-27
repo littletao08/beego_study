@@ -8,6 +8,8 @@ import (
 	"beego_study/exception"
 	"beego_study/db"
 	"strconv"
+	"strings"
+"fmt"
 )
 
 type ArticleController struct {
@@ -73,12 +75,12 @@ func (c *ArticleController) ArticleDetail() {
 		return
 	}
 
-	reQUri := c.Ctx.Request.URL.Host;
-	path:=c.Ctx.Request.URL.Path;
-	host :=c.Ctx.Request.RequestURI;
-	c.Data["reQUri"] =reQUri;
-	c.Data["host"] =host;
-	c.Data["path"] = path;
+	host := c.Host()
+	url :=c.Ctx.Request.RequestURI;
+
+	reqUri := fmt.Sprintf("%s%s",host,url)
+
+	c.Data["reqUri"] = reqUri;
 
 	article, error := services.ArticleById(id)
 

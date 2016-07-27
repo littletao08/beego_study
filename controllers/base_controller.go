@@ -263,3 +263,13 @@ func (c *BaseController) SetCategories(userId int64)  {
 	c.Data["categories"] = categories
 }
 
+func (c *BaseController) Host() string {
+
+	url := c.Ctx.Request.Referer();
+	url := strings.Split(url, "//")[1]
+	host := strings.Split(url, "/")[0]
+
+	return host
+
+}
+
