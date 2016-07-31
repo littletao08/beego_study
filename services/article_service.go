@@ -9,10 +9,8 @@ import (
 	"beego_study/utils"
 	"bytes"
 	"strings"
-	"fmt"
-    "github.com/astaxie/beego"
+	"github.com/astaxie/beego"
 )
-
 
 func AllArticles(userId int64, pagination *db.Pagination) {
 	db := db.NewDB()
@@ -25,20 +23,28 @@ func AllArticles(userId int64, pagination *db.Pagination) {
 
 	query.OrderBy("created_at desc").FillPagination(&articles, pagination)
 
+	articles = setUser(articles)
 
-	userIds, err := utils.ExtractFieldValues(pagination.Data, "UserId")
-	fmt.Print("====================userIds:",userIds)
+	pagination.SetData(articles)
+
+}
+
+func setUser(articles []entities.Article) ([]entities.Article) {
+	userIds, err := utils.ExtractFieldValues(articles, "UserId")
 	if nil != err {
-		return
+		return articles
 	}
 
-	userMap :=UserMap(userIds)
-
+	userMap := UserMap(userIds)
+	var newArticles []entities.Article
 	for _, article := range articles {
 		userId := article.UserId
 		user := userMap[userId]
 		article.User = user
+		newArticles = append(newArticles,article)
 	}
+
+	return newArticles;
 
 }
 
@@ -63,12 +69,12 @@ func SetLikeSign(pagination *db.Pagination, userId int64) {
 	for _, v := range pagination.Data {
 		article := v.(entities.Article)
 		article.HasLike = signMap[article.Id]
-		articles = append(articles,article)
+		articles = append(articles, article)
 	}
 	pagination.SetData(articles)
 }
 
-func ArticlesGyCategory(userId int64, category string, pagination *db.Pagination,isFilterUserId bool) {
+func ArticlesGyCategory(userId int64, category string, pagination *db.Pagination, isFilterUserId bool) {
 	db := db.NewDB()
 	var articles []entities.Article
 	query := db.From("article")
@@ -106,7 +112,12 @@ func ArticlesGyCategory(userId int64, category string, pagination *db.Pagination
 		}
 
 		pagination.SetData(newArticles)
+
+		newArticles = setUser(newArticles)
+
+		pagination.SetData(newArticles)
 	}
+
 }
 
 func LastArticle() (entities.Article, error) {
@@ -318,16 +329,16 @@ func ValidArticle(a entities.Article) (error, bool) {
 
 }
 
-func TopLikeArticles() []entities.Article  {
+func TopLikeArticles() []entities.Article {
 
-    var articles []entities.Article
+	var articles []entities.Article
 	sql := "select id,user_id,title from article where like_count >0 and  created_at > date_sub(now(),interval ? DAY) order by like_count desc limit 10"
 
 	dayRange := ParameterIntValue("like_article_day_range")
 
 	db := db.NewDB()
-	db.Raw(sql,[]interface{}{dayRange}).QueryRows(&articles)
-	return articles ;
+	db.Raw(sql, []interface{}{dayRange}).QueryRows(&articles)
+	return articles;
 }
 
 
