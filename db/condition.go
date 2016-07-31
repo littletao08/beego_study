@@ -71,13 +71,12 @@ func (c Condition) ToSQL(sqlBuilder SQLBuilder) (string, error) {
 	switch c.Type {
 	case SEGMENT:
 		return "(" + c.Column + ")",nil
-	case IN:
-	case NOT_IN:
+	case IN,NOT_IN:
 		var sql = sqlBuilder.EscapeColumn(c.Column)
 		if c.Type == NOT_IN {
-			sql += " not "
+			sql += " not"
 		}
-		sql += "in ("
+		sql += " in ("
 		for i, _ := range c.Params {
 			if (i > 0) {
 				sql += ", "
@@ -86,8 +85,7 @@ func (c Condition) ToSQL(sqlBuilder SQLBuilder) (string, error) {
 		}
 		sql += ")"
 		return sql,nil
-	case BETWEEN:
-	case NOT_BETWEEN:
+	case BETWEEN,NOT_BETWEEN:
 		var sql = sqlBuilder.EscapeColumn(c.Column)
 		if c.Type == NOT_BETWEEN {
 			sql += " not "

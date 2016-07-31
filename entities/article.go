@@ -21,6 +21,7 @@ type Article struct {
 	LikeCount    int
 	CommentCount int
 	HasLike      bool `orm:"-"`
+	User         User `orm:"-"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }

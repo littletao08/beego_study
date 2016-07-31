@@ -13,7 +13,6 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/gogather/com"
 	"github.com/PuerkitoBio/goquery"
-	"github.com/astaxie/beego/session"
 )
 
 func TestSave(t *testing.T) {
@@ -66,10 +65,24 @@ func TestArticlesGyCategory(t *testing.T) {
 	pagination := new(db.Pagination)
 	pagination.PerPage = 10
 	pagination.Page = 1
-	services.ArticlesGyCategory(1, "bootstrap", pagination)
+	services.ArticlesGyCategory(1, "bootstrap", pagination,false)
 
 	for _, v := range pagination.Data {
 		fmt.Println("id:", v.(entities.Article).Id, "title:", v.(entities.Article).Title)
+	}
+
+}
+
+func TestIn(t *testing.T) {
+
+	var slice = []interface{}{1, 2, 3, 4, 5, 6}
+
+	var articles []entities.Article
+	db := db.NewDB()
+	db.From("article").In("id", slice).All(&articles)
+
+	for _, value := range articles {
+		fmt.Print(value)
 	}
 
 }

@@ -9,7 +9,8 @@ import (
 	"beego_study/utils"
 	"bytes"
 	"strings"
-	"github.com/astaxie/beego"
+	"fmt"
+    "github.com/astaxie/beego"
 )
 
 
@@ -23,6 +24,21 @@ func AllArticles(userId int64, pagination *db.Pagination) {
 	}
 
 	query.OrderBy("created_at desc").FillPagination(&articles, pagination)
+
+
+	userIds, err := utils.ExtractFieldValues(pagination.Data, "UserId")
+	fmt.Print("====================userIds:",userIds)
+	if nil != err {
+		return
+	}
+
+	userMap :=UserMap(userIds)
+
+	for _, article := range articles {
+		userId := article.UserId
+		user := userMap[userId]
+		article.User = user
+	}
 
 }
 

@@ -10,6 +10,7 @@ import (
 	"github.com/astaxie/beego"
 	"time"
 	"beego_study/db"
+	_"beego_study/utils"
 )
 
 func User(id int64) (entities.User, error) {
@@ -21,7 +22,7 @@ func User(id int64) (entities.User, error) {
 		return user, nil;
 	}*/
 	orm := orm.NewOrm()
-	err = orm.QueryTable("user").Filter("id", id).One(&user, "id","name", "nick", "age", "cell", "mail", "sex", "CreatedAt", "UpdatedAt")
+	err = orm.QueryTable("user").Filter("id", id).One(&user, "id", "name", "nick", "age", "cell", "mail", "sex", "CreatedAt", "UpdatedAt")
 	/*if err == nil {
 		redis_util.Set(userKey, user, 1000)
 	}*/
@@ -37,7 +38,7 @@ func SaveUser(user *entities.User) error {
 		return err
 	}
 
-	user.CreatedAt=time.Now()
+	user.CreatedAt = time.Now()
 
 	id, err := orm.Insert(user)
 	if nil == err {
@@ -138,6 +139,18 @@ func CheckNewUser(user *entities.User) error {
 func TopLikeUsers() []entities.User {
 	var users []entities.User
 	db := db.NewDB()
-	db.From("user").Select("name","nick","view_count","head").Great("like_count",0).OrderBy("like_count desc").Limit(0,10).All(&users)
+	db.From("user").Select("id","name", "nick", "view_count", "head").Great("like_count", 0).OrderBy("like_count desc").Limit(0, 10).All(&users)
 	return users
+}
+
+func UserMap(ids [] interface{}) (map[int64]entities.User) {
+	var userMap map[int64]entities.User = make(map[int64]entities.User)
+	var users []entities.User
+	db := db.NewDB()
+	db.From("user").Select("id","name", "nick", "view_count", "head").In("id", ids).All(&users)
+
+	for _, user := range users {
+		userMap[user.Id] = user
+	}
+	return userMap
 }

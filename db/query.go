@@ -2,6 +2,7 @@ package db
 import (
 	_ "github.com/astaxie/beego/utils/pagination"
 	"github.com/astaxie/beego"
+	"fmt"
 )
 
 type Querier struct {
@@ -176,9 +177,11 @@ func (q *Querier) FillPagination(container interface{}, pagination *Pagination) 
 	var pageSize = pagination.PerPage
 
 	q.Limit((page - 1) * pageSize, pageSize)
-	q.Raw(q.ToCountSql(), q.Parameters()).QueryRow(&totalItem)
+	var sql = q.ToCountSql()
+	fmt.Print("++++++++++++++++++++",sql)
+	q.Raw(sql, q.Parameters()).QueryRow(&totalItem)
 
-	var sql = q.ToSql()
+	sql = q.ToSql()
 	count, err = q.Raw(sql, q.Parameters()).QueryRows(container)
 
 	pagination.Total = totalItem

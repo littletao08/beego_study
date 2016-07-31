@@ -1,16 +1,15 @@
 package db_test
+
 import (
 	"testing"
-	_"beego_study/entities"
-	_"beego_study/routers"
-	"beego_study/db"
 	"beego_study/entities"
 	"fmt"
+	_ "beego_study/test/initials"
+	"beego_study/db"
 	"reflect"
-	"beego_study/utils"
 )
 
-func TestPagination(t *testing.T) {
+func testPagination(t *testing.T) {
 	fmt.Println("1111")
 	pagination, _ := db.NewDB().From("user").Select("id", "name").Pagination(&[]entities.User{}, 1, 10)
 	for _, value := range pagination.Data {
@@ -27,19 +26,16 @@ func testMakeSliceByType(t *testing.T) {
 }*/
 
 
-func testDataUtil(t *testing.T) {
-	var container []entities.User
-	var user1 = entities.User{Id:1, Name:"name1"}
-	var user2 = entities.User{Id:2, Name:"name2"}
-	container = append(container, user1)
-	container = append(container, user2)
+func TestIn(t *testing.T) {
 
-	newContainer := utils.ToSlice(&container)
-	for _, rowData := range newContainer {
-		fmt.Println(rowData.(entities.User).Id)
-	}
+	var slice = []interface{}{1, 2, 3, 4, 5, 6}
+
+	db := db.NewDB()
+	query := db.From("article").In("id", slice)
+
+	fmt.Print(query.ToSql())
+
 }
-
 
 func testReflect(t *testing.T) {
 	var container []entities.User
@@ -90,7 +86,6 @@ func parse(container interface{}) {
 	fmt.Println("t type", sInd.Kind())
 	fmt.Println("------------------------")
 
-
 	switch sInd.Kind() {
 	case reflect.Slice:
 		for i := 0; i < sInd.Len(); i++ {
@@ -105,13 +100,5 @@ func parse(container interface{}) {
 	ind := val.Elem()
 */
 
-
-}
-
-
-func TestSegment(t *testing.T){
-
-	sql := db.NewDB().From("user").Where("nick","aa").Segment("id=?",1).ToSql()
-	fmt.Println(sql)
 
 }
