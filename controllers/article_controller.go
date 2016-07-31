@@ -82,6 +82,11 @@ func (c *ArticleController) ArticleDetail() {
 
 	article, error := services.ArticleById(id)
 
+	if error == nil {
+		writer, _ := services.User(article.UserId)
+		article.User = writer
+	}
+
 	if userId > 0 {
 		hasLike, err := services.HasLikeArticle(id, userId, db.NewDB())
 		if nil == err {
