@@ -10,7 +10,7 @@ import (
 func init() {
 	beego.BeeLogger.Async()
 	beego.BeeLogger.EnableFuncCallDepth(true)
-	beego.BeeLogger.SetLogger("file", `{"filename":"/logs/beego.log"}`)
+	beego.BeeLogger.SetLogger("file", `{"filename":"logs/beego.log"}`)
 }
 func main() {
 
