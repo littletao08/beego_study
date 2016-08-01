@@ -22,9 +22,10 @@ hr {
     margin: 10px 0;
 }
 
-.help-block{
+.help-block {
     margin: 0;
 }
+
 /* Sections
 -------------------------------------------------- */
 
@@ -519,7 +520,6 @@ a {
     color: #468847;
 }
 
-
 /* Tablets and up */
 @media screen and (min-width: 768px) {
 
@@ -570,9 +570,7 @@ a {
         bottom: 270px;
     }
 
-
 }
-
 
 /* Tablets/desktops and up */
 @media screen and (min-width: 992px) {
@@ -607,10 +605,11 @@ div.index-container div.span3 {
         width: 100%;
     }
 
-    div.index-container nav{
+    div.index-container nav {
         text-align: center;
     }
-    div.index-container ul{
+
+    div.index-container ul {
         clear: left;
     }
 
@@ -703,6 +702,13 @@ span.tags {
 /*light tip css */
 div.alert {
     margin-top: 50px;
+}
+
+/************文章评论*******************/
+
+.article-comment {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /***********文章列表页*****************/
@@ -943,20 +949,22 @@ select.valid, input.valid {
     height: 64px;
 }
 
-.section{
+.section {
     margin-bottom: 20px;
 }
-.section:first-child{
-    margin-top:-5px;
+
+.section:first-child {
+    margin-top: -5px;
 }
-.section ul li{
+
+.section ul li {
     list-style: none;
     font-size: 12px;
     margin-bottom: 5px;
     border-bottom: 1px solid rgba(221, 221, 221, 0.33);
 }
 
-.section ul li:first-child{
+.section ul li:first-child {
     font-size: 14px;
     margin-top: 10px;
     padding-bottom: 5px;
@@ -965,7 +973,7 @@ select.valid, input.valid {
 
 }
 
-.section ul li img{
+.section ul li img {
     width: 37px;
     height: 37px;
 
