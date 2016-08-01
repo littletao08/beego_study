@@ -713,7 +713,7 @@ div.alert {
 }
 
 .article-detail-nav span:first-child {
-    margin-left: 0px;
+    margin-left: -5px;
 }
 
 article span {
