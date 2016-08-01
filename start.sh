@@ -1,5 +1,5 @@
 #!/bin/bash
-go run main.go> /logs/log.log &
+go run main.go &
 echo $! >beego.pid
 
 time=`date "+%Y%m%d%H%M%S"`
