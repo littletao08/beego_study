@@ -17,6 +17,19 @@ import (
 	"github.com/astaxie/beego/utils/captcha"
 	"beego_study/utils/redis"
 	"time"
+"github.com/astaxie/beego/cache"
+"github.com/astaxie/beego/utils/captcha"
+"beego_study/services"
+"beego_study/services"
+"github.com/astaxie/beego"
+"github.com/tdewolff/minify"
+"html"
+"beego_study/db"
+"beego_study/services"
+"beego_study/utils/redis"
+"beego_study/services"
+"beego_study/utils/redis"
+"beego_study/services"
 )
 
 var cpt *captcha.Captcha
