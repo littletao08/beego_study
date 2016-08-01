@@ -17,19 +17,6 @@ import (
 	"github.com/astaxie/beego/utils/captcha"
 	"beego_study/utils/redis"
 	"time"
-"github.com/astaxie/beego/cache"
-"github.com/astaxie/beego/utils/captcha"
-"beego_study/services"
-"beego_study/services"
-"github.com/astaxie/beego"
-"github.com/tdewolff/minify"
-"html"
-"beego_study/db"
-"beego_study/services"
-"beego_study/utils/redis"
-"beego_study/services"
-"beego_study/utils/redis"
-"beego_study/services"
 )
 
 var cpt *captcha.Captcha
@@ -51,7 +38,6 @@ type ResponseBody struct {
 }
 
 func (c *BaseController) Prepare() {
-
 
 	c.Data["showLeftBar"] = true
 	var keywords, _ = services.ParameterValue("index-keywords")
@@ -271,7 +257,7 @@ func (c *BaseController) NeedCheckCaptcha() bool {
 	return failTimesCache > failTimes;
 }
 
-func (c *BaseController) SetCategories(userId int64)  {
+func (c *BaseController) SetCategories(userId int64) {
 	categories, _ := services.UserCategories(userId)
 	c.Data["categories"] = categories
 }
@@ -282,7 +268,7 @@ func (c *BaseController) Host() string {
 	url = strings.Split(url, "//")[1]
 	host := strings.Split(url, "/")[0]*/
 
-	host :="www.threeperson.com"
+	host := "www.threeperson.com"
 	return host
 
 }
