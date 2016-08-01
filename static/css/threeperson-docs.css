@@ -705,6 +705,7 @@ div.alert {
 /***********文章列表页*****************/
 .article-detail-nav {
     margin-top: 10px;
+    margin-left: 5px;
 }
 
 .article-detail-nav span {
