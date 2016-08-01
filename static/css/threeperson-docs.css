@@ -570,6 +570,11 @@ a {
         bottom: 270px;
     }
 
+    .article-detail-nav {
+        margin-top: 10px;
+        margin-left: 5px;
+    }
+
 }
 
 /* Tablets/desktops and up */
