@@ -983,3 +983,7 @@ select.valid, input.valid {
     height: 37px;
 
 }
+
+#gameDiv{
+    width: 242px;
+}
