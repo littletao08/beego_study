@@ -278,9 +278,9 @@ Player.prototype.onPointerUp = function (id, x, y) {
     if (diff == 0){
         return ;
     }
-    if (y - this.dragStartY < 0.1 ) {
+    if (y - this.dragStartY < 0 ) {
         this.jump();
-    } else if (y - this.dragStartY < 0.1) {
+    } else if (y - this.dragStartY > 0) {
         this.smash();
     }
 };
