@@ -47,42 +47,81 @@ Enemy.prototype.update = function () {
 
 var EnemyManager = qc.defineBehaviour('qc.engine.EnemyManager', qc.Behaviour, function () {
     this.pattern = [
-            {
-                timing: [0, 1, 1, 2],
-                spacing: [0, 0, 1, 0],
-                leng : 4
-            },
-            {
-                timing: [0, 0],
-                spacing: [0, 1],
-                leng:1
-            }
-        ];
-    this.tick = 0 ;
-    this.nextTick = -1 ;
+        {
+            timing: [0, 1, 1, 2],
+            spacing: [0, 0, 1, 0],
+            leng: 3
+        },
+        {
+            timing: [0, 0],
+            spacing: [0, 1],
+            leng: 1
+        },
+        {
+            timing: [0, 0,1],
+            spacing: [0, 1,0],
+            leng: 2
+        }
+        ,
+        {
+            timing: [0, 0,1,1],
+            spacing: [0, 1,0,1],
+            leng: 2
+        }
+        ,
+        {
+            timing: [0, 0,1],
+            spacing: [0, 1,1],
+            leng: 2
+        }
+        ,
+        {
+            timing: [0, 1, 1, 2],
+            spacing: [1, 0, 1, 1],
+            leng: 3
+        }
+        ,
+        {
+            timing: [0, 1,1,1],
+            spacing: [1, 0,1,2],
+            leng: 2
+        },
+        {
+            timing: [0, 1],
+            spacing: [1,0],
+            leng: 2
+        },
+        {
+            timing: [0, 0,0,1],
+            spacing: [0,1,2, 1],
+            leng: 2
+        }
+    ];
+    this.tick = 0;
+    this.nextTick = -1;
 }, {
     enemyPrefab: qc.Serializer.PREFAB
 });
 
 EnemyManager.prototype.awake = function () {
-    GameManager.instance.GAME_START.add(this.onGameStart,this);
-    GameManager.instance.GAME_OVER.add(this.onGameOver,this);
-    GameManager.instance.GAME_RESTART.add(this.onGameRestart,this);
+    GameManager.instance.GAME_START.add(this.onGameStart, this);
+    GameManager.instance.GAME_OVER.add(this.onGameOver, this);
+    GameManager.instance.GAME_RESTART.add(this.onGameRestart, this);
 
 };
 
-EnemyManager.prototype.update = function() {
-    if (!GameManager.instance.running){
-        return ;
+EnemyManager.prototype.update = function () {
+    if (!GameManager.instance.running) {
+        return;
     }
-    this.tick++ ;
-    if (this.tick == this.nextTick){
+    this.tick++;
+    if (this.tick == this.nextTick) {
         this.spawn();
     }
 };
 
 EnemyManager.prototype.onGameStart = function () {
-    this.tick = 0 ;
+    this.tick = 0;
     this.nextTick = -1;
     this.spawn();
 };
@@ -104,7 +143,7 @@ EnemyManager.prototype.spawn = function () {
         enemy.anchoredY = -100 - ppt.spacing[i] * 100;
     }
 
-    this.nextTick = this.tick + ppt.leng*20+100;
+    this.nextTick = this.tick + ppt.leng * 20 + 100;
 }
 
 // define a user behaviour
@@ -148,7 +187,7 @@ GameManager.prototype.restart = function () {
 var GameOverManager = qc.defineBehaviour('qc.engine.GameOverManager', qc.Behaviour, function() {
 }, {
     retryButton:qc.Serializer.NODE,
-    score:qc.Serializer.NODE
+    score:qc.Serializer.NODE,
 });
 
 GameOverManager.prototype.awake = function() {
