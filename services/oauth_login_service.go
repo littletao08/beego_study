@@ -18,7 +18,7 @@ var AuthConfig config.Configer
 
 func init() {
 
-	var appPath = beego.AppConfigPath
+	/*var appPath = beego.AppConfigPath
 
 	appPath = beego.Substr(appPath, 0, strings.LastIndex(appPath, "/") + 1)
 	beego.Debug("appPath:", appPath)
@@ -27,7 +27,7 @@ func init() {
 		beego.Error(config)
 		panic("auth_login.conf load fail !")
 	}
-	AuthConfig = config
+	AuthConfig = config*/
 
 }
 
