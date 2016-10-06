@@ -291,3 +291,21 @@ func (c *UserController) UserHome()  {
 	c.SetCategories(userId)
 }
 
+
+func (c *UserController) GetTest() {
+	var user = entities.User{};
+	user.Name="张利达"
+	user.Age=27
+	user.Sex=1
+	c.SuccessResponse("data",user)
+}
+
+
+func (c *UserController) PostTest() {
+	var user = entities.User{};
+	user.Name="张利达"
+	user.Age=27
+	user.Sex=1
+	c.Data["user"] = user
+	c.JsonSuccess(nil)
+}

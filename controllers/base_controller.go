@@ -15,8 +15,10 @@ import (
 	"github.com/tdewolff/minify/html"
 	"github.com/astaxie/beego/cache"
 	"github.com/astaxie/beego/utils/captcha"
-	"beego_study/utils/redis"
+	"reflect"
+	"beego_study/utils"
 	"time"
+	"beego_study/utils/redis"
 )
 
 var cpt *captcha.Captcha
@@ -208,6 +210,50 @@ func (c *BaseController) JsonSuccess(message interface{}) {
 	response.Message = message
 	c.Data["json"] = response
 	c.ServeJSON()
+}
+
+func (c *BaseController) toJsonResponse(key string, value interface{}, extraKeyValues ... interface{}) {
+
+	keyValues := []interface{}{}
+	keyValues = append(keyValues, key, value)
+
+	for _, v := range extraKeyValues {
+		val := reflect.ValueOf(v)
+		sInd := reflect.Indirect(val)
+		if (sInd.Kind() == reflect.Slice) {
+			var s = utils.ToSlice(v)
+			keyValues = append(keyValues, s...)
+		} else {
+			keyValues = append(keyValues, v)
+		}
+	}
+
+	/*if (len(keyValues) % 2 != 0) {
+
+	}*/
+	var data = make(map[string]interface{})
+	len := len(keyValues)
+	for i := 0; i < len; i += 2 {
+		var k string
+		value, ok := keyValues[i].(string);
+		if ok {
+			k = value
+		}
+		v := keyValues[i + 1]
+		data[k] = v
+	}
+
+	c.Data["json"] = data
+	c.ServeJSON()
+
+}
+
+func (c *BaseController) FailResponse(message string) {
+	c.toJsonResponse("success", false, "message", message);
+}
+
+func (c *BaseController) SuccessResponse(extraKeyValues ... interface{}) {
+	c.toJsonResponse("success", true, extraKeyValues);
 }
 
 func (c *BaseController) Ip() string {
