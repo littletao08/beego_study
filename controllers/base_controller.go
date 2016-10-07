@@ -19,6 +19,7 @@ import (
 	"beego_study/utils"
 	"time"
 	"beego_study/utils/redis"
+	"beego_study/models"
 )
 
 var cpt *captcha.Captcha
@@ -240,6 +241,7 @@ func (c *BaseController) toJsonResponse(key string, value interface{}, extraKeyV
 			k = value
 		}
 		v := keyValues[i + 1]
+		v = models.Rewrite(v);
 		data[k] = v
 	}
 

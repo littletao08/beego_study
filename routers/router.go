@@ -49,6 +49,9 @@ func init() {
 		if ctx.Input.Query("_method") != "" && ctx.Input.IsPost() {
 			ctx.Request.Method = ctx.Input.Query("_method")
 		}
+		ctx.ResponseWriter.Header().Set("Access-Control-Allow-Origin", "*")
+		ctx.ResponseWriter.Header().Add("Access-Control-Allow-Headers","Content-Type")
+		ctx.ResponseWriter.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	}
 
 	beego.InsertFilter("*", beego.BeforeRouter, FilterMethod)

@@ -1,4 +1,5 @@
 package utils
+
 import (
 	"reflect"
 	"errors"
@@ -10,7 +11,7 @@ func ToSlice(container interface{}) []interface{} {
 	val := reflect.ValueOf(container)
 	sInd := reflect.Indirect(val)
 	if sInd.Kind() != reflect.Slice {
-		return []interface {}{container}
+		return []interface{}{container}
 	}
 	l := sInd.Len()
 	ret := make([]interface{}, l)
@@ -42,7 +43,6 @@ func ExtractFieldValues(source interface{}, field string) ([]interface{}, error)
 
 }
 
-
 func SliceToString(a interface{}, sep string) string {
 	var strSlice [] string
 	var slice = ToSlice(a)
@@ -60,4 +60,48 @@ func SliceToString(a interface{}, sep string) string {
 		}
 	}
 	return strings.Join(strSlice, ",")
+}
+
+func IsSlice(a interface{}) bool {
+	val := reflect.ValueOf(a)
+	sInd := reflect.Indirect(val)
+
+	if sInd.Kind() == reflect.Slice {
+		return true
+	}
+
+	return false;
+}
+
+func IsMap(a interface{}) bool {
+	val := reflect.ValueOf(a)
+	sInd := reflect.Indirect(val)
+	if sInd.Kind() == reflect.Map {
+		return true;
+	}
+	return false
+}
+
+func IsEmpty(a interface{}) bool {
+	if (nil == a ) {
+		return true;
+	}
+
+	if val, ok := a.(string); (ok && len(val) == 0) {
+		return true
+	}
+
+	val := reflect.ValueOf(a)
+	sInd := reflect.Indirect(val)
+
+	if sInd.Kind() == reflect.Slice && len([]interface{}{a}) == 0 {
+		return true
+	}
+
+	if sInd.Kind() == reflect.Map && len(sInd.MapKeys()) == 0 {
+		return true;
+	}
+
+	return false;
+
 }

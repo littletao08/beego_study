@@ -43,3 +43,11 @@ func TestEmailValidate(t *testing.T) {
 	}
 }
 
+func TestIsEmpty(t *testing.T) {
+	//a := ""
+	b := make(map[string]string)
+    b["a"] = "a"
+	isEmpty := utils.IsEmpty(b)
+	fmt.Print("==============",isEmpty)
+}
+

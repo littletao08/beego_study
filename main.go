@@ -18,7 +18,6 @@ func main() {
 	port := "8080"R
 	beego.Run(host, port)*/
 
-
 	beego.AddFuncMap("zhtime", utils.ZhTime)
 	beego.Run()
 

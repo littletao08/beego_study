@@ -24,3 +24,20 @@ func ZhTime(t time.Time) string {
 	}
 	return zhTime;
 }
+
+
+func DateTimeFormat(t time.Time) string {
+	a := NewArrow(t)
+	return a.Format("%Y-%m-%d %H:%M:%S")
+}
+
+
+func DateFormat(t time.Time) string {
+	a := NewArrow(t)
+	return a.Format("%Y-%m-%d")
+}
+
+func MonthFormat(t time.Time) string {
+	a := NewArrow(t)
+	return a.Format("%Y-%m")
+}

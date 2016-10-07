@@ -11,6 +11,7 @@ import (
 	"beego_study/constants"
 	"fmt"
 	"errors"
+	"beego_study/models"
 )
 
 const
@@ -293,11 +294,11 @@ func (c *UserController) UserHome()  {
 
 
 func (c *UserController) GetTest() {
-	var user = entities.User{};
-	user.Name="张利达"
-	user.Age=27
-	user.Sex=1
-	c.SuccessResponse("data",user)
+	var userModel = models.UserModel{}
+	userModel.Name="张利达"
+	userModel.Age=27
+	userModel.Sex=1
+	c.SuccessResponse("data",userModel)
 }
 
 
@@ -306,6 +307,5 @@ func (c *UserController) PostTest() {
 	user.Name="张利达"
 	user.Age=27
 	user.Sex=1
-	c.Data["user"] = user
-	c.JsonSuccess(nil)
+	c.SuccessResponse("data",user)
 }
