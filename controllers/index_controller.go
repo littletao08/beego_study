@@ -26,3 +26,8 @@ func (c *IndexController) Index() {
 	c.Data["user"]=c.CurrentUser()
 	c.TplName = "index.html"
 }
+
+
+func (c *IndexController) Images(){
+	c.Redirect("http://threeperson.oss-cn-shanghai.aliyuncs.com/111.png",302);
+}

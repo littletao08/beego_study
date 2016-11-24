@@ -8,6 +8,8 @@ import (
 
 func init() {
 	beego.Router("", &controllers.IndexController{}, "get:Index")
+	beego.Router("/images", &controllers.IndexController{}, "get:Images")
+
 
 	beego.Router("/users/login", &controllers.UserController{}, "get:Login")
 	beego.Router("/users/oauth_login", &controllers.UserController{}, "get:OauthLogin")
