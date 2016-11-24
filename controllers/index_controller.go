@@ -29,5 +29,6 @@ func (c *IndexController) Index() {
 
 
 func (c *IndexController) Images(){
+	c.Ctx.Request.Header.Set("Referer","http://www.threeperson.com")
 	c.Redirect("http://threeperson.oss-cn-shanghai.aliyuncs.com/111.png",302);
 }
